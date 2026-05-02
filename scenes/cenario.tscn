@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://ccelg7hww2rba"]
+
+[ext_resource type="Texture2D" uid="uid://q02kngrq3q5k" path="res://chao.png" id="1_i5ouh"]
+[ext_resource type="PackedScene" uid="uid://drh8ckppd5n0p" path="res://scenes/player.tscn" id="2_2p5gn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i5ouh"]
+size = Vector2(1152, 40)
+
+[node name="cenario" type="Node" unique_id=1553230697]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=452783414]
+position = Vector2(577, 623.00006)
+scale = Vector2(1.0000001, 0.060185187)
+texture = ExtResource("1_i5ouh")
+
+[node name="CharacterBody2D" parent="." unique_id=1479694764 instance=ExtResource("2_2p5gn")]
+position = Vector2(217, 507)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=217460805]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1578383158]
+position = Vector2(577, 624)
+shape = SubResource("RectangleShape2D_i5ouh")

@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://cd73a1fempa6y"]
+
+[ext_resource type="Script" uid="uid://djxle4643qdy5" path="res://components/fsm attack/Attacks/special attack/Hadouken/HadoukenProjectile.gd" id="1_uyo2e"]
+[ext_resource type="Texture2D" uid="uid://c1cpnunwmyle6" path="res://shin ryu sprites/efeitos/1090-0.png" id="2_bd75e"]
+[ext_resource type="Texture2D" uid="uid://dgx8d4mmko5we" path="res://shin ryu sprites/efeitos/1090-1.png" id="3_72q13"]
+[ext_resource type="Texture2D" uid="uid://pvgd0ggkibkm" path="res://shin ryu sprites/efeitos/1090-2.png" id="4_yuiyn"]
+[ext_resource type="Texture2D" uid="uid://ckxcbs6om8jtj" path="res://shin ryu sprites/efeitos/1090-3.png" id="5_f3qsy"]
+[ext_resource type="Texture2D" uid="uid://p1bfiae61gx6" path="res://shin ryu sprites/efeitos/1090-4.png" id="6_8oc3j"]
+[ext_resource type="Texture2D" uid="uid://io8kvfkgky26" path="res://shin ryu sprites/efeitos/1090-5.png" id="7_b55j1"]
+[ext_resource type="Texture2D" uid="uid://d1mrfmup8uxit" path="res://shin ryu sprites/efeitos/1090-6.png" id="8_uysxh"]
+[ext_resource type="Texture2D" uid="uid://dqfp41c61d3w3" path="res://shin ryu sprites/efeitos/1090-7.png" id="9_1be0j"]
+[ext_resource type="Texture2D" uid="uid://u8ihn4rj63jq" path="res://shin ryu sprites/efeitos/1090-8.png" id="10_lbjfs"]
+[ext_resource type="Texture2D" uid="uid://cnm4pva4570e0" path="res://shin ryu sprites/efeitos/1090-9.png" id="11_pdycu"]
+[ext_resource type="Texture2D" uid="uid://bu04r8ydfv18b" path="res://shin ryu sprites/efeitos/1091-0.png" id="12_et3yj"]
+[ext_resource type="Texture2D" uid="uid://mskii8mt2v48" path="res://shin ryu sprites/efeitos/1091-1.png" id="13_21sud"]
+[ext_resource type="Texture2D" uid="uid://2ueod3wkhong" path="res://shin ryu sprites/efeitos/1091-2.png" id="14_jnq8y"]
+[ext_resource type="Texture2D" uid="uid://btwmugvtt0btu" path="res://shin ryu sprites/efeitos/1091-3.png" id="15_45upt"]
+[ext_resource type="Texture2D" uid="uid://3wrowtdh2gb7" path="res://shin ryu sprites/efeitos/1091-4.png" id="16_kxvox"]
+[ext_resource type="Texture2D" uid="uid://44k3q3ytw3ui" path="res://shin ryu sprites/efeitos/1091-5.png" id="17_eqqk2"]
+[ext_resource type="Texture2D" uid="uid://brwar1vko7ioe" path="res://shin ryu sprites/efeitos/1091-6.png" id="18_0p66v"]
+[ext_resource type="Texture2D" uid="uid://dww671ip6sgfs" path="res://shin ryu sprites/efeitos/1091-7.png" id="19_bsf87"]
+[ext_resource type="Texture2D" uid="uid://d1ixtde0ce10p" path="res://shin ryu sprites/efeitos/1091-8.png" id="20_pikfs"]
+[ext_resource type="Texture2D" uid="uid://cdorw5uixix2a" path="res://shin ryu sprites/efeitos/1091-9.png" id="21_r50gx"]
+[ext_resource type="Texture2D" uid="uid://b41o21d3c4l8" path="res://shin ryu sprites/efeitos/1091-10.png" id="22_r4nnn"]
+[ext_resource type="Texture2D" uid="uid://dnf6ow7rcn5dg" path="res://shin ryu sprites/efeitos/1091-11.png" id="23_208u1"]
+[ext_resource type="Texture2D" uid="uid://b7q6w2okncoja" path="res://shin ryu sprites/efeitos/1091-12.png" id="24_mckug"]
+[ext_resource type="Texture2D" uid="uid://3u57yawoc6ua" path="res://shin ryu sprites/efeitos/1091-13.png" id="25_qvhwa"]
+[ext_resource type="Texture2D" uid="uid://d8u33vkl0o3w" path="res://shin ryu sprites/efeitos/1091-14.png" id="26_nknna"]
+[ext_resource type="Texture2D" uid="uid://b57taf2s0yo47" path="res://shin ryu sprites/efeitos/1091-15.png" id="27_xmdcd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3g52g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_bd75e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_72q13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_yuiyn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_f3qsy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_8oc3j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_b55j1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_uysxh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_1be0j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_lbjfs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_pdycu")
+}],
+"loop": true,
+"name": &"fireball",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_et3yj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_21sud")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_jnq8y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_45upt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_kxvox")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_eqqk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_0p66v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_bsf87")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_pikfs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_r50gx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_r4nnn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_208u1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_mckug")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_qvhwa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_nknna")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_xmdcd")
+}],
+"loop": false,
+"name": &"fireball_impact",
+"speed": 5.0
+}]
+
+[node name="HadoukenProjectile" type="Node2D" unique_id=789512899]
+script = ExtResource("1_uyo2e")
+base_speed = 500.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1328342975]
+sprite_frames = SubResource("SpriteFrames_3g52g")
+animation = &"fireball"
+frame = 1

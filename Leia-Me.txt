@@ -1,0 +1,227 @@
+🥊 Fighter (CharacterBody2D)
+|
+|-- 🖼️ Sprite2D 
+|-- 🎬 AnimationPlayer 
+|-- 💊 WorldCollision (CollisionShape2D)
+|
+|-- 📦 CoreManager (Node / Container de Componentes)
+|   |-- 🎮 Input (InputComponent.gd)
+|   |-- 🕹️ InputBuffer (InputBuffer.gd)
+|   |-- ⏱️ AnimationComponent (AnimationComponent.gd)
+|   |-- 🔄 FacingComponent (FacingComponent.gd)
+|   |-- ❤️ HealthComponent (HealthComponent.gd)
+|   |
+|   |-- [Mecânicas Especiais / Especialistas]
+|   |-- ⚡ ChargeCancelComponent (Gerencia loops de carga e fintas de magia)
+|   |-- 🔄 NormalCancelComponent (Gerencia cancelamentos de Soco/Chute para Dash/Throw)
+|   |-- 💎 SpecialBarComponent (Gerencia a energia para EX e Supers)
+|   |
+|   |-- [Sistema de Colisão Avançado]
+|   |-- 👊 HitboxStrike (HitboxComponent.gd)
+|   |-- 🤝 HitboxThrow (HitboxComponent.gd | Agarrão)
+|   |-- 🤕 HurtboxComponent (HurtboxComponent.gd)
+|   |-- 👕 ThrowHurtboxComponent (HurtboxComponent.gd)
+|   └-- 📡 ProximityBoxComponent (O Radar para o BusterHadouken e IA)
+|
+└-- ⚙️ MainStateMachine (StateMachine.gd)
+	|
+	|-- 🟫 GroundState (HierarchicalState.gd)
+	|   |-- 🧍 Idle (State.gd)
+	|   |-- 🚶 Walk (State.gd)
+	|   |-- 🏃 Run (State.gd)
+	|   |-- 💨 Dash (State.gd)
+	|   |-- 👊 Punch (Chama o NormalCancelComponent)
+	|   |-- 🦵 Kick (Chama o NormalCancelComponent)
+	|   |
+	|   |-- ☄️ HadoukenGroup (HierarchicalState.gd - Gerenciado pelo ChargeCancel)
+	|   |   |-- ⏺️ NormalHadouken (Disparo comum)
+	|   |   |-- 🌪️ DashHadouken (Híbrido com impulso aéreo)
+	|   |   └-- 🤝 BusterHadouken (Agarrão se perto / Cancel p/ Idle se longe)
+	|   |
+	|   └-- 🤼 ThrowAttempt (Estado de agarrão comum)
+	|
+	|-- 🟦 AirState (HierarchicalState.gd)
+	|   |-- 🦘 Jump (Subida)
+	|   |-- ⬇️ Falling (Descida)
+	|   └-- 🌪️ AirDash (Destino do Dash Cancel terrestre)
+	|
+	|-- 😵 Hitstun (HitstunState.gd - Gerencia Pushback e Stun-time)
+	└-- 🦴 Grabbed (State.gd)
+	
+	outra arvore
+	
+	🥊 Fighter (CharacterBody2D)
+|
+|-- 🖼️ Sprite2D (A arte do personagem)
+|-- 🎬 AnimationPlayer (Controla os frames e chama as janelas de cancelamento)
+|-- 💊 WorldCollision (CollisionShape2D - Impede que os lutadores se atravessem)
+|
+|-- 📦 CoreManager (Node - Guarda todos os sistemas independentes)
+|   |
+|   |-- 🕹️ InputBuffer (Node - Script: InputBuffer.gd)
+|   |-- ⏱️ AnimationComponent (Node - Script: AnimationComponent.gd)
+|   |-- 🔄 FacingComponent (Node - Script: FacingComponent.gd)
+|   |-- ❤️ HealthComponent (Node - Script: HealthComponent.gd)
+|   |
+|   |-- 👊 HitboxStrike (Node - Script: HitboxComponent.gd | is_throw = false)
+|   |   └-- 🟩 Area2D
+|   |       └-- 🔴 CollisionShape2D (Ajustado para o punho/pé)
+|   |
+|   |-- 🤝 HitboxThrow (Node - Script: HitboxComponent.gd | is_throw = true)
+|   |   └-- 🟩 Area2D
+|   |       └-- 🔴 CollisionShape2D (Ajustado perto do corpo para agarrar)
+|   |
+|   |-- 🤕 HurtboxComponent (Node - Script: HurtboxComponent.gd)
+|   |   └-- 🟩 Area2D
+|   |       └-- 🟢 CollisionShape2D (Cobre o corpo inteiro para levar dano)
+|   |
+|   |-- 👕 ThrowHurtboxComponent (Node - Script: ThrowHurtboxComponent.gd)
+|   |   └-- 🟩 Area2D
+|   |       └-- 🟢 CollisionShape2D (Cobre o corpo para sofrer agarrão)
+|   |
+|   |-- 📡 ProximityBoxComponent (Node - Script: ProximityBoxComponent.gd)
+|       └-- 🟩 Area2D
+|           └-- 🔵 CollisionShape2D (Esticado para a frente como um radar)
+|
+|-- 🧠 MainStateMachine (Node - Script: StateMachine.gd | Gerencia tudo)
+	|
+	|-- 🧍 GroundState (Node - Script: StateMachine.gd | Gerencia o chão)
+	|   |-- 🛑 IdleState (Node - Script: IdleState.gd)
+	|   |-- 🚶 WalkState (Node - Script: WalkState.gd)
+	|   |-- 🥊 PunchState (Node - Script: PunchState.gd)
+	|   |-- 💪 HeavyPunchState (Node - Script: HeavyPunchState.gd)
+	|   |-- ☄️ HadoukenState (Node - Script: HadoukenState.gd)
+	|   |-- 💥 SuperHadoukenState (Node - Script: SuperHadoukenState.gd)
+	|   |-- 🤼 ThrowAttemptState (Node - Script: State.gd)
+	|   └-- 🤷 ThrowWhiffState (Node - Script: State.gd)
+	|
+	|-- 🧎 CrouchState (Node - Script: StateMachine.gd | Gerencia agachamento)
+	|   |-- 🛑 CrouchIdleState (Node - Script: State.gd)
+	|   └-- 🦵 CrouchKickState (Node - Script: CrouchKickState.gd)
+	|
+	|-- 🦅 AirState (Node - Script: StateMachine.gd | Gerencia pulos/ar)
+	|   |-- ⬆️ JumpState (Node - Script: State.gd)
+	|   └-- ⬇️ FallingState (Node - Script: State.gd)
+	|
+	|-- 😵 HitstunState (Node - Script: HitstunState.gd | Quando leva porrada)
+	|
+	└-- 🦴 GrabbedState (Node - Script: State.gd | Quando sofre um agarrão)
+	
+	outra arvore
+	
+	🥊 Fighter (CharacterBody2D)
+|
+|-- 🖼️ Sprite2D (A arte do personagem)
+|-- 🎬 AnimationPlayer (Controla a animação base)
+|-- 💊 WorldCollision (CollisionShape2D - Física contra o cenário)
+|
+|-- 📦 CoreManager (Node / Component)
+|   |-- 🎮 Input (InputComponent.gd - Lê o controle/teclado)
+|   |-- 🕹️ InputBuffer (InputBuffer.gd - Armazena e lê meias-luas e combos)
+|   |-- ⏱️ AnimationComponent (AnimationComponent.gd - Controle por frames)
+|   |-- 🔄 FacingComponent (FacingComponent.gd - Vira o personagem)
+|   |-- ❤️ HealthComponent (HealthComponent.gd - Gerencia a vida)
+|   |-- 👊 HitboxStrike (HitboxComponent.gd | is_throw = false)
+|   |-- 🤝 HitboxThrow (HitboxComponent.gd | is_throw = true)
+|   |-- 🤕 HurtboxComponent (HurtboxComponent.gd - Recebe golpes)
+|   |-- 👕 ThrowHurtboxComponent (ThrowHurtboxComponent.gd - Recebe agarrões)
+|   └-- 📡 ProximityBoxComponent (ProximityBoxComponent.gd - O radar)
+|
+└-- ⚙️ MainStateMachine (StateMachine.gd)
+	|
+	|-- 🟫 GroundState (HierarchicalState.gd)
+	|   |-- 🧍 Idle (State.gd)
+	|   |-- 🚶 Walk (State.gd)
+	|   |-- 🏃 Run (State.gd)
+	|   |-- 💨 Dash (State.gd)
+	|   |-- 🛡️ Dodge (State.gd)
+	|   |-- 🏂 Slide (State.gd)
+	|   |-- 👊 Punch (State.gd)
+	|   └-- 🦵 Kick (State.gd)
+	|
+	|-- 🟦 AirState (HierarchicalState.gd)
+	|   |-- 🦘 Jump (State.gd)
+	|   |-- 🧗 WallJump (State.gd)
+	|   |-- 🛹 WallSlide (State.gd)
+	|   |-- ☄️ AirPunch (State.gd)
+	|   └-- 🌪️ AirKick (State.gd)
+	|
+	|-- 🟩 CrouchState (HierarchicalState.gd)
+	|   |-- 🧎 CrouchIdle (State.gd)
+	|   |-- 🐛 Crawl (State.gd)
+	|   |-- 🤛 CrouchPunch (State.gd)
+	|   └-- 🦶 CrouchKick (State.gd)
+	|
+	|-- 😵 Hitstun (HitstunState.gd - Raiz: Quando sofre dano)
+	└-- 🦴 Grabbed (State.gd - Raiz: Quando sofre agarrão)
+
+
+outra arvore
+
+🥊 Fighter (CharacterBody2D)
+|
+|-- 🖼️ Sprite2D (Arte do personagem)
+|-- 🎬 AnimationPlayer (Controla os frames base)
+|-- 💊 WorldCollision (CollisionShape2D - Física contra o cenário)
+|
+|-- 📦 CoreManager (Node / Component)
+|   |-- 🎮 Input (InputComponent.gd)
+|   |-- 🕹️ InputBuffer (InputBuffer.gd)
+|   |-- ⏱️ AnimationComponent (AnimationComponent.gd)
+|   |-- 🔄 FacingComponent (FacingComponent.gd)
+|   |-- ❤️ HealthComponent (HealthComponent.gd)
+|   |-- 👊 HitboxStrike (HitboxComponent.gd | is_throw = false)
+|   |-- 🤝 HitboxThrow (HitboxComponent.gd | is_throw = true)
+|   |-- 🤕 HurtboxComponent (HurtboxComponent.gd)
+|   |-- 👕 ThrowHurtboxComponent (ThrowHurtboxComponent.gd)
+|   └-- 📡 ProximityBoxComponent (ProximityBoxComponent.gd)
+|
+└-- ⚙️ MainStateMachine (StateMachine.gd)
+	|
+	|-- 🟫 GroundState (HierarchicalState.gd)
+	|   |
+	|   |-- [Mobilidade Básica e Defesa]
+	|   |-- 🧍 Idle (State.gd)
+	|   |-- 🚶 Walk (State.gd)
+	|   |-- 🏃 Run (State.gd)
+	|   |-- 💨 Dash (State.gd)
+	|   |-- 🛡️ Dodge (State.gd - Esquiva/Cambalhota)
+	|   |-- 🏂 Slide (State.gd - Deslizar no chão)
+	|   |-- 🛡️ Block (State.gd - Defesa em pé)
+	|   |
+	|   |-- [Ataques Normais / Normals]
+	|   |-- 🤜 LightPunch (State.gd - Soco Fraco)
+	|   |-- 🥊 HeavyPunch (State.gd - Soco Forte Padrão)
+	|   |-- 🩳 CloseHeavyPunch (State.gd - Soco Forte de Perto/Gancho)
+	|   |-- 📏 FarHeavyPunch (State.gd - Soco Forte Esticado)
+	|   |-- 🦵 LightKick (State.gd - Chute Fraco)
+	|   |-- 🦵 Kick (State.gd - Chute Médio/Forte)
+	|   |
+	|   |-- [Golpes Especiais e Agarrões]
+	|   |-- ☄️ Hadouken (State.gd - Motion Input)
+	|   |-- 🌀 SonicBoom (State.gd - Charge Input)
+	|   |-- 🔥 EXHadouken (State.gd - Gasta barra)
+	|   |-- 🌪️ EXSonicBoom (State.gd - Gasta barra)
+	|   |-- 💥 SuperHadouken (State.gd - 2x Meia Lua)
+	|   |-- 🤼 ThrowAttempt (State.gd - Tenta agarrar perto)
+	|   |-- 🤷 ThrowWhiff (State.gd - Falha ao agarrar longe)
+	|   └-- 👻 Teleport (State.gd - Comando simultâneo complexo)
+	|
+	|-- 🟦 AirState (HierarchicalState.gd)
+	|   |-- 🦘 Jump (State.gd - Subindo)
+	|   |-- ⬇️ Falling (State.gd - Caindo)
+	|   |-- 🧗 WallJump (State.gd - Pulo na parede)
+	|   |-- 🛹 WallSlide (State.gd - Escorregando na parede)
+	|   |-- ☄️ AirPunch (State.gd - Soco no ar)
+	|   └-- 🌪️ AirKick (State.gd - Chute no ar)
+	|
+	|-- 🟩 CrouchState (HierarchicalState.gd)
+	|   |-- 🧎 CrouchIdle (State.gd)
+	|   |-- 🐛 Crawl (State.gd - Andar agachado)
+	|   |-- 🛡️ CrouchBlock (State.gd - Defesa agachada)
+	|   |-- 🤛 CrouchPunch (State.gd - Soco agachado)
+	|   |-- 🥾 CrouchLightKick (State.gd - Rasteira rápida / Combo Starter)
+	|   └-- 🦶 CrouchKick (State.gd - Rasteira forte / Derruba inimigo)
+	|
+	|-- 😵 Hitstun (HitstunState.gd - Raiz: Sofre dano no chão ou no ar)
+	└-- 🦴 Grabbed (State.gd - Raiz: Fica travado sofrendo um agarrão)
