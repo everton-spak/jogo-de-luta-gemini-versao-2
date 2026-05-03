@@ -1,32 +1,31 @@
 class_name StandLightPunch
 extends State
 
-@export_group("Configuração do Ataque")
 @export var animation_name: String = "lp_close"
-## Estado para onde o lutador volta após o soco terminar
 @export var recovery_state: String = "IdleState"
 
 func _ready() -> void:
-	# Define as dimensões para o Roteador Heurístico
 	type_dim = "punch"
 	strength_dim = "light"
-	# Nota: stance_dim e direction_dim podem ser "any" ou herdados
-	
+
+# 1. Mudamos para _on_enter (padrão da sua StateMachine)
 func enter(_payload: Dictionary = {}) -> void:
-	print("🥊 [StandLightPunch] Executando soco leve!")
+	# 2. TRAVA O DESLIZE: Para o boneco imediatamente
+	if fighter:
+		fighter.velocity = Vector2.ZERO
+	
 	if anim:
 		anim.play(animation_name)
-	
-	# Aqui podes emitir um sinal para o seu HitboxComponent ativar 
-	# ou o componente de áudio tocar o som do soco.
 
 func physics_update(_delta: float) -> void:
-	# Condição de Saída Automática: 
-	# Quando a animação do soco termina, ele volta para o repouso.
-	if anim and not anim.is_playing():
-		transition_requested.emit(recovery_state, {})
-
-func get_tags() -> Array[String]:
-	# Adiciona tags específicas para este golpe. 
-	# A tag "Attacking" ajuda a prevenir outros movimentos.
-	return ["Attacking", "HighPriority"]
+	if anim and anim.has_method("is_playing"):
+		if not anim.is_playing():
+			# Isto vai mostrar no console qual é o valor real da variável
+			#print("🛑 [Debug] Valor exato de recovery_state: '", recovery_state, "'")
+			
+			# Trava absoluta: Se estiver vazio, força o texto manualmente
+			var estado_alvo = recovery_state
+			if estado_alvo == "" or estado_alvo == " ":
+				estado_alvo = "IdleState"
+				
+			transition_requested.emit(estado_alvo, {})

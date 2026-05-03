@@ -173,7 +173,7 @@
 [ext_resource type="Texture2D" uid="uid://dmg2sotm4adxw" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-6.png" id="90_j7i68"]
 [ext_resource type="Texture2D" uid="uid://2v4ndx5j01l" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-7.png" id="91_6nj3f"]
 [ext_resource type="Script" uid="uid://w3deme3it6nx" path="res://components/attack component/AttackComponent.gd" id="167_dygpo"]
-[ext_resource type="Script" uid="uid://dyig1asqew7oj" path="res://components/Dimencional FSM/StateMchine.gd" id="174_nswu7"]
+[ext_resource type="Script" uid="uid://dyig1asqew7oj" path="res://components/Dimencional FSM/StateMachine.gd" id="174_nswu7"]
 [ext_resource type="Script" uid="uid://whl713ilbnnv" path="res://components/input/player inputs/NormalMoves.gd" id="174_tnpkv"]
 [ext_resource type="Script" uid="uid://dk10vs8hg8kfr" path="res://components/Dimencional FSM/MovimentFSM/MovimentFSM.gd" id="175_pgdua"]
 [ext_resource type="Script" uid="uid://8xtxysawpckp" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/StandMoviment.gd" id="176_bbgjx"]
@@ -867,7 +867,7 @@ metadata/_custom_type_script = "uid://bcvm1phy0rsf2"
 
 [node name="NormalMoves" type="Node" parent="Component/InputBufferComponent" unique_id=551649016]
 script = ExtResource("174_tnpkv")
-target_state_name = "AttackStateMachine"
+allowed_tags = Array[String]([])
 metadata/_custom_type_script = "uid://whl713ilbnnv"
 
 [node name="StateMachine" type="Node" parent="Component" unique_id=1543863041]
@@ -877,6 +877,9 @@ initial_state_name = "MovementStateMachine"
 [node name="MovementStateMachine" type="Node" parent="Component/StateMachine" unique_id=652288390]
 script = ExtResource("175_pgdua")
 initial_state_name = "StandMovement"
+stance_dim = "ground"
+strength_dim = "none"
+type_dim = ""
 metadata/_custom_type_script = "uid://dk10vs8hg8kfr"
 
 [node name="StandMovement" type="Node" parent="Component/StateMachine/MovementStateMachine" unique_id=882837490]
@@ -890,6 +893,7 @@ script = ExtResource("177_6n82y")
 stance_dim = "ground"
 strength_dim = "none"
 direction_dim = "neutral"
+type_dim = "none"
 metadata/_custom_type_script = "uid://u0nm3iwhfjvd"
 
 [node name="WalkState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=2005432065]
@@ -902,11 +906,16 @@ metadata/_custom_type_script = "uid://vgs2q8k73fgv"
 [node name="AttackStateMachine" type="Node" parent="Component/StateMachine" unique_id=156876556]
 script = ExtResource("179_gjsjf")
 initial_state_name = "StandAttack"
+type_dim = "punch"
 metadata/_custom_type_script = "uid://doj0cofoh2y3h"
 
 [node name="StandAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1719252906]
 script = ExtResource("180_xxg78")
 initial_state_name = "StandLightPunch"
+stance_dim = "ground"
+strength_dim = "none"
+direction_dim = "neutral"
+type_dim = "punch"
 metadata/_custom_type_script = "uid://cvhtl0psoewbd"
 
 [node name="StandLightPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1626983553]

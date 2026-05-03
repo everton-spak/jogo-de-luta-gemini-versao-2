@@ -5,6 +5,7 @@ func enter(_payload: Dictionary = {}) -> void:
 	# Toca a animação de repouso
 	if anim:
 		anim.play("idle")
+		
 
 func physics_update(delta: float) -> void:
 	if movement:
@@ -18,5 +19,8 @@ func physics_update(delta: float) -> void:
 	
 	# Se o jogador apertar algo, o Idle avisa-nos!
 	if dir != 0.0:
-		print("🚶‍♂️ [IdleState] Li o direcional: ", dir, ". Pedindo transição para 'Walk'!")
+		#print("🚶‍♂️ [IdleState] Li o direcional: ", dir, ". Pedindo transição para 'Walk'!")
 		transition_requested.emit("WalkState", {})
+		
+func get_tags() -> Array[String]:
+	return []

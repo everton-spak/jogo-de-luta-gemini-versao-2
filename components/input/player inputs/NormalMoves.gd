@@ -24,6 +24,9 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	# 2. Se nenhum botão foi apertado, retorna vazio
 	if button == "":
 		return {}
+		
+	# 👇 ADICIONE ESTA LINHA PARA TESTE
+	print("🎯 [NormalMoves] Botão detectado: ", button)
 
 	# 3. Identificar a Postura (Stance)
 	# Verificamos se o jogador está a segurar "Baixo" no InputComponent

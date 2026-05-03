@@ -7,63 +7,74 @@ var current_state_name: String = ""
 var _global_state_map: Dictionary = {}
 
 func _on_initialized() -> void:
-	# 👇 CORREÇÃO: Obriga a FSM a registar os nós filhos!
 	sub_components.clear()
 	for child in get_children():
-		if child is State:
-			sub_components[child.name] = child
+		# Registamos tudo o que for um nó para garantir que nada fica de fora
+		sub_components[child.name] = child
+		#print("✅ [%s] Filho registado no inventário: %s" % [name, child.name])
 			
-	super._on_initialized()
-	
-	if not _is_child_of_fsm():
-		_global_state_map.clear()
-		_build_global_map(self)
-	
+	# O seu Fighter.gd já garante que o fighter é passado para baixo
 	for child in sub_components.values(): 
-		if child is State:
-			child.fighter = self.fighter
-			if child.has_method("_on_initialized"):
-				child._on_initialized()
+		if child.has_method("_on_initialized"):
+			child._on_initialized()
 				
-			var trans_callable = Callable(self, "_on_child_transition_requested")
+		var trans_callable = Callable(self, "_on_child_transition_requested")
+		if child.has_signal("transition_requested"):
 			if not child.transition_requested.is_connected(trans_callable):
 				child.transition_requested.connect(trans_callable)
 				
-	# O Pontapé de Saída!
-	if not _is_child_of_fsm() and initial_state_name != "":
-		print("🟢 [FSM Raiz] A iniciar motor no estado: ", initial_state_name)
-		change_state(initial_state_name)
+	# Se eu não tenho um pai FSM, eu sou a RootFSM. Construo o mapa inteiro!
+	if not _is_child_of_fsm():
+		_build_global_map(self)
+		print("🌍 [RootFSM] Mapa Global construído! Total de estados: ", _global_state_map.size())
 
 func _on_enter(_payload: Dictionary = {}) -> void: pass
 func _on_exit() -> void: pass
 func _on_physics_update(_delta: float) -> void: pass
 
 func enter(payload: Dictionary = {}) -> void:
+	#print("--- 📥 [%s] RECEBEU CHAMADA ENTER! ---" % name)
 	if payload.has("query"):
-		print("🔍 FSM RECEBEU QUERY: ", payload["query"])
-	_on_enter(payload) 
-	if current_state != null: return
-		
+		print("🔍 [%s] Analisando Query: %s" % [name, payload["query"]])
+
+	
+	# 2. LOGICA DE INTERRUPÇÃO (GOLPES)
+	# Se existe uma query, tentamos mudar de estado MESMO que já tenhamos um current_state
 	if payload.has("query"):
 		var query = payload["query"]
 		var best_child_name = ""
 		var best_score = -1
 		
+		# 2. Verifique se sub_components não está vazio
+		if sub_components.is_empty():
+			print("⚠️ [%s] Erro: sub_components está vazio! Os filhos não foram registrados." % name)
+		
 		for child_name in sub_components.keys():
 			var child = sub_components[child_name]
 			var score = _calculate_match_score(child, query)
+			
+			# 3. Este print TEM que aparecer para os filhos DIRETOS (ex: AttackStateMachine)
+			print("📊 [%s] comparando filho: %s | Score: %d" % [name, child_name, score])
 			
 			if score > best_score:
 				best_score = score
 				best_child_name = child_name
 				
-		if best_child_name != "":
+		if best_child_name != "" and best_score > 0:
+			print("➡️ FSM decidiu entrar no estado: ", best_child_name)
 			change_state(best_child_name, payload)
-			return
+			return # Saímos aqui pois o golpe foi processado
+			
+	# 3. LOGICA DE ENTRADA PADRÃO (Só executa se não for um golpe)
+	_on_enter(payload) 
+	
+	# Só barramos a entrada se NÃO houver uma query e já estivermos num estado
+	if current_state != null: 
+		return
 
 	var target_sub_state = payload.get("sub_state", initial_state_name)
 	if target_sub_state != "":
-		print("📂 [", self.name, "] Roteando para a sub-pasta: ", target_sub_state)
+		#print("📂 [", self.name, "] Roteando para a sub-pasta: ", target_sub_state)
 		change_state(target_sub_state, payload)
 		
 func exit() -> void:
@@ -84,9 +95,16 @@ func _calculate_match_score(node: State, query: Dictionary) -> int:
 		if dim_var in node:
 			var node_val = node.get(dim_var)
 			if node_val == query[key]: score += 10 
-			elif node_val == "any" or node_val == "" or node_val == "none": score += 1  
-			else: return -1   
-		else: score += 1      
+			elif node_val == "any": score += 1 # "any" ganha pouco
+			else: return -1 # Se for diferente e não for any, descarta
+		else:
+			# Se o nó NÃO tem a variável (é uma pasta genérica), 
+			# ele não deve ganhar pontos extras.
+			score += 0 # Mude de += 1 para += 0 aqui
+		
+	# 👇 ADICIONE ESTA LINHA PARA O LOG:
+	if score > 0:
+		print("📊 [Score] Nó: ", node.name, " | Pontuação: ", score, " para a Query: ", query)      
 	return score
 
 func _simulate_leaf_routing(query: Dictionary) -> State:
@@ -134,11 +152,13 @@ func get_tags() -> Array[String]:
 func get_machine_tags() -> Array[String]: return []
 
 func change_state(new_state_name: String, payload: Dictionary = {}) -> void:
+	# 👇 ADICIONE ESTA LINHA PARA DEBUG
+	print("Trying to enter state: ", new_state_name)
 	if sub_components.has(new_state_name):
 		if current_state: current_state.exit()
 		current_state = sub_components[new_state_name] as State
 		current_state_name = new_state_name 
-		print("➡️ [", self.name, "] Entrou no estado/pasta: ", current_state_name)
+		#print("➡️ [", self.name, "] Entrou no estado/pasta: ", current_state_name)
 		current_state.enter(payload)
 	else:
 		var target_node = find_state_recursive(new_state_name)
@@ -166,5 +186,14 @@ func _contains_state_recursive(target_node: State) -> bool:
 # O OUVIDO DA MÁQUINA DE ESTADOS (Faltava isto!)
 # =========================================================
 func _on_child_transition_requested(new_state_name: String, payload: Dictionary = {}) -> void:
-	print("📞 [", self.name, "] Ouviu o pedido de transição para: '", new_state_name, "'")
-	change_state(new_state_name, payload)
+	# 1. Se o estado é meu filho direto, eu mudo agora
+	if sub_components.has(new_state_name):
+		change_state(new_state_name, payload)
+	else:
+		# 2. BUBBLING: Se NÃO é meu filho, passo o pedido para o meu pai (sobe na hierarquia)[cite: 2]
+		var p = get_parent()
+		if p and p.has_method("_on_child_transition_requested"):
+			p._on_child_transition_requested(new_state_name, payload)
+		else:
+			# 3. Se eu for a RootFSM, uso a busca global
+			change_state(new_state_name, payload)

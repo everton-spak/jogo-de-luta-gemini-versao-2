@@ -51,7 +51,7 @@ func _process(delta: float) -> void:
 		# 👇 LIGA O RAIO-X AQUI 👇
 		#var lista_de_inputs = []
 		#for item in _buffer:
-		#	lista_de_inputs.append(item["input"])
+			#lista_de_inputs.append(item["input"])
 		#print("BUFFER: ", lista_de_inputs)
 		
 # --- FUNÇÕES BÁSICAS DO BUFFER ---
@@ -89,6 +89,7 @@ func _vector_to_direction_string(v: Vector2) -> String:
 	if forward < -0.5: return "B" # Back Dinâmico
 	
 	return ""
+	
 
 # --- LEITURA DE GOLPES SIMPLES E MOTION (Hadouken) ---
 
@@ -190,9 +191,13 @@ func consume_charge(charge_dir: String) -> void:
 	_charge_time[charge_dir] = 0.0
 
 func check_special_moves(current_state_tags: Array[String] = []) -> Dictionary:
-	if current_state_tags == null or typeof(current_state_tags) != TYPE_ARRAY: return {} 
+	if current_state_tags == null or typeof(current_state_tags) != TYPE_ARRAY: return {}
+	
+	# 👇 ADICIONE ESTE PRINT PARA TESTE
+	#print("🔍 Analisando ", get_child_count(), " componentes de movimento...")
 	
 	for child in get_children():
+		#print("Verificando filho: ", child.name, " | É MoveComponent? ", child is MoveComponent)
 		if child is MoveComponent: 
 			var is_allowed = false
 			if child.allowed_tags.is_empty(): is_allowed = true

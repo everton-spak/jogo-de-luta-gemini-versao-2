@@ -90,3 +90,8 @@ func get_current_frame() -> int:
 func set_looping(anim_name: String, loop: bool) -> void:
 	if sprite and sprite.sprite_frames:
 		sprite.sprite_frames.set_animation_loop(anim_name, loop)
+		
+func is_playing() -> bool:
+	if sprite:
+		return sprite.is_playing()
+	return false

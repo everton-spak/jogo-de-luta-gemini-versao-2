@@ -28,14 +28,14 @@ func _ready() -> void:
 # Função dedicada para ligar o motor em segurança
 func _ignite_fsm() -> void:
 	if root_fsm:
-		print("SUCESSO: Injetando Lutador e Componentes em toda a FSM...")
-		
-		# ---> MUDANÇA AQUI: Agora começamos pelo pai de todos (ComponentManager)
+		#print("🔥 [Fighter] Motor de combate ligado!")
 		if component_manager:
 			_force_deep_setup(component_manager)
 		
 		root_fsm.enter()
 		_is_ready_to_fight = true
+	else:
+		print("❌ [Fighter] ERRO: root_fsm não encontrada no nó $Component/StateMachine")
 		
 		# ==========================================
 # 💉 FUNÇÃO RECURSIVA DE INJEÇÃO
@@ -62,6 +62,20 @@ func _physics_process(delta: float) -> void:
 	
 	if hitstop and hitstop.is_stopped():
 		return
+		
+	# 🥊 A PONTE DE COMANDO:
+	# Antes de rodar a física, perguntamos ao Buffer se há um soco/chute
+	var buffer = get_component("InputBufferComponent")
+	if buffer and root_fsm:
+		# Pegamos as tags do estado atual (ex: "Neutral") para saber se podemos atacar
+		var current_tags = root_fsm.get_tags()
+		var move_payload = buffer.check_special_moves(current_tags)
+		
+		# Se o buffer encontrou uma Query (um soco), ele manda para a FSM!
+		if not move_payload.is_empty():
+			#print("⚡ [Fighter] Golpe detectado! Enviando Query para a FSM... Payload:", move_payload)
+			root_fsm.enter(move_payload)
+			buffer.consume_sequence()
 		
 	if root_fsm:
 		root_fsm.physics_update(delta)

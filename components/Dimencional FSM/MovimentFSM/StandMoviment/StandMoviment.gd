@@ -18,4 +18,4 @@ func physics_update(delta: float) -> void:
 	# Se o jogador estiver a andar (Walk) e o chão acabar, esta FSM pai
 	# deteta a queda e aborta o movimento, mandando o lutador para o ar.
 	if fighter and not fighter.is_on_floor():
-		transition_requested.emit("Fall", {})
+		transition_requested.emit("FallState", {})
