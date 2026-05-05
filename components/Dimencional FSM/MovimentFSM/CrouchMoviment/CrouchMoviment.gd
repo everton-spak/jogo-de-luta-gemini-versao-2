@@ -19,4 +19,4 @@ func physics_update(delta: float) -> void:
 		movement.commit_movement()
 
 	if fighter and not fighter.is_on_floor():
-		transition_requested.emit("Fall", {})
+		transition_requested.emit("FallState", {})

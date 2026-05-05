@@ -10,5 +10,5 @@ extends Component
 var attack_component: Component
 
 # Função virtual que será sobrescrita pelos filhos
-func check_execution(_buffer: InputBuffer) -> bool:
-	return false
+func check_execution_query(_buffer: InputBuffer) -> Dictionary:
+	return {}

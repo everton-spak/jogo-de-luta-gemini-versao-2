@@ -26,6 +26,6 @@ func physics_update(delta: float) -> void:
 		# Se quiser ser detalhista, pode verificar o input para ver se cai agachado
 		var input_comp = get_component("InputComponent")
 		if input_comp and input_comp.is_action_pressed("down"):
-			transition_requested.emit("CrouchIdle", {})
+			transition_requested.emit("CrouchState", {})
 		else:
-			transition_requested.emit("Idle", {})
+			transition_requested.emit("IdleState", {})

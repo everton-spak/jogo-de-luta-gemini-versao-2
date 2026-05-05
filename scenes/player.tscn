@@ -16,7 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://cqu1dwtctej8t" path="res://shin ryu sprites/animaçoes/dash/100-0.png" id="10_fcu33"]
 [ext_resource type="Texture2D" uid="uid://chit76iltennb" path="res://shin ryu sprites/animaçoes/dash/100-1.png" id="11_qmsq4"]
 [ext_resource type="Texture2D" uid="uid://dtje2mo8joc6l" path="res://shin ryu sprites/animaçoes/dash/100-2.png" id="12_5vs2b"]
-[ext_resource type="Texture2D" uid="uid://4ugcb3rprvfa" path="res://shin ryu sprites/animaçoes/jump/41-3.png" id="12_lapqr"]
 [ext_resource type="Texture2D" uid="uid://bk0wnqn58avw0" path="res://shin ryu sprites/animaçoes/dash/100-3.png" id="13_a7i4v"]
 [ext_resource type="Texture2D" uid="uid://vnf4bqjtnl8" path="res://shin ryu sprites/animaçoes/dash/100-4.png" id="14_b5l0c"]
 [ext_resource type="Texture2D" uid="uid://rmvy8hxul0xx" path="res://shin ryu sprites/animaçoes/dash/100-5.png" id="15_2a33p"]
@@ -175,13 +174,23 @@
 [ext_resource type="Script" uid="uid://w3deme3it6nx" path="res://components/attack component/AttackComponent.gd" id="167_dygpo"]
 [ext_resource type="Script" uid="uid://dyig1asqew7oj" path="res://components/Dimencional FSM/StateMachine.gd" id="174_nswu7"]
 [ext_resource type="Script" uid="uid://whl713ilbnnv" path="res://components/input/player inputs/NormalMoves.gd" id="174_tnpkv"]
+[ext_resource type="Script" uid="uid://ce1in1yf174f3" path="res://components/input/player inputs/DashMove.gd" id="175_7ehci"]
+[ext_resource type="Script" uid="uid://ccqn7jbx1qpmk" path="res://components/input/player inputs/JumpMove.gd" id="175_j7i68"]
 [ext_resource type="Script" uid="uid://dk10vs8hg8kfr" path="res://components/Dimencional FSM/MovimentFSM/MovimentFSM.gd" id="175_pgdua"]
+[ext_resource type="Script" uid="uid://csfglcfnf5i66" path="res://components/input/player inputs/CrouchMove.gd" id="176_4cgac"]
 [ext_resource type="Script" uid="uid://8xtxysawpckp" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/StandMoviment.gd" id="176_bbgjx"]
 [ext_resource type="Script" uid="uid://u0nm3iwhfjvd" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/Idle.gd" id="177_6n82y"]
 [ext_resource type="Script" uid="uid://vgs2q8k73fgv" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/WalkState.gd" id="178_bbgjx"]
 [ext_resource type="Script" uid="uid://doj0cofoh2y3h" path="res://components/Dimencional FSM/AttackFSM/Attack.gd" id="179_gjsjf"]
+[ext_resource type="Script" uid="uid://djifb6hmi05xn" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/DashState.gd" id="180_tpmi1"]
 [ext_resource type="Script" uid="uid://cvhtl0psoewbd" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandAttack.gd" id="180_xxg78"]
+[ext_resource type="Script" uid="uid://bacm7i3bljl2j" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/RunState.gd" id="181_tpmi1"]
 [ext_resource type="Script" uid="uid://qxwbw3feaa7v" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandLightPunch.gd" id="181_xxg78"]
+[ext_resource type="Script" uid="uid://duvsv654f5i7j" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/AirMoviment.gd" id="182_7ehci"]
+[ext_resource type="Script" uid="uid://eaxuujf3ul3e" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/JumpState.gd" id="184_6nj3f"]
+[ext_resource type="Script" uid="uid://c54t8x2tp3yed" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/FallState.gd" id="185_k8oxv"]
+[ext_resource type="Script" uid="uid://bthkq3eus3wgx" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchMoviment.gd" id="187_r7b2j"]
+[ext_resource type="Script" uid="uid://co3urayxxts1t" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchState.gd" id="188_bjhuq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(96, 235)
@@ -225,7 +234,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"dash_backward",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -238,18 +247,6 @@ animations = [{
 "texture": ExtResource("12_5vs2b")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_lapqr")
-}, {
-"duration": 1.0,
-"texture": ExtResource("38_plx2b")
-}, {
-"duration": 1.0,
-"texture": ExtResource("39_3capk")
-}, {
-"duration": 1.0,
-"texture": ExtResource("37_a3eqm")
-}, {
-"duration": 1.0,
 "texture": ExtResource("13_a7i4v")
 }, {
 "duration": 1.0,
@@ -260,7 +257,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"dash_forward",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -485,7 +482,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"jump_forward",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -736,7 +733,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -830,7 +827,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(-2, -16.5)
 scale = Vector2(2, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"lp_close"
+animation = &"crouch_idle"
 speed_scale = 2.0
 
 [node name="Component" type="Node" parent="." unique_id=1893086232]
@@ -870,6 +867,18 @@ script = ExtResource("174_tnpkv")
 allowed_tags = Array[String]([])
 metadata/_custom_type_script = "uid://whl713ilbnnv"
 
+[node name="DashMove" type="Node" parent="Component/InputBufferComponent" unique_id=314470303]
+script = ExtResource("175_7ehci")
+metadata/_custom_type_script = "uid://ce1in1yf174f3"
+
+[node name="JumpMove" type="Node" parent="Component/InputBufferComponent" unique_id=1108495327]
+script = ExtResource("175_j7i68")
+metadata/_custom_type_script = "uid://ccqn7jbx1qpmk"
+
+[node name="CrouchMove" type="Node" parent="Component/InputBufferComponent" unique_id=1237822180]
+script = ExtResource("176_4cgac")
+metadata/_custom_type_script = "uid://csfglcfnf5i66"
+
 [node name="StateMachine" type="Node" parent="Component" unique_id=1543863041]
 script = ExtResource("174_nswu7")
 initial_state_name = "MovementStateMachine"
@@ -900,8 +909,50 @@ metadata/_custom_type_script = "uid://u0nm3iwhfjvd"
 script = ExtResource("178_bbgjx")
 stance_dim = "ground"
 strength_dim = "none"
-type_dim = "movement"
+type_dim = "none"
 metadata/_custom_type_script = "uid://vgs2q8k73fgv"
+
+[node name="DashState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=565559233]
+script = ExtResource("180_tpmi1")
+dash_speed = 500.0
+dash_distance = 150.0
+stance_dim = "ground"
+strength_dim = "none"
+metadata/_custom_type_script = "uid://djifb6hmi05xn"
+
+[node name="RunState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=1674529562]
+script = ExtResource("181_tpmi1")
+stance_dim = "ground"
+strength_dim = "none"
+direction_dim = "forward"
+metadata/_custom_type_script = "uid://bacm7i3bljl2j"
+
+[node name="AirMovement" type="Node" parent="Component/StateMachine/MovementStateMachine" unique_id=446934277]
+script = ExtResource("182_7ehci")
+initial_state_name = "JumpState"
+metadata/_custom_type_script = "uid://duvsv654f5i7j"
+
+[node name="JumpState" type="Node" parent="Component/StateMachine/MovementStateMachine/AirMovement" unique_id=1618355795]
+script = ExtResource("184_6nj3f")
+stance_dim = "air"
+strength_dim = "none"
+type_dim = "movement"
+metadata/_custom_type_script = "uid://eaxuujf3ul3e"
+
+[node name="FallState" type="Node" parent="Component/StateMachine/MovementStateMachine/AirMovement" unique_id=1007665273]
+script = ExtResource("185_k8oxv")
+stance_dim = "air"
+strength_dim = "none"
+metadata/_custom_type_script = "uid://c54t8x2tp3yed"
+
+[node name="CrouchMovement" type="Node" parent="Component/StateMachine/MovementStateMachine" unique_id=1761086062]
+script = ExtResource("187_r7b2j")
+initial_state_name = "CrouchState"
+metadata/_custom_type_script = "uid://bthkq3eus3wgx"
+
+[node name="CrouchState" type="Node" parent="Component/StateMachine/MovementStateMachine/CrouchMovement" unique_id=235323600]
+script = ExtResource("188_bjhuq")
+metadata/_custom_type_script = "uid://co3urayxxts1t"
 
 [node name="AttackStateMachine" type="Node" parent="Component/StateMachine" unique_id=156876556]
 script = ExtResource("179_gjsjf")
