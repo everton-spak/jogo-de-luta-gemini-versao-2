@@ -7,6 +7,9 @@ extends Component
 # A lista de TAGS permitidas (ex: ["Ground"] permite sair no Idle, Walk e Crouch)
 @export var allowed_tags: Array[String] = ["Grounded"]
 
+@export_group("Configurações de Input")
+@export var allow_negative_edge: bool = false # O "Checkbox"
+
 var attack_component: Component
 
 # Função virtual que será sobrescrita pelos filhos

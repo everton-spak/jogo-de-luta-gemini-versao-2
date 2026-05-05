@@ -8,21 +8,44 @@ var sub_components: Dictionary = {} # O dicionário que guarda todos os filhos q
 
 func _ready() -> void:
 	# 1. Descobre quem é o lutador (a raiz física) e quem é o componente pai
-	var parent = get_parent()
-	if parent is CharacterBody2D:
-		fighter = parent
-	elif parent is Component:
-		parent_component = parent
-		fighter = parent_component.fighter # Herda a referência do lutador do pai
+	# NOVA LÓGICA (ASCENSÃO): Em vez de olhar apenas 1 nível acima, fazemos um loop 
+	# subindo pela árvore. Isso permite que o componente esteja dentro de pastas 
+	# organizadoras (Nodes vazios) e ainda consiga achar o Fighter no topo.
+	var current_parent = get_parent()
+	while current_parent != null:
+		if current_parent is CharacterBody2D:
+			fighter = current_parent
+			break # Achou o lutador, pode parar de subir!
+		elif current_parent is Component:
+			parent_component = current_parent
+			fighter = parent_component.fighter # Herda a referência do lutador do pai
+			break # Achou o componente pai, pode parar de subir!
+			
+		# Se o pai atual não for nem Fighter nem Component, assumimos que é uma pasta.
+		# Então, pedimos o pai dessa pasta e o loop continua a subir!
+		current_parent = current_parent.get_parent()
 		
 	# 2. Recursividade: Procura todos os filhos deste nó e regista-os se forem Componentes
-	for child in get_children():
-		if child is Component:
-			sub_components[child.name] = child
+	# NOVA LÓGICA (DESCENSÃO): Trocamos o loop simples por uma função recursiva.
+	# Ela vai "mergulhar" nas pastas organizadoras para puxar os componentes de lá de dentro.
+	_register_sub_components(self)
 			
 	# 3. Executa a lógica individual de configuração do componente
 	# (Usamos deferred para garantir que a árvore inteira já terminou o _ready)
 	call_deferred("_on_initialized")
+
+# --- NOVA FUNÇÃO DE REGISTRO RECURSIVO ---
+# Função auxiliar que vasculha a árvore para baixo, ignorando nós de organização
+func _register_sub_components(node_to_search: Node) -> void:
+	for child in node_to_search.get_children():
+		if child is Component:
+			# Achamos um componente! Regista no cache e para a busca neste galho
+			# (Não precisamos olhar os filhos dele, pois o próprio _ready dele fará isso)
+			sub_components[child.name] = child
+		else:
+			# Não é um componente. Provavelmente é um Node organizador (ex: "CombatComponents").
+			# A mágica acontece aqui: chamamos esta mesma função para olhar DENTRO dessa pasta!
+			_register_sub_components(child)
 
 # --- COMUNICAÇÃO RECURSIVA (A Mágica do Sistema) ---
 
