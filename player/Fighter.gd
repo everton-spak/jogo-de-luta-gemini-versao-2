@@ -66,6 +66,7 @@ func _physics_process(delta: float) -> void:
 	# 🥊 A PONTE DE COMANDO:
 	# Antes de rodar a física, perguntamos ao Buffer se há um soco/chute
 	var buffer = get_component("InputBufferComponent")
+	var history = get_component("InputHistoryComponent")
 	if buffer and root_fsm:
 		# Pegamos as tags do estado atual (ex: "Neutral") para saber se podemos atacar
 		var current_tags = root_fsm.get_tags()
@@ -75,7 +76,7 @@ func _physics_process(delta: float) -> void:
 		if not move_payload.is_empty():
 			#print("⚡ [Fighter] Golpe detectado! Enviando Query para a FSM... Payload:", move_payload)
 			root_fsm.enter(move_payload)
-			buffer.consume_sequence()
+			history._buffer.clear()
 		
 	if root_fsm:
 		root_fsm.physics_update(delta)

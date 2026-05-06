@@ -1,4 +1,4 @@
-class_name InputBuffer
+class_name InputBufferV1
 extends Component
 
 # --- CONFIGURAÇÕES DE TOLERÂNCIA (Ajustáveis no Inspector) ---
@@ -190,26 +190,49 @@ func is_charge_ready(charge_dir: String, required_charge_msec: float) -> bool:
 func consume_charge(charge_dir: String) -> void:
 	_charge_time[charge_dir] = 0.0
 
+# =========================================================
+# 🎮 LEITURA DE GOLPES (Agora suporta Pastas Organizadoras!)
+# =========================================================
+
 func check_special_moves(current_state_tags: Array[String] = []) -> Dictionary:
-	if current_state_tags == null or typeof(current_state_tags) != TYPE_ARRAY: return {}
+	if current_state_tags == null or typeof(current_state_tags) != TYPE_ARRAY: 
+		return {}
 	
-	# 👇 ADICIONE ESTE PRINT PARA TESTE
-	#print("🔍 Analisando ", get_child_count(), " componentes de movimento...")
-	
-	for child in get_children():
-		#print("Verificando filho: ", child.name, " | É MoveComponent? ", child is MoveComponent)
-		if child is MoveComponent: 
-			var is_allowed = false
-			if child.allowed_tags.is_empty(): is_allowed = true
-			else:
-				for tag in current_state_tags:
-					if tag in child.allowed_tags:
-						is_allowed = true
+	# Inicia a varredura respeitando a prioridade (de cima para baixo na Scene Tree)
+	return _evaluate_moves_recursively(self, current_state_tags)
+
+# --- NOVA FUNÇÃO RECURSIVA DO BUFFER ---
+func _evaluate_moves_recursively(node_to_search: Node, tags: Array[String]) -> Dictionary:
+	for child in node_to_search.get_children():
+		
+		if child is MoveComponent:
+			# É um golpe válido! Fazemos a checagem que você já tinha programado.
+			# (Nota: Adapte a verificação de tags de acordo com a lógica original do seu InputBuffer)
+			var has_required_tags = true 
+			
+			if "allowed_tags" in child and child.allowed_tags.size() > 0:
+				has_required_tags = false
+				for allowed in child.allowed_tags:
+					if allowed in tags:
+						has_required_tags = true
 						break
 			
-			if is_allowed:
-				if child.has_method("check_execution_query"):
-					var query = child.check_execution_query(self)
-					if typeof(query) == TYPE_DICTIONARY and not query.is_empty():
-						return {"query": query}
+			if has_required_tags:
+				# Chama a sua função de checagem passando o próprio buffer
+				var result = child.check_execution_query(self)
+				
+				# Se o golpe retornou uma query válida, paramos a busca e devolvemos!
+				if result and not result.is_empty():
+					return {"query": result} # Encapsula a query para a StateMachine ler
+					
+		elif child.get_child_count() > 0:
+			# Não é um MoveComponent, mas tem filhos. É uma pasta organizadora!
+			# Mergulhamos na pasta para avaliar os golpes lá dentro antes de continuar.
+			var nested_result = _evaluate_moves_recursively(child, tags)
+			
+			# Se achou um golpe executável dentro da pasta, repassa para cima
+			if nested_result and not nested_result.is_empty():
+				return nested_result
+				
+	# Se vasculhou tudo e o jogador não fez nenhum comando válido, retorna vazio
 	return {}

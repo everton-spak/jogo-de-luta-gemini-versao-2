@@ -8,8 +8,8 @@ func _ready() -> void:
 
 func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	# 1. Verifica Forward Dash (Frente -> Neutro -> Frente)
-	if buffer.is_sequence_buffered(["F", "N", "F"]):
-		buffer.consume_sequence() # Limpa para não dar dashes infinitos
+	if buffer.motions.is_sequence_buffered(["F", "N", "F"]):
+		buffer.history._buffer.clear() # Limpa para não dar dashes infinitos
 		return {
 			"type": "movement",
 			"stance": "ground",
@@ -18,8 +18,8 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 		}
 		
 	# 2. Verifica Backdash (Trás -> Neutro -> Trás)
-	if buffer.is_sequence_buffered(["B", "N", "B"]):
-		buffer.consume_sequence() # Limpa o buffer
+	if buffer.motions.is_sequence_buffered(["B", "N", "B"]):
+		buffer.history._buffer.clear() # Limpa o buffer
 		return {
 			"type": "movement",
 			"stance": "ground",

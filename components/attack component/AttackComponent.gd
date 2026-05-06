@@ -55,7 +55,7 @@ func _on_enter(_payload: Dictionary = {}) -> void:
 	_phase = 0
 	
 	# 1. Toca a animação específica usando o Componente Animador
-	var anim = fighter.get_component("AnimatedSpriteComponent")
+	#var anim = fighter.get_component("AnimatedSpriteComponent")
 	if anim and animation_name != "":
 		anim.play(animation_name)
 		
@@ -68,14 +68,14 @@ func _on_enter(_payload: Dictionary = {}) -> void:
 	_update_hitbox_properties()
 
 func _setup_hitbox() -> void:
-	var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
+	#var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
 	if not hitbox: return
 	
 	# Garante que começa desligada
 	hitbox.disable_box() 
 	
 	# Busca o FacingComponent para saber para qual lado estamos virados
-	var facing = fighter.get_component("FacingComponent")
+	#var facing = fighter.get_component("FacingComponent")
 	var f_dir = facing.current_facing if facing else 1.0
 	
 	# Posiciona o Area2D dinamicamente
@@ -87,7 +87,7 @@ func _setup_hitbox() -> void:
 		hitbox.collision_shape.shape.size = hitbox_size
 
 func _update_hitbox_properties() -> void:
-	var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
+	#var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
 	if not hitbox: return
 	
 	# [NOVO] Em vez de usar set_meta, injetamos os valores diretamente nas 
@@ -114,7 +114,7 @@ func physics_update(_delta: float) -> void:
 	# =========================================================
 	# ⏱️ MÁQUINA DE ESTADOS INTERNA DO GOLPE
 	# =========================================================
-	var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
+	#var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
 	
 	match _phase:
 		0: # STARTUP (Preparação do golpe, braço esticando)
@@ -147,7 +147,7 @@ func _on_attack_finished() -> void:
 func _on_exit() -> void:
 	# Limpeza de segurança crucial: se tomarmos dano e o estado for interrompido, 
 	# garantimos que o soco seja desativado imediatamente.
-	var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
+	#var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
 	if hitbox: hitbox.disable_box()
 	_remove_invincibility()
 	
@@ -177,7 +177,7 @@ func _is_near_opponent() -> bool:
 func _process_cancel_routes() -> bool:
 	if not fighter: return false
 	
-	var input_buffer = fighter.get_component("InputBufferComponent")
+	#var input_buffer = fighter.get_component("InputBufferComponent")
 	var main_fsm = fighter.get_component("StateMachine")
 	
 	if not input_buffer or not main_fsm: return false

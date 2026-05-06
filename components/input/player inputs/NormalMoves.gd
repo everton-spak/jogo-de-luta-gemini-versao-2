@@ -12,13 +12,13 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	var strength = ""
 	var type = ""
 
-	if buffer.is_action_buffered("punch_heavy"):
+	if buffer.history.is_action_buffered("punch_heavy"):
 		button = "punch_heavy"; strength = "heavy"; type = "punch"
-	elif buffer.is_action_buffered("kick_heavy"):
+	elif buffer.history.is_action_buffered("kick_heavy"):
 		button = "kick_heavy"; strength = "heavy"; type = "kick"
-	elif buffer.is_action_buffered("punch_light"):
+	elif buffer.history.is_action_buffered("punch_light"):
 		button = "punch_light"; strength = "light"; type = "punch"
-	elif buffer.is_action_buffered("kick_light"):
+	elif buffer.history.is_action_buffered("kick_light"):
 		button = "kick_light"; strength = "light"; type = "kick"
 
 	# 2. Se nenhum botão foi apertado, retorna vazio
