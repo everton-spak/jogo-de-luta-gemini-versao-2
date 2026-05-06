@@ -172,7 +172,6 @@
 [ext_resource type="Texture2D" uid="uid://2v4ndx5j01l" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-7.png" id="91_6nj3f"]
 [ext_resource type="Script" uid="uid://w3deme3it6nx" path="res://components/attack component/AttackComponent.gd" id="167_dygpo"]
 [ext_resource type="Script" uid="uid://4sw1xiqu777m" path="res://components/input/InputBuffer/InputBuffer.gd" id="172_tj70q"]
-[ext_resource type="Script" uid="uid://hja2sjfwc7je" path="res://components/move_list.gd" id="173_jwvtp"]
 [ext_resource type="Script" uid="uid://b2humt7xx1iki" path="res://components/input/InputBuffer/DirectionalInterpreterComponent.gd" id="173_wvc5d"]
 [ext_resource type="Script" uid="uid://dl0p3of8s38ey" path="res://components/input/InputBuffer/InputHistoryComponent.gd" id="174_27c74"]
 [ext_resource type="Script" uid="uid://dyig1asqew7oj" path="res://components/Dimencional FSM/StateMachine.gd" id="174_nswu7"]
@@ -887,7 +886,6 @@ script = ExtResource("176_frm6w")
 metadata/_custom_type_script = "uid://25siio3wkhob"
 
 [node name="MoveList" type="Node" parent="Component/InputBufferComponent" unique_id=1917180084]
-script = ExtResource("173_jwvtp")
 
 [node name="NormalMoves" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=551649016]
 script = ExtResource("174_tnpkv")
