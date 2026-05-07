@@ -6,6 +6,7 @@ var history: InputHistoryComponent
 var interpreter: DirectionalInterpreterComponent
 var motions: MotionInterpreterComponent
 var charge: ChargeTrackerComponent
+var simultaneous: SimultaneousInterpreterComponent
 var input: Component
 
 func _on_initialized() -> void:
@@ -13,6 +14,7 @@ func _on_initialized() -> void:
 	interpreter = get_component("DirectionalInterpreterComponent")
 	motions = get_component("MotionInterpreterComponent")
 	charge = get_component("ChargeTrackerComponent")
+	simultaneous = get_component("SimultaneousInterpreterComponent")
 	input = get_component("InputComponent")
 
 func _process(_delta: float) -> void:

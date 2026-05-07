@@ -184,6 +184,7 @@
 [ext_resource type="Script" uid="uid://8xtxysawpckp" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/StandMoviment.gd" id="176_bbgjx"]
 [ext_resource type="Script" uid="uid://25siio3wkhob" path="res://components/input/InputBuffer/ChargeTrackerComponent.gd" id="176_frm6w"]
 [ext_resource type="Script" uid="uid://u0nm3iwhfjvd" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/Idle.gd" id="177_6n82y"]
+[ext_resource type="Script" uid="uid://c6720mxgxxvro" path="res://components/input/InputBuffer/SimultaneousInterpreterComponent.gd" id="177_tj70q"]
 [ext_resource type="Script" uid="uid://vgs2q8k73fgv" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/WalkState.gd" id="178_bbgjx"]
 [ext_resource type="Script" uid="uid://doj0cofoh2y3h" path="res://components/Dimencional FSM/AttackFSM/Attack.gd" id="179_gjsjf"]
 [ext_resource type="Script" uid="uid://djifb6hmi05xn" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/DashState.gd" id="180_tpmi1"]
@@ -884,6 +885,10 @@ metadata/_custom_type_script = "uid://di62av0cv56v1"
 [node name="ChargeTrackerComponent" type="Node" parent="Component/InputBufferComponent" unique_id=454146159]
 script = ExtResource("176_frm6w")
 metadata/_custom_type_script = "uid://25siio3wkhob"
+
+[node name="SimultaneousInterpreterComponent" type="Node" parent="Component/InputBufferComponent" unique_id=482190983]
+script = ExtResource("177_tj70q")
+metadata/_custom_type_script = "uid://c6720mxgxxvro"
 
 [node name="MoveList" type="Node" parent="Component/InputBufferComponent" unique_id=1917180084]
 
