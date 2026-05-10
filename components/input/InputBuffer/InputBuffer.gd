@@ -9,6 +9,9 @@ var charge: ChargeTrackerComponent
 var simultaneous: SimultaneousInterpreterComponent
 var input: Component
 
+# Última query detectada (para debug)
+var last_query: Dictionary = {}
+
 func _on_initialized() -> void:
 	history = get_component("InputHistoryComponent")
 	interpreter = get_component("DirectionalInterpreterComponent")
@@ -38,7 +41,10 @@ func _process(_delta: float) -> void:
 func check_special_moves(current_state_tags: Array[String] = []) -> Dictionary:
 	if current_state_tags == null: return {}
 	# Inicia a busca a partir de si mesmo
-	return _evaluate_moves_recursively(self, current_state_tags)
+	var result = _evaluate_moves_recursively(self, current_state_tags)
+	if not result.is_empty():
+		last_query = result
+	return result
 
 func _evaluate_moves_recursively(node_to_search: Node, tags: Array[String]) -> Dictionary:
 	for child in node_to_search.get_children():

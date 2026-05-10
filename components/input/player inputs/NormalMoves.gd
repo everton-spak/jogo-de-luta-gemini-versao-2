@@ -29,14 +29,14 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	print("🎯 [NormalMoves] Botão detectado: ", button)
 
 	# 3. Identificar a Postura (Stance)
-	# Verificamos se o jogador está a segurar "Baixo" no InputComponent
 	var stance = "ground"
-	if buffer.input and buffer.input.get_movement_direction().y > 0.5:
+	if fighter and not fighter.is_on_floor():
+		stance = "air"
+	elif buffer.input and buffer.input.get_movement_direction().y > 0.5:
 		stance = "crouch"
-	# Nota: O seu sistema de gravidade dirá à FSM se estiver no ar ("air")
 	
 	# 4. Consumir o input para não repetir o golpe no próximo frame
-	buffer.consume_action(button)
+	buffer.history.consume_action(button)
 
 	# 5. RETORNAR A QUERY (O envelope que a FSM vai ler)
 	return {

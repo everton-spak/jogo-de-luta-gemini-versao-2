@@ -15,6 +15,10 @@ run/main_scene="uid://ccelg7hww2rba"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+DebugOverlay="*res://components/debug/DebugOverlay.tscn"
+
 [input]
 
 p1_punch_heavy={
