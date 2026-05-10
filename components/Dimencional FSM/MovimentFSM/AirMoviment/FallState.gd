@@ -10,7 +10,20 @@ var _locked_dir: float = 0.0
 
 func enter(payload: Dictionary = {}) -> void:
 	var query_dict = payload.get("query", {})
-	_locked_dir = query_dict.get("dir_x", 0.0)
+	
+	if query_dict.has("dir_x"):
+		_locked_dir = query_dict.get("dir_x", 0.0)
+	elif fighter:
+		# Se viemos de um ataque aéreo, o payload não tem dir_x.
+		# Deduzimos a direção travada pela velocidade atual do personagem!
+		if fighter.velocity.x > 10:
+			_locked_dir = 1.0
+		elif fighter.velocity.x < -10:
+			_locked_dir = -1.0
+		else:
+			_locked_dir = 0.0
+	else:
+		_locked_dir = 0.0
 	
 	#var anim = fighter.get_component("AnimatedSpriteComponent")
 	if anim:
