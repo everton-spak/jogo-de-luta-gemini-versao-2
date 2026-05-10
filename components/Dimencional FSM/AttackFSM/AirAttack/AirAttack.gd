@@ -17,12 +17,10 @@ func physics_update(delta: float) -> void:
 	
 	# 2. Física Global Aérea:
 	# Aplica a gravidade para que o personagem continue a cair enquanto bate.
-	if movement:
-		# Dica Pro: Se quiser que o golpe dê a sensação de impacto pesado nos ares,
-		# pode diminuir a gravidade durante o ataque passando um multiplicador.
-		# Ex: movement.apply_gravity(delta, 0.8) fará ele cair 20% mais devagar.
-		movement.apply_gravity(delta)
-		movement.commit_movement()
+	# IMPORTANTE: A gravidade do pulo é 1800. Devemos manter a mesma gravidade
+	# para ele não voar para cima quando socar.
+	if fighter:
+		fighter.velocity.y += 1800.0 * delta
 
 	# 3. Verificação de Aterrissagem (Landing):
 	# Se o lutador tocar no chão ANTES do ataque aéreo terminar, 
@@ -34,4 +32,4 @@ func physics_update(delta: float) -> void:
 		if facing_comp and facing_comp.is_action_pressed("down"):
 			transition_requested.emit("CrouchIdle", {})
 		else:
-			transition_requested.emit("Idle", {})
+			transition_requested.emit("IdleState", {})

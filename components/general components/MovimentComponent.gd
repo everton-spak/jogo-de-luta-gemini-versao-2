@@ -61,4 +61,6 @@ func teleport_forward(distance_x: float, distance_y: float = 0.0, reset_velocity
 # ==========================================
 # Os estados chamam isso no final do seu physics_update
 func commit_movement() -> void:
-	fighter.move_and_slide()
+	# O Fighter.gd já chama move_and_slide() globalmente a cada frame.
+	# Mantemos a função para retrocompatibilidade, mas vazia para evitar movimento duplo.
+	pass

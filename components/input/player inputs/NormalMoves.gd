@@ -1,10 +1,11 @@
 class_name NormalMoves
 extends MoveComponent # Certifique-se de que a classe MoveComponent existe
 
-# Este componente não precisa de tags específicas, pois normais 
-# costumam ser permitidos em quase qualquer estado neutro.
+# Normais exigem que o estado atual permita cancelamentos (Cancellable).
+# Estados neutros (Idle, Walk, Jump, Fall) dão essa tag.
+# Estados de ataque NÃO dão essa tag por padrão, impedindo spam.
 func _ready() -> void:
-	allowed_tags = [] 
+	allowed_tags = ["Cancellable"] 
 
 func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	# 1. Detectar qual botão foi apertado (Prioridade: Fortes > Fracos)

@@ -196,6 +196,8 @@
 [ext_resource type="Script" uid="uid://c54t8x2tp3yed" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/FallState.gd" id="185_k8oxv"]
 [ext_resource type="Script" uid="uid://bthkq3eus3wgx" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchMoviment.gd" id="187_r7b2j"]
 [ext_resource type="Script" uid="uid://co3urayxxts1t" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchState.gd" id="188_bjhuq"]
+[ext_resource type="Script" uid="uid://c1g062ypxvq3" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirAttack.gd" id="197_wvc5d"]
+[ext_resource type="Script" uid="uid://dgta2kw4y8pqj" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirLightPunch.gd" id="198_27c74"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(96, 235)
@@ -832,7 +834,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(-2, -16.5)
 scale = Vector2(2, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"crouch_idle"
+animation = &"lp_air"
 speed_scale = 2.0
 
 [node name="Component" type="Node" parent="." unique_id=1893086232]
@@ -1007,3 +1009,13 @@ type_dim = "punch"
 proximity_dim = "close"
 cancel_tier_dim = 1
 metadata/_custom_type_script = "uid://qxwbw3feaa7v"
+
+[node name="AirAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1334317197]
+script = ExtResource("197_wvc5d")
+stance_dim = "air"
+metadata/_custom_type_script = "uid://c1g062ypxvq3"
+
+[node name="AirLightPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=695271860]
+script = ExtResource("198_27c74")
+stance_dim = "air"
+strength_dim = "light"
