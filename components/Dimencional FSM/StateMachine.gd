@@ -4,6 +4,7 @@ extends State
 @export var initial_state_name: String
 var current_state: State
 var current_state_name: String = ""
+var last_winning_score: int = 0
 var _global_state_map: Dictionary = {}
 
 func _on_initialized() -> void:
@@ -61,7 +62,8 @@ func enter(payload: Dictionary = {}) -> void:
 				best_child_name = child_name
 				
 		if best_child_name != "" and best_score > 0:
-			print("➡️ FSM decidiu entrar no estado: ", best_child_name)
+			print("➡️ FSM decidiu entrar no estado: ", best_child_name, " | Score Vencedor: ", best_score)
+			last_winning_score = best_score
 			change_state(best_child_name, payload)
 			return # Saímos aqui pois o golpe foi processado
 			

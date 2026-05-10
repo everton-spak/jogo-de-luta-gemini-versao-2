@@ -227,7 +227,13 @@ func _build_fsm_state_chain(fsm: StateMachine, depth: int) -> String:
 		var state_name = fsm.current_state_name
 		var color = "#44ff88" if depth == 0 else "#88ffaa"
 		s += "%s[color=%s]%s[/color] → " % [indent, "#aaaaaa", fsm.name]
-		s += "[b][color=%s]%s[/color][/b]\n" % [color, state_name]
+		
+		# Adiciona o score se houver
+		var score_text = ""
+		if "last_winning_score" in fsm and fsm.last_winning_score > 0:
+			score_text = " [color=#ffff00](Score: %d)[/color]" % fsm.last_winning_score
+			
+		s += "[b][color=%s]%s[/color][/b]%s\n" % [color, state_name, score_text]
 		
 		# Se o estado atual também é uma FSM, mostra os sub-estados recursivamente
 		if fsm.current_state is StateMachine:
