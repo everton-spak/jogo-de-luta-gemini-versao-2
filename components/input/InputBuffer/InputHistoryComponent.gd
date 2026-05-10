@@ -7,6 +7,10 @@ extends Component
 # A lista bruta de inputs: [{"input": "F", "timestamp": 12345}, ...]
 var _buffer: Array[Dictionary] = []
 
+# O último input consumido (útil para perdoar inputs quase simultâneos)
+var last_consumed_action: String = ""
+var last_consumed_time: int = 0
+
 func _physics_process(_delta: float) -> void:
 	_clean_old_inputs()
 
@@ -33,5 +37,14 @@ func is_action_buffered(action_name: String) -> bool:
 func consume_action(action_name: String) -> void:
 	for i in range(_buffer.size() - 1, -1, -1):
 		if _buffer[i]["input"] == action_name:
+			last_consumed_action = action_name
+			last_consumed_time = Time.get_ticks_msec()
 			_buffer.remove_at(i)
 			break
+
+# Restaura o último input consumido se estiver dentro de uma janela de tempo (ex: 50ms)
+func restore_last_consumed(tolerance_msec: int = 50) -> void:
+	if last_consumed_action != "" and (Time.get_ticks_msec() - last_consumed_time) <= tolerance_msec:
+		_add_to_buffer(last_consumed_action)
+		last_consumed_action = "" # Limpa para não restaurar duas vezes
+

@@ -47,14 +47,24 @@ func check_special_moves(current_state_tags: Array[String] = []) -> Dictionary:
 	return result
 
 func _evaluate_moves_recursively(node_to_search: Node, tags: Array[String]) -> Dictionary:
-	for child in node_to_search.get_children():
+	# Prioriza os movimentos de pulo para permitir "Instant Air Attacks"
+	# (quando o jogador aperta Pulo + Soco no exato mesmo frame)
+	var move_list = node_to_search.get_children()
+	var ordered_list = []
+	
+	for child in move_list:
+		if child.name == "JumpMove" or child is JumpMove:
+			ordered_list.insert(0, child)
+		else:
+			ordered_list.append(child)
+			
+	for child in ordered_list:
 		# Se for um golpe (MoveComponent ou herdeiro)
 		if child is MoveComponent:
 			if _check_tags(child, tags):
 				var result = child.check_execution_query(self)
 				if result and not result.is_empty():
 					return {"query": result}
-					
 		# Se for uma pasta (Node simples ou organizador com filhos)
 		elif child.get_child_count() > 0:
 			var nested_result = _evaluate_moves_recursively(child, tags)

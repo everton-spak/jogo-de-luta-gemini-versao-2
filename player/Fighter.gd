@@ -76,7 +76,9 @@ func _physics_process(delta: float) -> void:
 		if not move_payload.is_empty():
 			#print("⚡ [Fighter] Golpe detectado! Enviando Query para a FSM... Payload:", move_payload)
 			root_fsm.enter(move_payload)
-			history._buffer.clear()
+			# REMOVIDO: history._buffer.clear() 
+			# Limpar o buffer globalmente destrói inputs simultâneos (ex: Pulo + Soco).
+			# Os próprios MoveComponents (como NormalMoves ou DashMove) devem consumir os inputs que usam.
 		
 	if root_fsm:
 		root_fsm.physics_update(delta)

@@ -29,12 +29,23 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	# 👇 ADICIONE ESTA LINHA PARA TESTE
 	print("🎯 [NormalMoves] Botão detectado: ", button)
 
-	# 3. Identificar a Postura (Stance)
+	# 3. Identificar a Postura (Stance) e Pre-Jump Forgiveness
 	var stance = "ground"
+	
 	if fighter and not fighter.is_on_floor():
 		stance = "air"
-	elif buffer.input and buffer.input.get_movement_direction().y > 0.5:
-		stance = "crouch"
+	else:
+		# Se o lutador está no chão, verificamos se ele está tentando pular (segurando para cima)
+		var dir = buffer.input.get_movement_direction() if buffer.input else Vector2.ZERO
+		if dir.y < -0.2:
+			# INTENÇÃO DE PULO DETECTADA!
+			# O jogador apertou soco 1 frame antes do pulo sair, ou o analógico ainda não chegou no topo.
+			# Abortamos o soco no chão e NÃO consumimos o input!
+			# Assim, no próximo frame o JumpMove fará o pulo, e no frame seguinte este NormalMoves fará o Soco Aéreo!
+			return {}
+			
+		elif dir.y > 0.5:
+			stance = "crouch"
 	
 	# 4. Consumir o input para não repetir o golpe no próximo frame
 	buffer.history.consume_action(button)
