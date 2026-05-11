@@ -34,6 +34,7 @@ func _on_exit() -> void: pass
 func _on_physics_update(_delta: float) -> void: pass
 
 func enter(payload: Dictionary = {}) -> void:
+	super.enter(payload)
 	#print("--- 📥 [%s] RECEBEU CHAMADA ENTER! ---" % name)
 	if payload.has("query"):
 		print("🔍 [%s] Analisando Query: %s" % [name, payload["query"]])
@@ -80,6 +81,7 @@ func enter(payload: Dictionary = {}) -> void:
 		change_state(target_sub_state, payload)
 		
 func exit() -> void:
+	super.exit()
 	_on_exit()
 	if current_state:
 		current_state.exit()
@@ -87,6 +89,7 @@ func exit() -> void:
 	current_state_name = ""
 
 func physics_update(delta: float) -> void:
+	super.physics_update(delta)
 	_on_physics_update(delta) 
 	if current_state: current_state.physics_update(delta)
 

@@ -76,6 +76,7 @@ func _physics_process(_delta: float) -> void:
 	# Monta o texto de debug
 	var text = ""
 	text += "[b][color=#6aadff]═══ 🔍 DEBUG OVERLAY (F3) ═══[/color][/b]\n"
+	text += "[color=#aaaaaa]Tick Global (Física): %d[/color]\n" % Engine.get_physics_frames()
 	text += "[color=#555555]────────────────────────────────[/color]\n"
 	
 	if _fighters.is_empty():
@@ -231,9 +232,22 @@ func _build_fsm_state_chain(fsm: StateMachine, depth: int) -> String:
 		# Adiciona o score se houver
 		var score_text = ""
 		if "last_winning_score" in fsm and fsm.last_winning_score > 0:
-			score_text = " [color=#ffff00](Score: %d)[/color]" % fsm.last_winning_score
+			score_text = " [color=#ffff00](Sc: %d)[/color]" % fsm.last_winning_score
 			
-		s += "[b][color=%s]%s[/color][/b]%s\n" % [color, state_name, score_text]
+		# Adiciona os frames ativos e fases do ataque
+		var frames_text = ""
+		if "state_frames" in fsm.current_state:
+			frames_text = " [color=#44ccff][%d F][/color]" % fsm.current_state.state_frames
+			
+		# Se for um ataque, mostra a fase (Startup, Active, Recovery)
+		if fsm.current_state is AttackComponent:
+			var attack = fsm.current_state as AttackComponent
+			match attack._phase:
+				0: frames_text += " [color=#ffaa00](STARTUP)[/color]"
+				1: frames_text += " [color=#ff4444](ACTIVE)[/color]"
+				2: frames_text += " [color=#44bbff](RECOVERY)[/color]"
+			
+		s += "[b][color=%s]%s[/color][/b]%s%s\n" % [color, state_name, score_text, frames_text]
 		
 		# Se o estado atual também é uma FSM, mostra os sub-estados recursivamente
 		if fsm.current_state is StateMachine:

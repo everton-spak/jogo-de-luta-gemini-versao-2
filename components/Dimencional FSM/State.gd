@@ -27,6 +27,9 @@ var health: Component
 var vfx: Component
 var combo_scaling : Component
 
+var state_time_sec: float = 0.0
+var state_frames: int = 0
+
 func _on_initialized() -> void:
 	# 1. Acha o Fighter subindo na árvore (se a injeção falhar)
 	if not fighter:
@@ -61,9 +64,17 @@ func _on_initialized() -> void:
 	vfx = fighter.get_component("VfxComponent")
 	combo_scaling = fighter.get_component("ScalingComboComponent")
 
-func enter(_payload: Dictionary = {}) -> void: pass
-func exit() -> void: pass
-func physics_update(_delta: float) -> void: pass
+func enter(_payload: Dictionary = {}) -> void: 
+	state_time_sec = 0.0
+	state_frames = 0
+
+func exit() -> void: 
+	state_time_sec = 0.0
+	state_frames = 0
+
+func physics_update(delta: float) -> void: 
+	state_time_sec += delta
+	state_frames += 1
 
 func process_cancel_routes() -> bool:
 	if input_buffer == null: return false
