@@ -12,6 +12,13 @@ var input: Component
 # Última query detectada (para debug)
 var last_query: Dictionary = {}
 
+# Debounce direcional: evita registrar transições de 1 frame ao soltar diagonais
+var _pending_dir: String = ""
+var _pending_dir_start_ms: int = 0
+var _last_added_dir: String = ""
+# ~2 frames a 60fps; impede que o "F" de 1 frame ao soltar DF vire Hadoken acidental
+const MIN_DIR_HOLD_MS: int = 33
+
 func _on_initialized() -> void:
 	history = get_component("InputHistoryComponent")
 	interpreter = get_component("DirectionalInterpreterComponent")
@@ -22,19 +29,27 @@ func _on_initialized() -> void:
 
 func _process(_delta: float) -> void:
 	if not input or not history: return
-	
+
 	# 1. Captura Botões de Ação (Just Pressed e Just Released para Negative Edge)
 	for action in motions.ACTION_BUTTONS:
 		if input.is_action_just_pressed(action):
 			history._add_to_buffer(action)
 		if input.is_action_just_released(action):
 			history._add_to_buffer(action + "_up")
-			
-	# 2. Captura Direcionais (Lógica de Neutro "N")
+
+	# 2. Captura Direcionais com debounce mínimo
+	# Direcionais precisam ser segurados por MIN_DIR_HOLD_MS antes de entrar no buffer.
+	# Isso evita que "F" de 1 frame (ao soltar DF liberando uma tecla por vez)
+	# complete acidentalmente uma sequência de Hadoken.
 	var dir_string = interpreter.get_direction_string()
-	# Só adiciona se for diferente do último input (evita flood de repetidos)
-	if history._buffer.is_empty() or history._buffer.back()["input"] != dir_string:
+	var now = Time.get_ticks_msec()
+
+	if dir_string != _pending_dir:
+		_pending_dir = dir_string
+		_pending_dir_start_ms = now
+	elif (now - _pending_dir_start_ms) >= MIN_DIR_HOLD_MS and dir_string != _last_added_dir:
 		history._add_to_buffer(dir_string)
+		_last_added_dir = dir_string
 
 # --- SISTEMA DE BUSCA RECURSIVA ---
 
