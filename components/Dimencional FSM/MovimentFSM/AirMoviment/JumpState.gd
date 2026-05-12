@@ -17,6 +17,7 @@ func enter(payload: Dictionary = {}) -> void:
 	if fighter:
 		fighter.velocity.y = -jump_force
 		fighter.velocity.x = horizontal_speed * _locked_dir
+		fighter.set_posture_collision("air")
 		
 	#var anim = fighter.get_component("AnimatedSpriteComponent")
 	if anim:

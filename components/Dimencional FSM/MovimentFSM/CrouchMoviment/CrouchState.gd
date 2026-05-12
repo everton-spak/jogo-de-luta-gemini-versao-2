@@ -12,28 +12,28 @@ func enter(_payload: Dictionary = {}) -> void:
 	#print("🧎 [Crouch] Personagem agachou!")
 	
 	if fighter:
-		# Agachar freia o personagem imediatamente
-		fighter.velocity.x = 0 
+		fighter.velocity.x = 0
+		fighter.set_posture_collision("crouch")
 		
 	#var anim = fighter.get_component("AnimatedSpriteComponent")
 	if anim:
 		anim.play("crouch_idle")
 
-func physics_update(_delta: float) -> void:
+func physics_update(delta: float) -> void:
 	if not fighter: return
-	
+
+	if movement:
+		movement.apply_gravity(delta)
+
 	var input_comp = fighter.get_component("InputComponent")
 	var is_holding_down = false
-	
-	# A cada frame, perguntamos ao Input se o direcional ainda aponta para baixo
+
 	if input_comp and input_comp.has_method("get_movement_direction"):
 		var current_input = input_comp.get_movement_direction()
 		if current_input.y > 0.5:
 			is_holding_down = true
 
-	# Condição de Saída: O jogador soltou o botão de agachar
 	if not is_holding_down:
-		#print("🧍 [CrouchIdle] Soltou o botão, voltando para guarda.")
 		transition_requested.emit(recovery_state, {})
 
 func get_tags() -> Array[String]:

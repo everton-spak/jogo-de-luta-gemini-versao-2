@@ -26,20 +26,20 @@ func enter(payload: Dictionary = {}) -> void:
 		_locked_dir = 0.0
 	
 	#var anim = fighter.get_component("AnimatedSpriteComponent")
+	if fighter:
+		fighter.set_posture_collision("air")
 	if anim:
-		# Toca a animação genérica de queda ou a específica por direção
-		anim.play("fall") 
+		anim.play("fall")
 
 func physics_update(delta: float) -> void:
 	if not fighter: return
-	
-	# 1. Continua a trajetória parabólica
+
 	fighter.velocity.y += gravity * delta
 	fighter.velocity.x = horizontal_speed * _locked_dir
-	
-	# 2. O POUSO
+
 	if fighter.is_on_floor():
 		fighter.velocity.x = 0
+		fighter.set_posture_collision("stand")
 		transition_requested.emit(landing_state, {})
 
 func get_tags() -> Array[String]:

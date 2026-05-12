@@ -8,18 +8,25 @@ extends CharacterBody2D
 @onready var root_fsm: StateMachine = $Component/StateMachine
 @export_group("Collision Sizes")
 @export var stand_size: Vector2 = Vector2(60, 120)
-@export var stand_pos: Vector2 = Vector2(0, -60) # Ajusta o Y para colar no chão
+@export var stand_pos: Vector2 = Vector2(0, -60)
 
 @export var crouch_size: Vector2 = Vector2(60, 70)
-@export var crouch_pos: Vector2 = Vector2(0, -35) # Metade da altura, desliza para baixo
+@export var crouch_pos: Vector2 = Vector2(0, -35)
+
+@export var air_size: Vector2 = Vector2(60, 100)
+@export var air_pos: Vector2 = Vector2(0, -50)
 
 # (Certifica-te que tens a referência à tua CollisionShape2D do corpo)
 @onready var main_collider: CollisionShape2D = $CollisionShape2D
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+var _sprite_offset: Vector2 = Vector2.ZERO
 # Nova variável de segurança
 var _is_ready_to_fight: bool = false
 
 func _ready() -> void:
+	if _sprite and main_collider:
+		_sprite_offset = _sprite.position - main_collider.position
 	# Espera exatamente 1 frame de física para garantir que TUDO foi inicializado
 	# (Filhos, netos e variáveis)
 	await get_tree().physics_frame
@@ -98,19 +105,24 @@ func get_component(component_name: String) -> Component:
 # ==========================================
 # NOVA FUNÇÃO: MUDAR POSTURA FÍSICA
 # ==========================================
-func set_posture_collision(is_crouching: bool) -> void:
+func set_posture_collision(posture: String) -> void:
 	if not main_collider or not main_collider.shape is RectangleShape2D:
 		return
-		
-	# Para não alterar os recursos globais (bug do Godot), duplicamos a shape 
-	# na primeira vez que alteramos o tamanho
+
 	if main_collider.shape.resource_local_to_scene == false:
 		main_collider.shape = main_collider.shape.duplicate()
 		main_collider.shape.resource_local_to_scene = true
 
-	if is_crouching:
-		main_collider.shape.size = crouch_size
-		main_collider.position = crouch_pos
-	else:
-		main_collider.shape.size = stand_size
-		main_collider.position = stand_pos
+	match posture:
+		"crouch":
+			main_collider.shape.size = crouch_size
+			main_collider.position = crouch_pos
+		"air":
+			main_collider.shape.size = air_size
+			main_collider.position = air_pos
+		_: # "stand" e qualquer outro
+			main_collider.shape.size = stand_size
+			main_collider.position = stand_pos
+
+	if _sprite:
+		_sprite.position = main_collider.position + _sprite_offset

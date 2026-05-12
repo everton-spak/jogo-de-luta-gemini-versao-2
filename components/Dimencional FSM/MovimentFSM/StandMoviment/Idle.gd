@@ -2,7 +2,8 @@ class_name IdleState
 extends State
 
 func enter(_payload: Dictionary = {}) -> void:
-	# Toca a animação de repouso
+	if fighter:
+		fighter.set_posture_collision("stand")
 	if anim:
 		anim.play("idle")
 		
