@@ -74,7 +74,6 @@ func _physics_process(delta: float) -> void:
 		
 		# Se o buffer encontrou uma Query (um soco), ele manda para a FSM!
 		if not move_payload.is_empty():
-			#print("⚡ [Fighter] Golpe detectado! Enviando Query para a FSM... Payload:", move_payload)
 			root_fsm.enter(move_payload)
 			# REMOVIDO: history._buffer.clear() 
 			# Limpar o buffer globalmente destrói inputs simultâneos (ex: Pulo + Soco).

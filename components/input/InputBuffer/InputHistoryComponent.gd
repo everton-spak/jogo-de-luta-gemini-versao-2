@@ -1,8 +1,8 @@
 class_name InputHistoryComponent
 extends Component
 
-# Janela de tempo (ms) que um input permanece no buffer
-@export var buffer_window_msec: int = 250
+# Janela máxima global — mantém inputs na memória para os moves mais lenientes
+@export var buffer_window_msec: int = 600
 
 # A lista bruta de inputs: [{"input": "F", "timestamp": 12345}, ...]
 var _buffer: Array[Dictionary] = []
@@ -26,10 +26,11 @@ func _clean_old_inputs() -> void:
 	var current_time = Time.get_ticks_msec()
 	_buffer = _buffer.filter(func(item): return current_time - item["timestamp"] <= buffer_window_msec)
 
-# Verifica se um botão específico existe no histórico
-func is_action_buffered(action_name: String) -> bool:
+# Verifica se um botão existe no histórico dentro de uma janela de tempo opcional
+func is_action_buffered(action_name: String, window_msec: int = 0) -> bool:
+	var cutoff = Time.get_ticks_msec() - (window_msec if window_msec > 0 else buffer_window_msec)
 	for item in _buffer:
-		if item["input"] == action_name:
+		if item["input"] == action_name and item["timestamp"] >= cutoff:
 			return true
 	return false
 

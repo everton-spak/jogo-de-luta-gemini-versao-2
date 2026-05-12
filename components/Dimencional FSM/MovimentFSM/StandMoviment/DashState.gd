@@ -26,7 +26,7 @@ func _ready() -> void:
 	# tier = 0 (Pode ser interrompido por golpes, se você quiser permitir Dash-Cancels!)
 
 func enter(payload: Dictionary = {}) -> void:
-	print("💨 [DashState] Iniciando Dash!")
+	#print("💨 [DashState] Iniciando Dash!")
 	
 	# 1. PEGAR A DIREÇÃO DO PAYLOAD
 	var query_dict = payload.get("query", {})
@@ -98,12 +98,12 @@ func _check_next_state() -> void:
 
 	# 3. Faz o roteamento
 	if is_holding_forward:
-		print("🔄 [DashState] Emendando Dash direto na Corrida!")
-		# Passa o payload com a direção para a Corrida saber para onde ir
+		#print("🔄 [DashState] Emendando Dash direto na Corrida!")
+		# aPassa o payload com a direção para a Corrida saber para onde ir
 		var run_payload = {"query": {"dir_x": _current_dir}}
 		transition_requested.emit(run_state, run_payload)
 	else:
-		print("🛑 [DashState] Jogador soltou o botão. Voltando ao Idle.")
+		#print("🛑 [DashState] Jogador soltou o botão. Voltando ao Idle.")
 		transition_requested.emit(recovery_state, {})
 
 func get_tags() -> Array[String]:

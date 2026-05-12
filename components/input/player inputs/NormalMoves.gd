@@ -27,7 +27,7 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 		return {}
 		
 	# 👇 ADICIONE ESTA LINHA PARA TESTE
-	print("🎯 [NormalMoves] Botão detectado: ", button)
+	#print("🎯 [NormalMoves] Botão detectado: ", button)
 
 	# 3. Identificar a Postura (Stance) e Pre-Jump Forgiveness
 	var stance = "ground"

@@ -9,7 +9,7 @@ func _ready() -> void:
 	direction_dim = "any"
 
 func enter(_payload: Dictionary = {}) -> void:
-	print("🧎 [Crouch] Personagem agachou!")
+	#print("🧎 [Crouch] Personagem agachou!")
 	
 	if fighter:
 		# Agachar freia o personagem imediatamente
@@ -33,7 +33,7 @@ func physics_update(_delta: float) -> void:
 
 	# Condição de Saída: O jogador soltou o botão de agachar
 	if not is_holding_down:
-		print("🧍 [CrouchIdle] Soltou o botão, voltando para guarda.")
+		#print("🧍 [CrouchIdle] Soltou o botão, voltando para guarda.")
 		transition_requested.emit(recovery_state, {})
 
 func get_tags() -> Array[String]:

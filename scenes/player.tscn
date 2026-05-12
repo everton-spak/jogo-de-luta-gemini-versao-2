@@ -15,9 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://cqu1dwtctej8t" path="res://shin ryu sprites/animaçoes/dash/100-0.png" id="10_fcu33"]
 [ext_resource type="Texture2D" uid="uid://chit76iltennb" path="res://shin ryu sprites/animaçoes/dash/100-1.png" id="11_qmsq4"]
 [ext_resource type="Texture2D" uid="uid://dtje2mo8joc6l" path="res://shin ryu sprites/animaçoes/dash/100-2.png" id="12_5vs2b"]
-[ext_resource type="Texture2D" uid="uid://bk0wnqn58avw0" path="res://shin ryu sprites/animaçoes/dash/100-3.png" id="13_a7i4v"]
-[ext_resource type="Texture2D" uid="uid://vnf4bqjtnl8" path="res://shin ryu sprites/animaçoes/dash/100-4.png" id="14_b5l0c"]
-[ext_resource type="Texture2D" uid="uid://rmvy8hxul0xx" path="res://shin ryu sprites/animaçoes/dash/100-5.png" id="15_2a33p"]
 [ext_resource type="Texture2D" uid="uid://dd3qdn1m1ag3d" path="res://shin ryu sprites/animaçoes/idle/0-1.png" id="16_reqs7"]
 [ext_resource type="Texture2D" uid="uid://d11h5p2liylfr" path="res://shin ryu sprites/animaçoes/idle/0-2.png" id="17_2yjfb"]
 [ext_resource type="Texture2D" uid="uid://dqvc4i143sq78" path="res://shin ryu sprites/animaçoes/idle/0-3.png" id="18_dnnjp"]
@@ -170,6 +167,17 @@
 [ext_resource type="Texture2D" uid="uid://pmiqpjyas3i4" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-5.png" id="89_7ehci"]
 [ext_resource type="Texture2D" uid="uid://dmg2sotm4adxw" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-6.png" id="90_j7i68"]
 [ext_resource type="Texture2D" uid="uid://2v4ndx5j01l" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-7.png" id="91_6nj3f"]
+[ext_resource type="Texture2D" uid="uid://dh8ugn51rskki" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-0.png" id="140_4ofje"]
+[ext_resource type="Texture2D" uid="uid://d1pjbyswbad07" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-1.png" id="141_iee07"]
+[ext_resource type="Texture2D" uid="uid://bx8lbjn1anm8h" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-2.png" id="142_rbo1h"]
+[ext_resource type="Texture2D" uid="uid://rsnnt74f6f5r" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-3.png" id="143_hhfsc"]
+[ext_resource type="Texture2D" uid="uid://qbp8lscn43rn" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-4.png" id="144_4sdvf"]
+[ext_resource type="Texture2D" uid="uid://b87ydbij6fwek" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-5.png" id="145_xam8b"]
+[ext_resource type="Texture2D" uid="uid://c3niqphq7ehe7" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-6.png" id="146_xy0l7"]
+[ext_resource type="Texture2D" uid="uid://csesmp268op8k" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-7.png" id="147_um52d"]
+[ext_resource type="Texture2D" uid="uid://lumnoq2elkbe" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-8.png" id="148_oke0v"]
+[ext_resource type="Texture2D" uid="uid://cea373w7lwn0w" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-9.png" id="149_w5oev"]
+[ext_resource type="Texture2D" uid="uid://dkngra5gdo3xs" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-10.png" id="150_5uixd"]
 [ext_resource type="Script" uid="uid://w3deme3it6nx" path="res://components/attack component/AttackComponent.gd" id="167_dygpo"]
 [ext_resource type="Script" uid="uid://4sw1xiqu777m" path="res://components/input/InputBuffer/InputBuffer.gd" id="172_tj70q"]
 [ext_resource type="Script" uid="uid://b2humt7xx1iki" path="res://components/input/InputBuffer/DirectionalInterpreterComponent.gd" id="173_wvc5d"]
@@ -178,8 +186,10 @@
 [ext_resource type="Script" uid="uid://whl713ilbnnv" path="res://components/input/player inputs/NormalMoves.gd" id="174_tnpkv"]
 [ext_resource type="Script" uid="uid://ce1in1yf174f3" path="res://components/input/player inputs/DashMove.gd" id="175_7ehci"]
 [ext_resource type="Script" uid="uid://di62av0cv56v1" path="res://components/input/InputBuffer/MotionInterpreterComponent.gd" id="175_68nro"]
+[ext_resource type="Script" uid="uid://dcmj86mugorr0" path="res://components/input/player inputs/SpecialMoves/ShoryukenMove.gd" id="175_dygpo"]
 [ext_resource type="Script" uid="uid://ccqn7jbx1qpmk" path="res://components/input/player inputs/JumpMove.gd" id="175_j7i68"]
 [ext_resource type="Script" uid="uid://dk10vs8hg8kfr" path="res://components/Dimencional FSM/MovimentFSM/MovimentFSM.gd" id="175_pgdua"]
+[ext_resource type="Script" uid="uid://dmh7xqhxvmx7s" path="res://components/input/player inputs/SpecialMoves/HadoukenMove.gd" id="175_wvc5d"]
 [ext_resource type="Script" uid="uid://csfglcfnf5i66" path="res://components/input/player inputs/CrouchMove.gd" id="176_4cgac"]
 [ext_resource type="Script" uid="uid://8xtxysawpckp" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/StandMoviment.gd" id="176_bbgjx"]
 [ext_resource type="Script" uid="uid://25siio3wkhob" path="res://components/input/InputBuffer/ChargeTrackerComponent.gd" id="176_frm6w"]
@@ -196,8 +206,14 @@
 [ext_resource type="Script" uid="uid://c54t8x2tp3yed" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/FallState.gd" id="185_k8oxv"]
 [ext_resource type="Script" uid="uid://bthkq3eus3wgx" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchMoviment.gd" id="187_r7b2j"]
 [ext_resource type="Script" uid="uid://co3urayxxts1t" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchState.gd" id="188_bjhuq"]
+[ext_resource type="Script" uid="uid://dw41klc8o48op" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHadoukenHeavy.gd" id="194_tj70q"]
+[ext_resource type="Script" uid="uid://cxmyggv71fyy5" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHadoukenLight.gd" id="196_27c74"]
+[ext_resource type="PackedScene" uid="uid://cd73a1fempa6y" path="res://scenes/hadouken_projectile.tscn" id="196_68nro"]
 [ext_resource type="Script" uid="uid://c1g062ypxvq3" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirAttack.gd" id="197_wvc5d"]
 [ext_resource type="Script" uid="uid://dgta2kw4y8pqj" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirLightPunch.gd" id="198_27c74"]
+[ext_resource type="Script" uid="uid://cleae75n3lvvm" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenFSM.gd" id="201_vso6i"]
+[ext_resource type="Script" uid="uid://blt8hbfapgntj" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenHeavy.gd" id="202_20122"]
+[ext_resource type="Script" uid="uid://c54oo8x45fpms" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenLight.gd" id="203_apmd0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(96, 235)
@@ -254,13 +270,7 @@ animations = [{
 "texture": ExtResource("12_5vs2b")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_a7i4v")
-}, {
-"duration": 1.0,
-"texture": ExtResource("14_b5l0c")
-}, {
-"duration": 1.0,
-"texture": ExtResource("15_2a33p")
+"texture": ExtResource("50_ccnn6")
 }],
 "loop": false,
 "name": &"dash_forward",
@@ -744,6 +754,44 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("140_4ofje")
+}, {
+"duration": 1.0,
+"texture": ExtResource("141_iee07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("142_rbo1h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("143_hhfsc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("144_4sdvf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("145_xam8b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("146_xy0l7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("147_um52d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("148_oke0v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("149_w5oev")
+}, {
+"duration": 1.0,
+"texture": ExtResource("150_5uixd")
+}],
+"loop": true,
+"name": &"shoryuken",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("60_0j382")
 }, {
 "duration": 1.0,
@@ -834,8 +882,11 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(-2, -16.5)
 scale = Vector2(2, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"lp_air"
+animation = &"shoryuken"
 speed_scale = 2.0
+
+[node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
+position = Vector2(125, -72)
 
 [node name="Component" type="Node" parent="." unique_id=1893086232]
 script = ExtResource("1_g2els")
@@ -877,7 +928,6 @@ metadata/_custom_type_script = "uid://b2humt7xx1iki"
 
 [node name="InputHistoryComponent" type="Node" parent="Component/InputBufferComponent" unique_id=1193037177]
 script = ExtResource("174_27c74")
-buffer_window_msec = 200
 metadata/_custom_type_script = "uid://dl0p3of8s38ey"
 
 [node name="MotionInterpreterComponent" type="Node" parent="Component/InputBufferComponent" unique_id=381720476]
@@ -893,6 +943,15 @@ script = ExtResource("177_tj70q")
 metadata/_custom_type_script = "uid://c6720mxgxxvro"
 
 [node name="MoveList" type="Node" parent="Component/InputBufferComponent" unique_id=1917180084]
+
+[node name="ShoryukenMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=908114497]
+script = ExtResource("175_dygpo")
+buffer_window_msec = 600
+metadata/_custom_type_script = "uid://dcmj86mugorr0"
+
+[node name="HadoukenMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=1540032755]
+script = ExtResource("175_wvc5d")
+metadata/_custom_type_script = "uid://dmh7xqhxvmx7s"
 
 [node name="NormalMoves" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=551649016]
 script = ExtResource("174_tnpkv")
@@ -989,16 +1048,12 @@ metadata/_custom_type_script = "uid://co3urayxxts1t"
 [node name="AttackStateMachine" type="Node" parent="Component/StateMachine" unique_id=156876556]
 script = ExtResource("179_gjsjf")
 initial_state_name = "StandAttack"
-type_dim = "punch"
 metadata/_custom_type_script = "uid://doj0cofoh2y3h"
 
 [node name="StandAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1719252906]
 script = ExtResource("180_xxg78")
 initial_state_name = "StandLightPunch"
 stance_dim = "ground"
-strength_dim = "none"
-direction_dim = "neutral"
-type_dim = "punch"
 metadata/_custom_type_script = "uid://cvhtl0psoewbd"
 
 [node name="StandLightPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1626983553]
@@ -1010,6 +1065,20 @@ proximity_dim = "close"
 cancel_tier_dim = 1
 metadata/_custom_type_script = "uid://qxwbw3feaa7v"
 
+[node name="StandHadoukenHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=698347629]
+script = ExtResource("194_tj70q")
+projectile_scene = ExtResource("196_68nro")
+stance_dim = "ground"
+strength_dim = "heavy"
+type_dim = "hadouken"
+
+[node name="StandHadoukenLight" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1036275277]
+script = ExtResource("196_27c74")
+projectile_scene = ExtResource("196_68nro")
+stance_dim = "ground"
+strength_dim = "light"
+type_dim = "hadouken"
+
 [node name="AirAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1334317197]
 script = ExtResource("197_wvc5d")
 stance_dim = "air"
@@ -1019,3 +1088,23 @@ metadata/_custom_type_script = "uid://c1g062ypxvq3"
 script = ExtResource("198_27c74")
 stance_dim = "air"
 strength_dim = "light"
+
+[node name="ShoryukenFSM" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=2063682805]
+script = ExtResource("201_vso6i")
+initial_state_name = "ShoryukenLight"
+stance_dim = "ground"
+metadata/_custom_type_script = "uid://cleae75n3lvvm"
+
+[node name="ShoryukenHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/ShoryukenFSM" unique_id=265445895]
+script = ExtResource("202_20122")
+velocity_y = -800.0
+stance_dim = "ground"
+strength_dim = "heavy"
+metadata/_custom_type_script = "uid://blt8hbfapgntj"
+
+[node name="ShoryukenLight" type="Node" parent="Component/StateMachine/AttackStateMachine/ShoryukenFSM" unique_id=35997739]
+script = ExtResource("203_apmd0")
+velocity_y = -700.0
+stance_dim = "ground"
+strength_dim = "light"
+metadata/_custom_type_script = "uid://c54oo8x45fpms"

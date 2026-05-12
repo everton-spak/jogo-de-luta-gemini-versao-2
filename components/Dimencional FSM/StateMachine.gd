@@ -36,8 +36,8 @@ func _on_physics_update(_delta: float) -> void: pass
 func enter(payload: Dictionary = {}) -> void:
 	super.enter(payload)
 	#print("--- 📥 [%s] RECEBEU CHAMADA ENTER! ---" % name)
-	if payload.has("query"):
-		print("🔍 [%s] Analisando Query: %s" % [name, payload["query"]])
+	#if payload.has("query"):
+		#print("🔍 [%s] Analisando Query: %s" % [name, payload["query"]])
 
 	
 	# 2. LOGICA DE INTERRUPÇÃO (GOLPES)
@@ -56,14 +56,14 @@ func enter(payload: Dictionary = {}) -> void:
 			var score = _calculate_match_score(child, query)
 			
 			# 3. Este print TEM que aparecer para os filhos DIRETOS (ex: AttackStateMachine)
-			print("📊 [%s] comparando filho: %s | Score: %d" % [name, child_name, score])
+			#print("📊 [%s] comparando filho: %s | Score: %d" % [name, child_name, score])
 			
 			if score > best_score:
 				best_score = score
 				best_child_name = child_name
 				
 		if best_child_name != "" and best_score > 0:
-			print("➡️ FSM decidiu entrar no estado: ", best_child_name, " | Score Vencedor: ", best_score)
+			#print("➡️ FSM decidiu entrar no estado: ", best_child_name, " | Score Vencedor: ", best_score)
 			last_winning_score = best_score
 			change_state(best_child_name, payload)
 			return # Saímos aqui pois o golpe foi processado
@@ -108,8 +108,8 @@ func _calculate_match_score(node: State, query: Dictionary) -> int:
 			score += 0 # Mude de += 1 para += 0 aqui
 		
 	# 👇 ADICIONE ESTA LINHA PARA O LOG:
-	if score > 0:
-		print("📊 [Score] Nó: ", node.name, " | Pontuação: ", score, " para a Query: ", query)      
+	#if score > 0:
+		#print("📊 [Score] Nó: ", node.name, " | Pontuação: ", score, " para a Query: ", query)      
 	return score
 
 func _simulate_leaf_routing(query: Dictionary) -> State:
@@ -158,7 +158,7 @@ func get_machine_tags() -> Array[String]: return []
 
 func change_state(new_state_name: String, payload: Dictionary = {}) -> void:
 	# 👇 ADICIONE ESTA LINHA PARA DEBUG
-	print("Trying to enter state: ", new_state_name)
+	#print("Trying to enter state: ", new_state_name)
 	if sub_components.has(new_state_name):
 		if current_state: current_state.exit()
 		current_state = sub_components[new_state_name] as State

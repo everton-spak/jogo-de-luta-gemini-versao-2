@@ -2,8 +2,8 @@ class_name StandAttack
 extends StateMachine
 
 func _ready() -> void:
-	# Forçamos a dimensão de postura via código para evitar esquecimentos no Inspector
 	stance_dim = "ground"
+
 
 func get_machine_tags() -> Array[String]:
 	# Injeta automaticamente as tags para qualquer ataque que esteja dentro desta pasta!
