@@ -103,12 +103,8 @@ func physics_update(_delta: float) -> void:
 	if not fighter: return
 	_timer += _delta
 	
-	# =========================================================
-	# ⚡ CANCELAMENTOS DO ATAQUE (Gatling/Cancel Routes)
-	# =========================================================
 	if _phase >= 1:
-		# Verifica se a FSM permite transição (ex: conectou o golpe e digitou especial)
-		if _process_cancel_routes():
+		if process_cancel_routes():
 			return
 			
 	# =========================================================
@@ -170,47 +166,6 @@ func _is_near_opponent() -> bool:
 		return proximity_box.is_target_near
 		
 	return false 
-
-# =========================================================
-# 🔄 SIMULAÇÃO DE CANCELAMENTOS (Gatling / Cancels)
-# =========================================================
-func _process_cancel_routes() -> bool:
-	if not fighter: return false
-	
-	#var input_buffer = fighter.get_component("InputBufferComponent")
-	var main_fsm = fighter.get_component("StateMachine")
-	
-	if not input_buffer or not main_fsm: return false
-	
-	# 1. Pega todas as tags ativas neste exato frame (ex: ["Attacking", "Grounded"])
-	# Se quisermos permitir o cancelamento apenas no Active/Recovery, 
-	# podemos injetar a tag "Cancellable" dinamicamente aqui!
-	var current_tags = main_fsm.get_tags()
-	
-	# Exemplo: Se o soco conectou (hitbox bateu), nós adicionamos a tag "Cancellable"
-	# (Você pode controlar isso com uma variável booleana 'has_hit' que liga no sinal attack_connected)
-	current_tags.append("Cancellable") 
-	
-	# 2. Pergunta ao InputBuffer se tem algum Special Move na agulha
-	# que aceita a tag "Cancellable" ou "Attacking"
-	var result = input_buffer.check_special_moves(current_tags)
-	
-	# 3. Se o jogador digitou um Hadouken e o InputBuffer devolveu a Query:
-	if result.has("query"):
-		print("⚡ [AttackComponent] Cancelamento de Golpe Sucedido!")
-		
-		# Montamos o Payload com a ordem de execução
-		var payload = {
-			"query": result["query"]
-		}
-		
-		# Injetamos a ordem direto na FSM Raiz. 
-		# Ela vai engolir este soco imediatamente e saltar para o Hadouken!
-		main_fsm.enter(payload)
-		
-		return true # Retorna true para interromper o physics_update do soco
-		
-	return false
 
 # =========================================================
 # 🔊 FUNÇÕES DE UTILIDADE (VFX & SOM)
