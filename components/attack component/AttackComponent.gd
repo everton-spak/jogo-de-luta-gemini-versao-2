@@ -24,13 +24,12 @@ extends State
 @export_group("Visuals & Hitbox")
 @export var animation_name: String = ""
 @export var hitbox_pos: Vector2 = Vector2(60, -10)
-@export var hitbox_size: Vector2 = Vector2(50, 30)
 
 # =========================================================
 # 💥 PROPRIEDADES DE COMBATE
 # =========================================================
 @export_group("Combat Properties")
-@export var damage: float = 10.0
+@export var damage_value: float = 10.0
 @export var hitstun_time: float = 0.4
 @export var blockstun_time: float = 0.2
 @export var pushback_force: float = 200.0
@@ -92,7 +91,7 @@ func _update_hitbox_properties() -> void:
 	
 	# [NOVO] Em vez de usar set_meta, injetamos os valores diretamente nas 
 	# propriedades do componente fortemente tipado! Isso é mais rápido e seguro.
-	hitbox.damage = int(damage)
+	hitbox.damage = int(damage_value)
 	hitbox.hitstun_duration = hitstun_time
 	hitbox.pushback_force = Vector2(pushback_force, 0) # Assumindo empurrão horizontal base
 	

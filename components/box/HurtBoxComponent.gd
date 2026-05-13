@@ -10,10 +10,10 @@ func _on_area_entered(area: Area2D) -> void:
 	var hit_node = area.get_parent()
 	if hit_node is HitboxComponent and not hit_node.is_throw:
 		_process_strike(hit_node)
-	elif hit_node is Node2D:
-		var sibling = hit_node.get_node_or_null("HitboxComponent")
-		if sibling is HitboxComponent and not sibling.is_throw:
-			_process_strike(sibling)
+	elif hit_node is CharacterBody2D and hit_node.has_method("get_component"):
+		var hb = hit_node.get_component("HitboxComponent")
+		if hb is HitboxComponent and not hb.is_throw:
+			_process_strike(hb)
 
 func _process_strike(hit_node: HitboxComponent) -> void:
 	if not fighter: return

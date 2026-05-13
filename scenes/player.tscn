@@ -896,7 +896,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p6pc0"]
-size = Vector2(62, 28)
+size = Vector2(129, 23)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1479694764]
 script = ExtResource("1_lw0jh")
@@ -915,12 +915,19 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(-2, -16.5)
 scale = Vector2(2, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"lp_close"
+animation = &"lp_air"
 frame = 2
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
 position = Vector2(125, -72)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=513479111]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=834360442]
+position = Vector2(65.5, -59.5)
+shape = SubResource("RectangleShape2D_p6pc0")
+debug_color = Color(0.87469006, 0.30542198, 0.42780703, 0.41960785)
 
 [node name="Component" type="Node" parent="." unique_id=1893086232]
 script = ExtResource("1_g2els")
@@ -954,14 +961,8 @@ metadata/_custom_type_script = "uid://dtp8mk3rml45t"
 
 [node name="HitboxComponent" type="Node" parent="Component" unique_id=693266882 node_paths=PackedStringArray("area_2d")]
 script = ExtResource("186_5uixd")
-area_2d = NodePath("Area2D")
+area_2d = NodePath("../../Area2D")
 metadata/_custom_type_script = "uid://buuofxfnkis7t"
-
-[node name="Area2D" type="Area2D" parent="Component/HitboxComponent" unique_id=513479111]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Component/HitboxComponent/Area2D" unique_id=834360442]
-shape = SubResource("RectangleShape2D_p6pc0")
-debug_color = Color(0.87469006, 0.30542198, 0.42780703, 0.41960785)
 
 [node name="InputBufferComponent" type="Node" parent="Component" unique_id=1998499313]
 script = ExtResource("172_tj70q")
@@ -1111,6 +1112,8 @@ strength_dim = "light"
 type_dim = "punch"
 proximity_dim = "close"
 cancel_tier_dim = 1
+hitbox_offset = Vector2(70, -120)
+hitbox_size = Vector2(45, 35)
 metadata/_custom_type_script = "uid://qxwbw3feaa7v"
 
 [node name="StandHadoukenHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=698347629]
@@ -1144,6 +1147,8 @@ metadata/_custom_type_script = "uid://c1g062ypxvq3"
 script = ExtResource("198_27c74")
 stance_dim = "air"
 strength_dim = "light"
+hitbox_offset = Vector2(65.5, -59.5)
+hitbox_size = Vector2(80, 40)
 
 [node name="ShoryukenFSM" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=2063682805]
 script = ExtResource("201_vso6i")

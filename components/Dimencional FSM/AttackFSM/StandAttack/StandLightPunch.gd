@@ -3,14 +3,6 @@ extends State
 
 @export var animation_name: String = "lp_close"
 @export var recovery_state: String = "IdleState"
-@export var startup_frames: int = 3
-
-@export_group("Hitbox")
-@export var hitbox_offset: Vector2 = Vector2(60, -80)
-@export var hitbox_size: Vector2 = Vector2(50, 40)
-@export var damage: int = 5
-@export var hitstun: float = 0.2
-@export var knockback: Vector2 = Vector2(150, -50)
 
 var _launched: bool = false
 
@@ -28,20 +20,6 @@ func enter(_payload: Dictionary = {}) -> void:
 		hitbox.disable_box()
 	if anim:
 		anim.play(animation_name)
-
-func _setup_hitbox() -> void:
-	if not hitbox: return
-	var f_dir = facing.current_facing if facing else 1.0
-	hitbox.damage = damage
-	hitbox.hitstun_duration = hitstun
-	hitbox.knockback_force = Vector2(knockback.x * f_dir, knockback.y)
-	hitbox.attack_level = "high"
-	if hitbox.area_2d:
-		hitbox.area_2d.position = Vector2(hitbox_offset.x * f_dir, hitbox_offset.y)
-	if hitbox.collision_shape:
-		if hitbox.collision_shape.shape is RectangleShape2D:
-			hitbox.collision_shape.shape.size = hitbox_size
-		hitbox.collision_shape.debug_color = Color(1.0, 0.0, 0.0, 0.4)
 
 func physics_update(_delta: float) -> void:
 	super.physics_update(_delta)
