@@ -3,13 +3,17 @@ extends BoxComponent
 
 func _on_initialized() -> void:
 	super._on_initialized()
-	if area_2d:
+	if area_2d and not area_2d.area_entered.is_connected(_on_area_entered):
 		area_2d.area_entered.connect(_on_area_entered)
 
 func _on_area_entered(area: Area2D) -> void:
 	var hit_node = area.get_parent()
 	if hit_node is HitboxComponent and not hit_node.is_throw:
 		_process_strike(hit_node)
+	elif hit_node is Node2D:
+		var sibling = hit_node.get_node_or_null("HitboxComponent")
+		if sibling is HitboxComponent and not sibling.is_throw:
+			_process_strike(sibling)
 
 func _process_strike(hit_node: HitboxComponent) -> void:
 	if not fighter: return

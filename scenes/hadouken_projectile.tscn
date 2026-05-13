@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cd73a1fempa6y"]
 
-[ext_resource type="Script" uid="uid://djxle4643qdy5" path="res://components/fsm attack/Attacks/special attack/Hadouken/HadoukenProjectile.gd" id="1_uyo2e"]
+[ext_resource type="Script" uid="uid://ca0a7kh0q0h6f" path="res://components/fsm attack/Attacks/special attack/Hadouken/HadoukenProjectile.gd" id="1_uyo2e"]
 [ext_resource type="Texture2D" uid="uid://c1cpnunwmyle6" path="res://shin ryu sprites/efeitos/1090-0.png" id="2_bd75e"]
 [ext_resource type="Texture2D" uid="uid://dgx8d4mmko5we" path="res://shin ryu sprites/efeitos/1090-1.png" id="3_72q13"]
 [ext_resource type="Texture2D" uid="uid://pvgd0ggkibkm" path="res://shin ryu sprites/efeitos/1090-2.png" id="4_yuiyn"]
@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://3u57yawoc6ua" path="res://shin ryu sprites/efeitos/1091-13.png" id="25_qvhwa"]
 [ext_resource type="Texture2D" uid="uid://d8u33vkl0o3w" path="res://shin ryu sprites/efeitos/1091-14.png" id="26_nknna"]
 [ext_resource type="Texture2D" uid="uid://b57taf2s0yo47" path="res://shin ryu sprites/efeitos/1091-15.png" id="27_xmdcd"]
+[ext_resource type="Script" uid="uid://buuofxfnkis7t" path="res://components/box/HitBoxComponent.gd" id="28_bd75e"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3g52g"]
 animations = [{
@@ -119,11 +120,23 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_72q13"]
+radius = 47.095646
+
 [node name="HadoukenProjectile" type="Node2D" unique_id=789512899]
 script = ExtResource("1_uyo2e")
-base_speed = 500.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1328342975]
 sprite_frames = SubResource("SpriteFrames_3g52g")
 animation = &"fireball"
 frame = 1
+
+[node name="HitboxComponent" type="Node" parent="." unique_id=421373894]
+script = ExtResource("28_bd75e")
+metadata/_custom_type_script = "uid://buuofxfnkis7t"
+
+[node name="HitArea" type="Area2D" parent="." unique_id=208781102]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=1643865338]
+position = Vector2(27, 1)
+shape = SubResource("CircleShape2D_72q13")

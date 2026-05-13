@@ -15,7 +15,7 @@ signal attack_connected(target_box: Component, contact_point: Vector2)
 func _on_initialized() -> void:
 	super._on_initialized() 
 	disable_box() 
-	if area_2d:
+	if area_2d and not area_2d.area_entered.is_connected(_on_area_entered):
 		area_2d.area_entered.connect(_on_area_entered)
 
 func _on_area_entered(area: Area2D) -> void:

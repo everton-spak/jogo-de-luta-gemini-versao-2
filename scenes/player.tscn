@@ -210,9 +210,11 @@
 [ext_resource type="Script" uid="uid://duvsv654f5i7j" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/AirMoviment.gd" id="182_7ehci"]
 [ext_resource type="Script" uid="uid://eaxuujf3ul3e" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/JumpState.gd" id="184_6nj3f"]
 [ext_resource type="Script" uid="uid://c54t8x2tp3yed" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/FallState.gd" id="185_k8oxv"]
+[ext_resource type="Script" uid="uid://buuofxfnkis7t" path="res://components/box/HitBoxComponent.gd" id="186_5uixd"]
 [ext_resource type="Script" uid="uid://bthkq3eus3wgx" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchMoviment.gd" id="187_r7b2j"]
 [ext_resource type="Script" uid="uid://co3urayxxts1t" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchState.gd" id="188_bjhuq"]
 [ext_resource type="Script" uid="uid://dw41klc8o48op" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHadoukenHeavy.gd" id="194_tj70q"]
+[ext_resource type="Script" uid="uid://c2hmvoa7ra7rj" path="res://components/input/player inputs/SpecialMoves/JoudanMove.gd" id="194_w5oev"]
 [ext_resource type="Script" uid="uid://cxmyggv71fyy5" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHadoukenLight.gd" id="196_27c74"]
 [ext_resource type="PackedScene" uid="uid://cd73a1fempa6y" path="res://scenes/hadouken_projectile.tscn" id="196_68nro"]
 [ext_resource type="Script" uid="uid://c1g062ypxvq3" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirAttack.gd" id="197_wvc5d"]
@@ -220,6 +222,8 @@
 [ext_resource type="Script" uid="uid://cleae75n3lvvm" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenFSM.gd" id="201_vso6i"]
 [ext_resource type="Script" uid="uid://blt8hbfapgntj" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenHeavy.gd" id="202_20122"]
 [ext_resource type="Script" uid="uid://c54oo8x45fpms" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenLight.gd" id="203_apmd0"]
+[ext_resource type="Script" uid="uid://ojbra1goyxef" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandJoudanHeavy.gd" id="217_5uixd"]
+[ext_resource type="Script" uid="uid://cyvcwkreoag83" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandJoudanLight.gd" id="218_p6pc0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(96, 235)
@@ -471,7 +475,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"joudan_stand",
-"speed": 10.0
+"speed": 14.0
 }, {
 "frames": [],
 "loop": true,
@@ -891,6 +895,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p6pc0"]
+size = Vector2(62, 28)
+
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1479694764]
 script = ExtResource("1_lw0jh")
 stand_size = Vector2(96, 235)
@@ -908,7 +915,8 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(-2, -16.5)
 scale = Vector2(2, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"shoryuken"
+animation = &"lp_close"
+frame = 2
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -944,6 +952,17 @@ metadata/_custom_type_script = "uid://dtswie0eoetlf"
 script = ExtResource("83_qmsq4")
 metadata/_custom_type_script = "uid://dtp8mk3rml45t"
 
+[node name="HitboxComponent" type="Node" parent="Component" unique_id=693266882 node_paths=PackedStringArray("area_2d")]
+script = ExtResource("186_5uixd")
+area_2d = NodePath("Area2D")
+metadata/_custom_type_script = "uid://buuofxfnkis7t"
+
+[node name="Area2D" type="Area2D" parent="Component/HitboxComponent" unique_id=513479111]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Component/HitboxComponent/Area2D" unique_id=834360442]
+shape = SubResource("RectangleShape2D_p6pc0")
+debug_color = Color(0.87469006, 0.30542198, 0.42780703, 0.41960785)
+
 [node name="InputBufferComponent" type="Node" parent="Component" unique_id=1998499313]
 script = ExtResource("172_tj70q")
 metadata/_custom_type_script = "uid://4sw1xiqu777m"
@@ -978,6 +997,9 @@ metadata/_custom_type_script = "uid://dcmj86mugorr0"
 [node name="HadoukenMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=1540032755]
 script = ExtResource("175_wvc5d")
 metadata/_custom_type_script = "uid://dmh7xqhxvmx7s"
+
+[node name="JoudanMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=576257823]
+script = ExtResource("194_w5oev")
 
 [node name="NormalMoves" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=551649016]
 script = ExtResource("174_tnpkv")
@@ -1104,6 +1126,14 @@ projectile_scene = ExtResource("196_68nro")
 stance_dim = "ground"
 strength_dim = "light"
 type_dim = "hadouken"
+
+[node name="StandJoudanHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1607750661]
+script = ExtResource("217_5uixd")
+travel_speed = 400.0
+
+[node name="StandJoudanLight" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1985796689]
+script = ExtResource("218_p6pc0")
+travel_speed = 250.0
 
 [node name="AirAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1334317197]
 script = ExtResource("197_wvc5d")
