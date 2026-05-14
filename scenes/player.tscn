@@ -64,27 +64,40 @@
 [ext_resource type="Texture2D" uid="uid://bnskscu0vom87" path="res://shin ryu sprites/animaçoes/jump/41-6.png" id="39_3capk"]
 [ext_resource type="Texture2D" uid="uid://c4ixfhat38ji1" path="res://shin ryu sprites/animaçoes/jump/41-7.png" id="40_kg5hq"]
 [ext_resource type="Texture2D" uid="uid://dqv6qg0u31kdn" path="res://shin ryu sprites/animaçoes/jump/41-8.png" id="41_kp0if"]
+[ext_resource type="Texture2D" uid="uid://fwx0m1uywu8m" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-0.png" id="42_1yt45"]
 [ext_resource type="Texture2D" uid="uid://ddtpsfaql3ham" path="res://shin ryu sprites/animaçoes/jump/41-9.png" id="42_2xkbm"]
+[ext_resource type="Texture2D" uid="uid://cahr51gjrxrii" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-1.png" id="43_8iei4"]
 [ext_resource type="Texture2D" uid="uid://diyap4dwvs0e" path="res://shin ryu sprites/animaçoes/jump/41-10.png" id="43_dqoq3"]
+[ext_resource type="Texture2D" uid="uid://c214841frajjx" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-2.png" id="44_kgfsc"]
 [ext_resource type="Texture2D" uid="uid://duo64s5nasmw2" path="res://shin ryu sprites/animaçoes/jump/41-11.png" id="44_y8tjj"]
 [ext_resource type="Texture2D" uid="uid://04rgo6dj5hrx" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-0.png" id="45_kg5hq"]
+[ext_resource type="Texture2D" uid="uid://bna2u2hw3cunt" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-3.png" id="45_xt5ia"]
 [ext_resource type="Texture2D" uid="uid://ml2lhr8q0lec" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-1.png" id="46_kp0if"]
+[ext_resource type="Texture2D" uid="uid://c8mmctgo7giro" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-4.png" id="46_od10n"]
 [ext_resource type="Texture2D" uid="uid://cco3io7wnippb" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-2.png" id="47_2xkbm"]
+[ext_resource type="Texture2D" uid="uid://bio48er1nrept" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-5.png" id="47_bucin"]
 [ext_resource type="Texture2D" uid="uid://i7ey1oiq4j8l" path="res://shin ryu sprites/animaçoes/run/100-7.png" id="48_4tsya"]
 [ext_resource type="Texture2D" uid="uid://dx427c34gqrkv" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-3.png" id="48_dqoq3"]
+[ext_resource type="Texture2D" uid="uid://bma3qltev6rae" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-6.png" id="48_eael2"]
 [ext_resource type="Texture2D" uid="uid://dgweeq3pl7vc3" path="res://shin ryu sprites/animaçoes/run/100-8.png" id="49_68qdx"]
+[ext_resource type="Texture2D" uid="uid://chtf60b0x56ei" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-7.png" id="49_ktl01"]
 [ext_resource type="Texture2D" uid="uid://d0tasovp8vdhm" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-4.png" id="49_y8tjj"]
 [ext_resource type="Texture2D" uid="uid://b37yiwai1nqpm" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-5.png" id="50_6ptwb"]
+[ext_resource type="Texture2D" uid="uid://kwaiijlerv10" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/245-0.png" id="50_br2wr"]
 [ext_resource type="Texture2D" uid="uid://di7j2wdhvewrt" path="res://shin ryu sprites/animaçoes/run/100-9.png" id="50_ccnn6"]
 [ext_resource type="Texture2D" uid="uid://cvs62onk866d8" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-6.png" id="51_8pj6w"]
+[ext_resource type="Texture2D" uid="uid://x0r6ykcr07l8" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/245-1.png" id="51_b2vg5"]
 [ext_resource type="Texture2D" uid="uid://dok7r7k3ohcui" path="res://shin ryu sprites/animaçoes/run/100-10.png" id="51_mcvyg"]
+[ext_resource type="Texture2D" uid="uid://c2e58xapxkf5h" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/245-2.png" id="52_3e3rs"]
 [ext_resource type="Texture2D" uid="uid://bith3a1mrphn1" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/205-0.png" id="52_08upi"]
 [ext_resource type="Texture2D" uid="uid://gsno6rv2ymtu" path="res://shin ryu sprites/animaçoes/run/100-11.png" id="52_ealyq"]
 [ext_resource type="Texture2D" uid="uid://72njf4ekmckh" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/205-1.png" id="53_4tsya"]
+[ext_resource type="Texture2D" uid="uid://ba4vbjigp3sy7" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/245-3.png" id="53_c7ju7"]
 [ext_resource type="Texture2D" uid="uid://cyhvelud3fo7v" path="res://shin ryu sprites/animaçoes/run/100-12.png" id="53_qms75"]
 [ext_resource type="Texture2D" uid="uid://p71ecfqg1wy0" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-1.png" id="53_tj70q"]
 [ext_resource type="Texture2D" uid="uid://by10kpjma0k2m" path="res://shin ryu sprites/animaçoes/attack/especial attack/640-9.png" id="53_xdd7v"]
 [ext_resource type="Texture2D" uid="uid://dtui7mvoempk5" path="res://shin ryu sprites/animaçoes/run/100-13.png" id="54_1lovq"]
+[ext_resource type="Texture2D" uid="uid://bulos4brbl2j2" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/245-4.png" id="54_3usut"]
 [ext_resource type="Texture2D" uid="uid://dkp1v05xjb18t" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/205-2.png" id="54_68qdx"]
 [ext_resource type="Texture2D" uid="uid://drb4mkhqkjn30" path="res://shin ryu sprites/animaçoes/attack/especial attack/640-10.png" id="54_lapqr"]
 [ext_resource type="Texture2D" uid="uid://csdpfe0ctib3d" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-2.png" id="54_wvc5d"]
@@ -92,81 +105,139 @@
 [ext_resource type="Texture2D" uid="uid://r46tvky0pvy0" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-3.png" id="55_27c74"]
 [ext_resource type="Texture2D" uid="uid://cm8ltf3ib0n0e" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/205-3.png" id="55_ccnn6"]
 [ext_resource type="Texture2D" uid="uid://bwgiqracu8ay" path="res://shin ryu sprites/animaçoes/attack/especial attack/640-11.png" id="55_dygpo"]
+[ext_resource type="Texture2D" uid="uid://d3kk3qbvd0gdb" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/245-5.png" id="55_tiji2"]
+[ext_resource type="Texture2D" uid="uid://df6sirw1nctwh" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/245-6.png" id="56_032dp"]
 [ext_resource type="Texture2D" uid="uid://c5tsquqncd8l1" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-4.png" id="56_68nro"]
 [ext_resource type="Texture2D" uid="uid://c8oqow0sr0p6w" path="res://shin ryu sprites/animaçoes/run/100-15.png" id="56_c7iw1"]
 [ext_resource type="Texture2D" uid="uid://c0skr8hju545q" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/205-4.png" id="56_mcvyg"]
 [ext_resource type="Texture2D" uid="uid://liyjkcx3riuc" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/205-5.png" id="57_ealyq"]
 [ext_resource type="Texture2D" uid="uid://d0gv0rbmvkm1x" path="res://shin ryu sprites/animaçoes/run/100-16.png" id="57_fccsy"]
 [ext_resource type="Texture2D" uid="uid://cx0o07h2l3ib5" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-6.png" id="57_frm6w"]
+[ext_resource type="Texture2D" uid="uid://c5wldmp236037" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-0.png" id="57_ger1r"]
+[ext_resource type="Texture2D" uid="uid://babkweu0rklsj" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-1.png" id="58_6y1f2"]
 [ext_resource type="Texture2D" uid="uid://bftnxp7a4hbpy" path="res://shin ryu sprites/animaçoes/run/100-17.png" id="58_e4c5e"]
 [ext_resource type="Texture2D" uid="uid://is7rcukfe885" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/205-6.png" id="58_qms75"]
 [ext_resource type="Texture2D" uid="uid://jfv32ahky8mv" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-7.png" id="58_xdd7v"]
 [ext_resource type="Texture2D" uid="uid://dxdncaepq1n0p" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/400-0.png" id="59_1lovq"]
+[ext_resource type="Texture2D" uid="uid://cdhcuf2igjxmj" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-2.png" id="59_54uvk"]
 [ext_resource type="Texture2D" uid="uid://d38cqr2svnc48" path="res://shin ryu sprites/animaçoes/run/100-18.png" id="59_72noi"]
 [ext_resource type="Texture2D" uid="uid://73ticpkb4p1e" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-8.png" id="59_lapqr"]
 [ext_resource type="Texture2D" uid="uid://bet71o61pppxg" path="res://shin ryu sprites/animaçoes/walk/20-0.png" id="60_0j382"]
 [ext_resource type="Texture2D" uid="uid://dllqbcyu7wc2y" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/400-1.png" id="60_0usgs"]
 [ext_resource type="Texture2D" uid="uid://dmekv2q2ptg8h" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-9.png" id="60_dygpo"]
+[ext_resource type="Texture2D" uid="uid://cptca1ym58umr" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-3.png" id="60_yc6hx"]
 [ext_resource type="Texture2D" uid="uid://bnfatl0jjmvgq" path="res://shin ryu sprites/animaçoes/walk/20-1.png" id="61_b3jfe"]
 [ext_resource type="Texture2D" uid="uid://b4kqoa7rh0wc7" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/400-2.png" id="61_c7iw1"]
+[ext_resource type="Texture2D" uid="uid://buj78awb2hytg" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-4.png" id="61_lu8fb"]
 [ext_resource type="Texture2D" uid="uid://76awr3cds80h" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-10.png" id="61_vso6i"]
 [ext_resource type="Texture2D" uid="uid://mh7yx6k7kdo8" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-11.png" id="62_20122"]
 [ext_resource type="Texture2D" uid="uid://cbb648jalb721" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/400-3.png" id="62_fccsy"]
 [ext_resource type="Texture2D" uid="uid://bwrw3fo7yo17j" path="res://shin ryu sprites/animaçoes/walk/20-2.png" id="62_gvigm"]
+[ext_resource type="Texture2D" uid="uid://cg482wy8a55dr" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-5.png" id="62_in1ty"]
 [ext_resource type="Texture2D" uid="uid://cxsaxjq0dfwm0" path="res://shin ryu sprites/animaçoes/walk/20-3.png" id="63_5ej1x"]
+[ext_resource type="Texture2D" uid="uid://drw4mrmkmoei8" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-6.png" id="63_504wp"]
 [ext_resource type="Texture2D" uid="uid://dy8jh0y15vuf1" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-12.png" id="63_apmd0"]
 [ext_resource type="Texture2D" uid="uid://5w7mglhaejwi" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/200-0.png" id="64_72noi"]
 [ext_resource type="Texture2D" uid="uid://oljsh5nj1xon" path="res://shin ryu sprites/animaçoes/attack/especial attack/350-13.png" id="64_slfds"]
 [ext_resource type="Texture2D" uid="uid://c7ulnilyn4eax" path="res://shin ryu sprites/animaçoes/walk/20-4.png" id="64_tlfvf"]
+[ext_resource type="Texture2D" uid="uid://b8cabkt7w5qbg" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-7.png" id="64_v206b"]
 [ext_resource type="Texture2D" uid="uid://b8shikqr4r030" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/200-1.png" id="65_0j382"]
+[ext_resource type="Texture2D" uid="uid://d3ayfo8jqgwyy" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/450-8.png" id="65_dygqr"]
 [ext_resource type="Texture2D" uid="uid://c1683c470g1hj" path="res://shin ryu sprites/animaçoes/walk/20-5.png" id="65_i18u8"]
 [ext_resource type="Texture2D" uid="uid://dujwyhqnyjfyv" path="res://shin ryu sprites/animaçoes/walk/20-6.png" id="66_46bxm"]
 [ext_resource type="Texture2D" uid="uid://cvqd5p7oumha7" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/200-2.png" id="66_b3jfe"]
+[ext_resource type="Texture2D" uid="uid://c8tlpfg0kvuge" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-0.png" id="66_bapf3"]
+[ext_resource type="Texture2D" uid="uid://bmu2o0plep0p1" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-1.png" id="67_7xnlc"]
 [ext_resource type="Texture2D" uid="uid://cyagfc0ddnx63" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/200-3.png" id="67_gvigm"]
 [ext_resource type="Texture2D" uid="uid://dbk02a771mjoc" path="res://shin ryu sprites/animaçoes/walk/20-7.png" id="67_llmf1"]
 [ext_resource type="Texture2D" uid="uid://c3lnuovj7gygt" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/200-4.png" id="68_5ej1x"]
 [ext_resource type="Texture2D" uid="uid://qwq6dno75sjt" path="res://shin ryu sprites/animaçoes/walk/20-8.png" id="68_qywrh"]
+[ext_resource type="Texture2D" uid="uid://bb3dy3fbnu1v1" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-2.png" id="68_ufyg4"]
 [ext_resource type="Texture2D" uid="uid://bccq3vtytpw31" path="res://shin ryu sprites/animaçoes/walk/20-9.png" id="69_jopkk"]
+[ext_resource type="Texture2D" uid="uid://cd8kxy3ho8yta" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-3.png" id="69_p4tee"]
 [ext_resource type="Texture2D" uid="uid://dha8qiyty4d6n" path="res://shin ryu sprites/animaçoes/walk/20-10.png" id="70_5l1xu"]
+[ext_resource type="Texture2D" uid="uid://ue5fggsx1aef" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-4.png" id="70_nwxpc"]
+[ext_resource type="Texture2D" uid="uid://uuomfctsoesh" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-5.png" id="71_afifw"]
 [ext_resource type="Texture2D" uid="uid://e61s253u5eeu" path="res://shin ryu sprites/animaçoes/walk/21-0.png" id="71_inwxp"]
 [ext_resource type="Texture2D" uid="uid://cno2ynss35jew" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/630-0.png" id="72_7ehci"]
+[ext_resource type="Texture2D" uid="uid://dywm0mfvl4x8c" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-6.png" id="72_ckjw1"]
 [ext_resource type="Texture2D" uid="uid://bj63xumjjny03" path="res://shin ryu sprites/animaçoes/walk/21-1.png" id="72_eb62r"]
 [ext_resource type="Texture2D" uid="uid://d1jsbxte731ga" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/230-0.png" id="72_kkgei"]
 [ext_resource type="Texture2D" uid="uid://bkmty561qaakt" path="res://shin ryu sprites/animaçoes/walk/21-2.png" id="73_5tfe1"]
+[ext_resource type="Texture2D" uid="uid://dhd5lfs02xmlr" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-7.png" id="73_35qov"]
 [ext_resource type="Texture2D" uid="uid://sss2cxbkq2ag" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/630-1.png" id="73_j7i68"]
 [ext_resource type="Texture2D" uid="uid://upu3mruqoauy" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/230-1.png" id="73_r8o87"]
 [ext_resource type="Texture2D" uid="uid://beppp4lg631xe" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/630-2.png" id="74_6nj3f"]
+[ext_resource type="Texture2D" uid="uid://dfr0yon3iffcy" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-8.png" id="74_s8vec"]
 [ext_resource type="Texture2D" uid="uid://d02f3fr7rpwci" path="res://shin ryu sprites/animaçoes/walk/21-3.png" id="74_tfrof"]
 [ext_resource type="Texture2D" uid="uid://tbpit0d8uops" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/230-2.png" id="74_w8noa"]
 [ext_resource type="Texture2D" uid="uid://ddb8x7m61d7rn" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/230-3.png" id="75_3l24j"]
+[ext_resource type="Texture2D" uid="uid://dk21e1mtuwm5m" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-9.png" id="75_b1qry"]
 [ext_resource type="Texture2D" uid="uid://rsneglrh48nq" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/630-3.png" id="75_k8oxv"]
 [ext_resource type="Texture2D" uid="uid://4jjudkri43uq" path="res://shin ryu sprites/animaçoes/walk/21-4.png" id="75_vsqmb"]
 [ext_resource type="Texture2D" uid="uid://duog1v7en2n1x" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/630-4.png" id="76_4cgac"]
 [ext_resource type="Texture2D" uid="uid://ct60vb8rus27m" path="res://shin ryu sprites/animaçoes/walk/21-5.png" id="76_8cesh"]
 [ext_resource type="Texture2D" uid="uid://iqrnas4ll4hc" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/230-4.png" id="76_drj81"]
+[ext_resource type="Texture2D" uid="uid://be4k0l8gfx4mx" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-10.png" id="76_oqagv"]
 [ext_resource type="Texture2D" uid="uid://cs2nye4yh53o4" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/230-5.png" id="77_4em36"]
+[ext_resource type="Texture2D" uid="uid://b7r8fewyikkti" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-11.png" id="77_h13tf"]
 [ext_resource type="Texture2D" uid="uid://cjamojylg722l" path="res://shin ryu sprites/animaçoes/walk/21-6.png" id="77_uew4u"]
 [ext_resource type="Texture2D" uid="uid://cjibppctml113" path="res://shin ryu sprites/animaçoes/walk/21-7.png" id="78_3thuw"]
+[ext_resource type="Texture2D" uid="uid://caougr1rt3jea" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-12.png" id="78_4x7xe"]
 [ext_resource type="Texture2D" uid="uid://dvmnn227vtd56" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/230-6.png" id="78_yc32c"]
 [ext_resource type="Texture2D" uid="uid://wkw7tvtqehf8" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/430-0.png" id="79_4em36"]
 [ext_resource type="Texture2D" uid="uid://t04s2wyghfbq" path="res://shin ryu sprites/animaçoes/walk/21-8.png" id="79_44dms"]
+[ext_resource type="Texture2D" uid="uid://civ4vdnwbb38l" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-13.png" id="79_pwf66"]
 [ext_resource type="Texture2D" uid="uid://duxp3b461j1pn" path="res://shin ryu sprites/animaçoes/walk/21-9.png" id="80_36p4m"]
+[ext_resource type="Texture2D" uid="uid://b6l765ajvumy" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/250-14.png" id="80_v5rjw"]
 [ext_resource type="Texture2D" uid="uid://bgopaeaj7s5t0" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/430-1.png" id="80_yc32c"]
 [ext_resource type="Texture2D" uid="uid://dlgue4nr748ay" path="res://shin ryu sprites/animaçoes/walk/21-10.png" id="81_1nht2"]
+[ext_resource type="Texture2D" uid="uid://brhr8ej6nhttf" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/215-0.png" id="81_3usut"]
+[ext_resource type="Texture2D" uid="uid://5i88a2exg5mx" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/625-0.png" id="81_b1qry"]
 [ext_resource type="Texture2D" uid="uid://jl4knpm7q2uo" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/430-2.png" id="81_nswu7"]
+[ext_resource type="Texture2D" uid="uid://bvo644t0yf13c" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/625-1.png" id="82_oqagv"]
 [ext_resource type="Texture2D" uid="uid://d2mwylmtltfrp" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/430-3.png" id="82_p5nqv"]
+[ext_resource type="Texture2D" uid="uid://cfc1e8w6cq5wo" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/215-1.png" id="82_tiji2"]
 [ext_resource type="Texture2D" uid="uid://ny8f6awc5mps" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/430-5.png" id="83_1pym2"]
+[ext_resource type="Texture2D" uid="uid://eev81chax07l" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/215-2.png" id="83_032dp"]
+[ext_resource type="Texture2D" uid="uid://cyuytyt3letsr" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/625-2.png" id="83_h13tf"]
 [ext_resource type="Script" uid="uid://dtp8mk3rml45t" path="res://components/component special/ChargeCancel.gd" id="83_qmsq4"]
+[ext_resource type="Texture2D" uid="uid://b4lr60t6yp034" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/625-3.png" id="84_4x7xe"]
+[ext_resource type="Texture2D" uid="uid://b3jucgwv6tl4e" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/215-3.png" id="84_ger1r"]
 [ext_resource type="Texture2D" uid="uid://jd2b1cbnv6uj" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-0.png" id="84_gjsjf"]
+[ext_resource type="Texture2D" uid="uid://qgfxda01spwm" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/215-4.png" id="85_6y1f2"]
 [ext_resource type="Script" uid="uid://bgrvvxjre75rm" path="res://components/general components/AnimatedSpriteComponent.gd" id="85_ljgr3"]
+[ext_resource type="Texture2D" uid="uid://46pa126ooosf" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/625-4.png" id="85_pwf66"]
 [ext_resource type="Texture2D" uid="uid://bi0crsn6lqife" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-1.png" id="85_xxg78"]
+[ext_resource type="Texture2D" uid="uid://1k38e0fd04lc" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/215-5.png" id="86_54uvk"]
 [ext_resource type="Script" uid="uid://djhklx3o2wubp" path="res://components/input/InputComponent.gd" id="86_fr8ja"]
 [ext_resource type="Texture2D" uid="uid://bnw38lkn2ct03" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-2.png" id="86_tnpkv"]
+[ext_resource type="Texture2D" uid="uid://hjt3ac04qwli" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/625-5.png" id="86_v5rjw"]
+[ext_resource type="Texture2D" uid="uid://d0ykarbb64hui" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-0.png" id="87_6y1f2"]
 [ext_resource type="Texture2D" uid="uid://bk4sbm7s32h7n" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-3.png" id="87_ep0wi"]
+[ext_resource type="Texture2D" uid="uid://cwu5hqv3ky3h6" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/625-6.png" id="87_kqn4d"]
+[ext_resource type="Texture2D" uid="uid://boq54ppo0xxm7" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/625-7.png" id="88_5inco"]
+[ext_resource type="Texture2D" uid="uid://lmf1o6717yse" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-1.png" id="88_54uvk"]
 [ext_resource type="Texture2D" uid="uid://3o67gc6h74p4" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-4.png" id="88_tpmi1"]
 [ext_resource type="Texture2D" uid="uid://pmiqpjyas3i4" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-5.png" id="89_7ehci"]
+[ext_resource type="Texture2D" uid="uid://ihm5nlvmdhdq" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-2.png" id="89_yc6hx"]
 [ext_resource type="Texture2D" uid="uid://dmg2sotm4adxw" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-6.png" id="90_j7i68"]
-[ext_resource type="Texture2D" uid="uid://2v4ndx5j01l" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/240-7.png" id="91_6nj3f"]
+[ext_resource type="Texture2D" uid="uid://cef6kygiwmbsd" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-3.png" id="90_lu8fb"]
+[ext_resource type="Texture2D" uid="uid://dlk3tmarmsggx" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-4.png" id="91_in1ty"]
+[ext_resource type="Texture2D" uid="uid://4pxbxaf0wa4e" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-5.png" id="92_504wp"]
+[ext_resource type="Texture2D" uid="uid://dyjuqkfhv22vl" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-6.png" id="93_v206b"]
+[ext_resource type="Texture2D" uid="uid://bvfggcw43offg" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-7.png" id="94_dygqr"]
+[ext_resource type="Texture2D" uid="uid://bl2plkt866fu7" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-10.png" id="95_bapf3"]
+[ext_resource type="Texture2D" uid="uid://63r16174jkc3" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-0.png" id="95_up63a"]
+[ext_resource type="Texture2D" uid="uid://sk4xaw302cey" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-1.png" id="96_5palb"]
+[ext_resource type="Texture2D" uid="uid://c4on4uua0tcd0" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-11.png" id="96_7xnlc"]
+[ext_resource type="Texture2D" uid="uid://lc7j7lxinp1w" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-2.png" id="97_qqdhl"]
+[ext_resource type="Texture2D" uid="uid://inlu2qjs81p1" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-3.png" id="98_u8c3o"]
+[ext_resource type="Texture2D" uid="uid://dy5e63fwih217" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-4.png" id="99_kr3rc"]
+[ext_resource type="Texture2D" uid="uid://c2oqr2ei5eose" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-5.png" id="100_aoy5f"]
+[ext_resource type="Texture2D" uid="uid://bmhnovvk88raj" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-6.png" id="101_jtets"]
+[ext_resource type="Texture2D" uid="uid://clqpr5acwfyoa" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-7.png" id="102_8qd57"]
+[ext_resource type="Texture2D" uid="uid://ojltfj3ermmi" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-8.png" id="103_l6shj"]
 [ext_resource type="Texture2D" uid="uid://dh8ugn51rskki" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-0.png" id="140_4ofje"]
 [ext_resource type="Texture2D" uid="uid://d1pjbyswbad07" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-1.png" id="141_iee07"]
 [ext_resource type="Texture2D" uid="uid://bx8lbjn1anm8h" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-2.png" id="142_rbo1h"]
@@ -222,8 +293,19 @@
 [ext_resource type="Script" uid="uid://cleae75n3lvvm" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenFSM.gd" id="201_vso6i"]
 [ext_resource type="Script" uid="uid://blt8hbfapgntj" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenHeavy.gd" id="202_20122"]
 [ext_resource type="Script" uid="uid://c54oo8x45fpms" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenLight.gd" id="203_apmd0"]
+[ext_resource type="Script" uid="uid://b3m1o76stdlee" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandLightKick.gd" id="215_5lhw1"]
 [ext_resource type="Script" uid="uid://ojbra1goyxef" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandJoudanHeavy.gd" id="217_5uixd"]
 [ext_resource type="Script" uid="uid://cyvcwkreoag83" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandJoudanLight.gd" id="218_p6pc0"]
+[ext_resource type="Script" uid="uid://dwvwwihqymc16" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirLightKick.gd" id="222_3rsyo"]
+[ext_resource type="Script" uid="uid://dckfa30aygmyq" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchAttack.gd" id="225_p6pc0"]
+[ext_resource type="Script" uid="uid://dagf0ppby018y" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchLightPunch.gd" id="226_god42"]
+[ext_resource type="Script" uid="uid://b7g0h783chpek" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchLightKick.gd" id="227_m4v07"]
+[ext_resource type="Script" uid="uid://dq6hdr47om40f" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHeavyPunch.gd" id="230_shp"]
+[ext_resource type="Script" uid="uid://bleet8eernho1" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHeavyKick.gd" id="231_shk"]
+[ext_resource type="Script" uid="uid://b6xow40418ulf" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchHeavyPunch.gd" id="232_chp"]
+[ext_resource type="Script" uid="uid://da4n8abewh4sn" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchHeavyKick.gd" id="233_chk"]
+[ext_resource type="Script" uid="uid://bryow80sw7yll" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHeavyPunch.gd" id="234_ahp"]
+[ext_resource type="Script" uid="uid://xknaf1qb8wa4" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHeavyKick.gd" id="235_ahk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(96, 235)
@@ -388,6 +470,262 @@ animations = [{
 }],
 "loop": false,
 "name": &"hadouken_stand",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("42_1yt45")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_8iei4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_kgfsc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_xt5ia")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_od10n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_bucin")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_eael2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_ktl01")
+}],
+"loop": false,
+"name": &"hk_air",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("50_br2wr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_b2vg5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_3e3rs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_c7ju7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_3usut")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_tiji2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_032dp")
+}],
+"loop": false,
+"name": &"hk_close",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("57_ger1r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_6y1f2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_54uvk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_yc6hx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_lu8fb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_in1ty")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_504wp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_v206b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("65_dygqr")
+}],
+"loop": false,
+"name": &"hk_crouch",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("66_bapf3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_7xnlc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_ufyg4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("69_p4tee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("70_nwxpc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("71_afifw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("72_ckjw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("73_35qov")
+}, {
+"duration": 1.0,
+"texture": ExtResource("74_s8vec")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_b1qry")
+}, {
+"duration": 1.0,
+"texture": ExtResource("76_oqagv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("77_h13tf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("78_4x7xe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("79_pwf66")
+}, {
+"duration": 1.0,
+"texture": ExtResource("80_v5rjw")
+}],
+"loop": false,
+"name": &"hk_far",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("81_b1qry")
+}, {
+"duration": 1.0,
+"texture": ExtResource("82_oqagv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("83_h13tf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("84_4x7xe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("85_pwf66")
+}, {
+"duration": 1.0,
+"texture": ExtResource("86_v5rjw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("87_kqn4d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("88_5inco")
+}],
+"loop": false,
+"name": &"hp_air",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("81_3usut")
+}, {
+"duration": 1.0,
+"texture": ExtResource("82_tiji2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("83_032dp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("84_ger1r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("85_6y1f2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("86_54uvk")
+}],
+"loop": true,
+"name": &"hp_close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("95_up63a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("96_5palb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("97_qqdhl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("98_u8c3o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("99_kr3rc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("100_aoy5f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("101_jtets")
+}, {
+"duration": 1.0,
+"texture": ExtResource("102_8qd57")
+}, {
+"duration": 1.0,
+"texture": ExtResource("103_l6shj")
+}],
+"loop": false,
+"name": &"hp_crouch",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("87_6y1f2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("88_54uvk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("89_yc6hx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("90_lu8fb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_in1ty")
+}, {
+"duration": 1.0,
+"texture": ExtResource("92_504wp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("93_v206b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("94_dygqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("95_bapf3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("96_7xnlc")
+}],
+"loop": false,
+"name": &"hp_far",
 "speed": 10.0
 }, {
 "frames": [{
@@ -581,7 +919,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"lk_close",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -601,7 +939,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"lk_crouch",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -624,13 +962,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("90_j7i68")
-}, {
-"duration": 1.0,
-"texture": ExtResource("91_6nj3f")
 }],
 "loop": false,
 "name": &"lk_far",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -915,8 +1250,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(-2, -16.5)
 scale = Vector2(2, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"lp_air"
-frame = 2
+animation = &"hp_air"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -1116,6 +1450,21 @@ hitbox_offset = Vector2(10, -70)
 hitbox_size = Vector2(45, 35)
 metadata/_custom_type_script = "uid://qxwbw3feaa7v"
 
+[node name="StandLightKick" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=677518261]
+script = ExtResource("215_5lhw1")
+stance_dim = "ground"
+strength_dim = "light"
+
+[node name="StandHeavyPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=112233445]
+script = ExtResource("230_shp")
+stance_dim = "ground"
+strength_dim = "heavy"
+
+[node name="StandHeavyKick" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=223344556]
+script = ExtResource("231_shk")
+stance_dim = "ground"
+strength_dim = "heavy"
+
 [node name="StandHadoukenHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=698347629]
 script = ExtResource("194_tj70q")
 projectile_scene = ExtResource("196_68nro")
@@ -1149,6 +1498,36 @@ stance_dim = "air"
 strength_dim = "light"
 hitbox_offset = Vector2(45, 12)
 hitbox_size = Vector2(125, 35)
+
+[node name="AirLightKick" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=363464689]
+script = ExtResource("222_3rsyo")
+
+[node name="AirHeavyPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=334455667]
+script = ExtResource("234_ahp")
+
+[node name="AirHeavyKick" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=445566778]
+script = ExtResource("235_ahk")
+
+[node name="CrouchAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=2100969619]
+script = ExtResource("225_p6pc0")
+stance_dim = "crouch"
+metadata/_custom_type_script = "uid://dckfa30aygmyq"
+
+[node name="CrouchLightPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=1626176634]
+script = ExtResource("226_god42")
+stance_dim = "crouch"
+strength_dim = "light"
+
+[node name="CrouchLightKick" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=484476253]
+script = ExtResource("227_m4v07")
+
+[node name="CrouchHeavyPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=556677889]
+script = ExtResource("232_chp")
+hitbox_offset = Vector2(70, -50)
+hitbox_size = Vector2(60, 40)
+
+[node name="CrouchHeavyKick" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=667788990]
+script = ExtResource("233_chk")
 
 [node name="ShoryukenFSM" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=2063682805]
 script = ExtResource("201_vso6i")

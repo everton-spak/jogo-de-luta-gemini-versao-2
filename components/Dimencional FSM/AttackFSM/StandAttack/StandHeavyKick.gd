@@ -1,24 +1,24 @@
-class_name StandLightPunch
+class_name StandHeavyKick
 extends State
 
 @export var recovery_state: String = "IdleState"
 
 @export_group("Close")
-@export var anim_close: String = "lp_close"
-@export var offset_close: Vector2 = Vector2(70, -120)
-@export var size_close: Vector2 = Vector2(45, 35)
+@export var anim_close: String = "hk_close"
+@export var offset_close: Vector2 = Vector2(80, -65)
+@export var size_close: Vector2 = Vector2(65, 45)
 
 @export_group("Far")
-@export var anim_far: String = "lp_far"
-@export var offset_far: Vector2 = Vector2(90, -90)
-@export var size_far: Vector2 = Vector2(60, 38)
+@export var anim_far: String = "hk_far"
+@export var offset_far: Vector2 = Vector2(110, -70)
+@export var size_far: Vector2 = Vector2(80, 50)
 
 var _launched: bool = false
 
 func _ready() -> void:
 	stance_dim = "ground"
-	type_dim = "punch"
-	strength_dim = "light"
+	type_dim = "kick"
+	strength_dim = "heavy"
 
 func enter(_payload: Dictionary = {}) -> void:
 	super.enter(_payload)

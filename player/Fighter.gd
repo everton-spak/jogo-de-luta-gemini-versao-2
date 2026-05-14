@@ -9,6 +9,7 @@ extends CharacterBody2D
 @export_group("Collision Sizes")
 @export var stand_size: Vector2 = Vector2(60, 120)
 @export var stand_pos: Vector2 = Vector2(0, -60)
+@export var sprite_y_adjustment: float = 0.0
 
 @export var crouch_size: Vector2 = Vector2(60, 70)
 @export var crouch_pos: Vector2 = Vector2(0, -35)
@@ -125,4 +126,13 @@ func set_posture_collision(posture: String) -> void:
 			main_collider.position = stand_pos
 
 	if _sprite:
-		_sprite.position = main_collider.position + _sprite_offset
+		_sprite.position = main_collider.position + _sprite_offset + Vector2(0, sprite_y_adjustment)
+
+func get_sprite_position_y() -> float:
+	if _sprite:
+		return _sprite.position.y
+	return 0.0
+
+func set_sprite_position_y(y: float) -> void:
+	if _sprite:
+		_sprite.position.y = y
