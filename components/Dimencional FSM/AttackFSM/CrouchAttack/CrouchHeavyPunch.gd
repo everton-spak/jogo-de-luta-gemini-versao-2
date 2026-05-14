@@ -23,24 +23,34 @@ func enter(_payload: Dictionary = {}) -> void:
 		fighter.velocity = Vector2.ZERO
 		fighter.set_posture_collision("stand")
 		_base_sprite_y = fighter.get_sprite_position_y()
+		_apply_frame_offset(0)
 	_setup_hitbox()
 	if hitbox: hitbox.disable_box()
+	if anim and anim.sprite:
+		if not anim.sprite.frame_changed.is_connected(_on_frame_changed):
+			anim.sprite.frame_changed.connect(_on_frame_changed)
 	if anim:
 		anim.play(animation_name)
 
 func exit() -> void:
 	super.exit()
 	if hitbox: hitbox.disable_box()
+	if anim and anim.sprite:
+		if anim.sprite.frame_changed.is_connected(_on_frame_changed):
+			anim.sprite.frame_changed.disconnect(_on_frame_changed)
 	if fighter:
 		fighter.set_posture_collision("crouch")
 
+func _on_frame_changed() -> void:
+	if anim:
+		_apply_frame_offset(anim.get_current_frame())
+
+func _apply_frame_offset(frame: int) -> void:
+	if fighter and frame < FRAME_Y_OFFSETS.size():
+		fighter.set_sprite_position_y(_base_sprite_y + FRAME_Y_OFFSETS[frame])
+
 func physics_update(_delta: float) -> void:
 	super.physics_update(_delta)
-
-	if fighter and anim:
-		var frame = anim.get_frame()
-		if frame < FRAME_Y_OFFSETS.size():
-			fighter.set_sprite_position_y(_base_sprite_y + FRAME_Y_OFFSETS[frame])
 
 	if not _launched:
 		if state_frames >= startup_frames:

@@ -657,9 +657,9 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("86_54uvk")
 }],
-"loop": true,
+"loop": false,
 "name": &"hp_close",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1250,7 +1250,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(-2, -16.5)
 scale = Vector2(2, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"hp_air"
+animation = &"idle"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
