@@ -303,6 +303,8 @@
 [ext_resource type="Script" uid="uid://da4n8abewh4sn" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchHeavyKick.gd" id="233_chk"]
 [ext_resource type="Script" uid="uid://bryow80sw7yll" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHeavyPunch.gd" id="234_ahp"]
 [ext_resource type="Script" uid="uid://xknaf1qb8wa4" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHeavyKick.gd" id="235_ahk"]
+[ext_resource type="Script" uid="uid://dpgrfl4w5gwr2" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHadoukenHeavy.gd" id="296_pwf66"]
+[ext_resource type="Script" uid="uid://do45n6dq681s4" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHadoukenLight.gd" id="297_v5rjw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(96, 235)
@@ -1235,14 +1237,18 @@ position = Vector2(-3, -17.5)
 shape = SubResource("RectangleShape2D_kkgei")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=104352017]
-position = Vector2(-2, -16.5)
-scale = Vector2(2, 2.3113208)
+position = Vector2(0, -16.5)
+scale = Vector2(2.0317461, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"joudan_stand"
+animation = &"hadouken_air"
+frame = 7
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
 position = Vector2(125, -72)
+
+[node name="ProjectileSpawnAir" type="Marker2D" parent="." unique_id=1111111112]
+position = Vector2(123, -3)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=513479111]
 
@@ -1501,6 +1507,20 @@ script = ExtResource("234_ahp")
 
 [node name="AirHeavyKick" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=445566778]
 script = ExtResource("235_ahk")
+
+[node name="AirHadoukenHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=1646583726]
+script = ExtResource("296_pwf66")
+projectile_scene = ExtResource("196_68nro")
+stance_dim = "air"
+strength_dim = "heavy"
+metadata/_custom_type_script = "uid://dpgrfl4w5gwr2"
+
+[node name="AirHadoukenLight" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=1370943711]
+script = ExtResource("297_v5rjw")
+projectile_scene = ExtResource("196_68nro")
+stance_dim = "air"
+strength_dim = "light"
+metadata/_custom_type_script = "uid://do45n6dq681s4"
 
 [node name="CrouchAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=2100969619]
 script = ExtResource("225_p6pc0")

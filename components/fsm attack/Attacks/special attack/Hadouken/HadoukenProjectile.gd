@@ -5,6 +5,7 @@ extends Node2D
 
 var _direction: float = 1.0
 var _speed: float = 500.0
+var _speed_y: float = 0.0
 var _active: bool = false
 var _dead: bool = false
 
@@ -18,9 +19,10 @@ func _ready() -> void:
 	if _hit_area:
 		_hit_area.area_entered.connect(_on_hit_area_entered)
 
-func launch(dir: float, speed: float, attacker: Node, dmg: int, hitstun: float, knockback: Vector2) -> void:
+func launch(dir: float, speed: float, attacker: Node, dmg: int, hitstun: float, knockback: Vector2, speed_y: float = 0.0) -> void:
 	_direction = dir
 	_speed = speed
+	_speed_y = speed_y
 	_active = true
 
 	if _hitbox:
@@ -34,11 +36,13 @@ func launch(dir: float, speed: float, attacker: Node, dmg: int, hitstun: float, 
 		_hit_area.scale.x = dir  # espelha a hitbox junto com o sprite
 
 	_anim.flip_h = dir < 0.0
+	_anim.rotation = atan2(speed_y, _speed * dir)
 	_anim.play("fireball")
 
 func _process(delta: float) -> void:
 	if _dead or not _active: return
 	position.x += _direction * _speed * delta
+	position.y += _speed_y * delta
 	var vp = get_viewport_rect()
 	if position.x < vp.position.x - 200 or position.x > vp.end.x + 200:
 		queue_free()
