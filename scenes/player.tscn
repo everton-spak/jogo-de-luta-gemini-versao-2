@@ -230,7 +230,6 @@
 [ext_resource type="Texture2D" uid="uid://bl2plkt866fu7" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-10.png" id="95_bapf3"]
 [ext_resource type="Texture2D" uid="uid://63r16174jkc3" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-0.png" id="95_up63a"]
 [ext_resource type="Texture2D" uid="uid://sk4xaw302cey" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-1.png" id="96_5palb"]
-[ext_resource type="Texture2D" uid="uid://c4on4uua0tcd0" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/220-11.png" id="96_7xnlc"]
 [ext_resource type="Texture2D" uid="uid://lc7j7lxinp1w" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-2.png" id="97_qqdhl"]
 [ext_resource type="Texture2D" uid="uid://inlu2qjs81p1" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-3.png" id="98_u8c3o"]
 [ext_resource type="Texture2D" uid="uid://dy5e63fwih217" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/420-4.png" id="99_kr3rc"]
@@ -253,8 +252,6 @@
 [ext_resource type="Texture2D" uid="uid://dgfssg5ygrqcf" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-12.png" id="152_um52d"]
 [ext_resource type="Texture2D" uid="uid://rl5ioyqqwxcf" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-13.png" id="153_oke0v"]
 [ext_resource type="Texture2D" uid="uid://bj8e24i4hvp53" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-14.png" id="154_w5oev"]
-[ext_resource type="Texture2D" uid="uid://c8mh5aqh6dvq0" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-15.png" id="155_5uixd"]
-[ext_resource type="Texture2D" uid="uid://c8fr04d5pb5dv" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-16.png" id="156_p6pc0"]
 [ext_resource type="Script" uid="uid://w3deme3it6nx" path="res://components/attack component/AttackComponent.gd" id="167_dygpo"]
 [ext_resource type="Script" uid="uid://4sw1xiqu777m" path="res://components/input/InputBuffer/InputBuffer.gd" id="172_tj70q"]
 [ext_resource type="Script" uid="uid://b2humt7xx1iki" path="res://components/input/InputBuffer/DirectionalInterpreterComponent.gd" id="173_wvc5d"]
@@ -720,9 +717,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("95_bapf3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("96_7xnlc")
 }],
 "loop": false,
 "name": &"hp_far",
@@ -1142,12 +1136,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("154_w5oev")
-}, {
-"duration": 1.0,
-"texture": ExtResource("155_5uixd")
-}, {
-"duration": 1.0,
-"texture": ExtResource("156_p6pc0")
 }],
 "loop": false,
 "name": &"shoryuken",
@@ -1250,7 +1238,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(-2, -16.5)
 scale = Vector2(2, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"idle"
+animation = &"joudan_stand"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -1343,6 +1331,7 @@ metadata/_custom_type_script = "uid://whl713ilbnnv"
 
 [node name="DashMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=314470303]
 script = ExtResource("175_7ehci")
+buffer_window_msec = 50
 metadata/_custom_type_script = "uid://ce1in1yf174f3"
 
 [node name="JumpMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=1108495327]
@@ -1481,11 +1470,16 @@ type_dim = "hadouken"
 
 [node name="StandJoudanHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1607750661]
 script = ExtResource("217_5uixd")
-travel_speed = 400.0
+travel_speed = 1000.0
+travel_decel = 100.0
+travel_anim_frames = 3
 
 [node name="StandJoudanLight" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1985796689]
 script = ExtResource("218_p6pc0")
-travel_speed = 250.0
+step_speed = 200.0
+travel_speed = 800.0
+travel_decel = 100.0
+travel_anim_frames = 3
 
 [node name="AirAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1334317197]
 script = ExtResource("197_wvc5d")
@@ -1537,12 +1531,14 @@ metadata/_custom_type_script = "uid://cleae75n3lvvm"
 
 [node name="ShoryukenHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/ShoryukenFSM" unique_id=265445895]
 script = ExtResource("202_20122")
+ground_anim_frames = 6
 stance_dim = "ground"
 strength_dim = "heavy"
 metadata/_custom_type_script = "uid://blt8hbfapgntj"
 
 [node name="ShoryukenLight" type="Node" parent="Component/StateMachine/AttackStateMachine/ShoryukenFSM" unique_id=35997739]
 script = ExtResource("203_apmd0")
+ground_anim_frames = 3
 stance_dim = "ground"
 strength_dim = "light"
 metadata/_custom_type_script = "uid://c54oo8x45fpms"

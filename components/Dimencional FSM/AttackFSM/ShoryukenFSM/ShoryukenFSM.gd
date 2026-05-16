@@ -5,10 +5,17 @@ extends StateMachine
 # floor-check do StandAttack (o personagem sai do chão durante o DP).
 # type_dim = "shoryuken" garante que esta FSM ganha mais pontos que StandAttack
 # quando a query for de shoryuken.
+
+var _was_airborne: bool = false
+
 func _ready() -> void:
 	stance_dim = "ground"
 	type_dim = "shoryuken"
 	cancel_tier_dim = 3
+
+func enter(payload: Dictionary = {}) -> void:
+	_was_airborne = false
+	super.enter(payload)
 
 func get_machine_tags() -> Array[String]:
 	return ["Attacking", "Airborne"]
@@ -21,17 +28,20 @@ func physics_update(delta: float) -> void:
 
 	fighter.velocity.y += 2000.0 * delta
 
-	if current_state == null or current_state.state_time_sec <= 0.1:
+	if not fighter.is_on_floor():
+		_was_airborne = true
+
+	# Só monitora pouso depois de ter saído do chão
+	if not _was_airborne:
 		return
 
-	# Quando a animação do DP termina, vai para FallState (ar) ou Idle (chão)
-	if anim and not anim.is_playing():
+	# Quando começa a descer ou a animação termina, passa para Fall
+	var anim_done = anim and not anim.is_playing()
+	var descending = fighter.velocity.y >= 0.0
+
+	if anim_done or descending:
 		if fighter.is_on_floor():
 			transition_requested.emit("IdleState", {})
 		else:
 			transition_requested.emit("FallState", {})
 		return
-
-	# Segurança: se aterrou antes da animação acabar (DP muito curto), volta ao Idle
-	if fighter.is_on_floor():
-		transition_requested.emit("IdleState", {})
