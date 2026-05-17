@@ -9,7 +9,7 @@ extends State
 @export_group("Configuração do Backdash")
 @export var backdash_speed: float = 550.0
 @export var backdash_distance: float = 140.0
-@export var recovery_state: String = "IdleState"
+#@export var recovery_state: String = "IdleState"
 
 # Variáveis internas
 var _current_dir: float = 1.0 
@@ -23,6 +23,7 @@ func _ready() -> void:
 	type_dim = "movement"
 	stance_dim = "ground"
 	direction_dim = "any"
+	recovery_state = "IdleState"
 	# tier = 0 (Pode ser interrompido por golpes, se você quiser permitir Dash-Cancels!)
 
 func enter(payload: Dictionary = {}) -> void:

@@ -33,6 +33,14 @@ func _on_enter(_payload: Dictionary = {}) -> void: pass
 func _on_exit() -> void: pass
 func _on_physics_update(_delta: float) -> void: pass
 
+# StateMachines são roteadoras — não tocam em velocity, hitbox nem animação.
+# Sem esses overrides, o State.enter() herdado zeraria a velocity do fighter
+# toda vez que uma FSM entrasse (quebrando o pulo, dash, knockback, etc).
+func _apply_enter_velocity() -> void: pass
+func _select_and_play_animation() -> void: pass
+func _setup_hitbox() -> void: pass
+func _disable_hitbox() -> void: pass
+
 func enter(payload: Dictionary = {}) -> void:
 	super.enter(payload)
 	#print("--- 📥 [%s] RECEBEU CHAMADA ENTER! ---" % name)

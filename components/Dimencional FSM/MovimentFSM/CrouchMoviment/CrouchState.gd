@@ -1,12 +1,13 @@
 class_name CrouchState
 extends State
 
-@export var recovery_state: String = "IdleState"
+#@export var recovery_state: String = "IdleState"
 
 func _ready() -> void:
 	type_dim = "movement"
 	stance_dim = "crouch"
 	direction_dim = "any"
+	recovery_state = "IdleState"
 
 func enter(_payload: Dictionary = {}) -> void:
 	#print("🧎 [Crouch] Personagem agachou!")

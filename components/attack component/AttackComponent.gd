@@ -1,5 +1,8 @@
 class_name AttackComponent
-extends State
+extends Component
+
+# Sinal mantido pois AttackComponent ainda emite (mesmo que nada escute hoje).
+signal transition_requested(new_state_name: String, payload: Dictionary)
 
 # =========================================================
 # 🏷️ TAGS E CLASSIFICAÇÃO
@@ -24,6 +27,7 @@ extends State
 @export_group("Visuals & Hitbox")
 @export var animation_name: String = ""
 @export var hitbox_pos: Vector2 = Vector2(60, -10)
+@export var hitbox_size: Vector2 = Vector2(50, 40)
 
 # =========================================================
 # 💥 PROPRIEDADES DE COMBATE
@@ -48,6 +52,16 @@ extends State
 
 var _timer: float = 0.0
 var _phase: int = 0 # 0: Startup, 1: Active, 2: Recovery
+
+# Refs cacheadas (antes vinham de graça via State.gd)
+var anim: Component
+var hitbox: Component
+var facing: Component
+
+func _on_initialized() -> void:
+	anim = get_component("AnimatedSpriteComponent")
+	hitbox = get_component("HitboxComponent")
+	facing = get_component("FacingComponent")
 
 func _on_enter(_payload: Dictionary = {}) -> void:
 	_timer = 0.0
@@ -101,11 +115,7 @@ func _update_hitbox_properties() -> void:
 func physics_update(_delta: float) -> void:
 	if not fighter: return
 	_timer += _delta
-	
-	if _phase >= 1:
-		if process_cancel_routes():
-			return
-			
+
 	# =========================================================
 	# ⏱️ MÁQUINA DE ESTADOS INTERNA DO GOLPE
 	# =========================================================

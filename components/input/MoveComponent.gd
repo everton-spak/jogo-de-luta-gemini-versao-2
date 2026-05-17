@@ -20,3 +20,23 @@ var attack_component: Component
 # Ela retorna um Dictionary com os dados do golpe ou um Dictionary vazio {} se falhar.
 func check_execution_query(_buffer: InputBuffer) -> Dictionary:
 	return {}
+
+# Detecta postura atual: "air", "crouch" ou "ground"
+func _detect_stance(buffer: InputBuffer) -> String:
+	if fighter and not fighter.is_on_floor():
+		return "air"
+	if buffer.input:
+		var dir = buffer.input.get_movement_direction()
+		if dir.y > 0.5:
+			return "crouch"
+	return "ground"
+
+# Resolve botão e strength a partir do prefix ("punch" ou "kick").
+# Retorna {} se nenhum botão buffered. Caller consome o botão se quiser.
+func _resolve_strength_button(buffer: InputBuffer, prefix: String, window: int = 0) -> Dictionary:
+	var w = window if window > 0 else buffer_window_msec
+	if buffer.history.is_action_buffered(prefix + "_heavy", w):
+		return {"button": prefix + "_heavy", "strength": "heavy"}
+	if buffer.history.is_action_buffered(prefix + "_light", w):
+		return {"button": prefix + "_light", "strength": "light"}
+	return {}

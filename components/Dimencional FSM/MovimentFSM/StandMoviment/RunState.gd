@@ -3,7 +3,7 @@ extends State
 
 @export_group("Configuração da Corrida")
 @export var run_speed: float = 600.0
-@export var recovery_state: String = "IdleState"
+#@export var recovery_state: String = "IdleState"
 
 
 var _current_dir: float = 1.0 
@@ -12,6 +12,7 @@ func _ready() -> void:
 	type_dim = "movement"
 	stance_dim = "ground"
 	direction_dim = "forward" # Em jogos 2D, geralmente só se corre para frente
+	recovery_state = "IdleState"
 
 func enter(payload: Dictionary = {}) -> void:
 	var query_dict = payload.get("query", {})
