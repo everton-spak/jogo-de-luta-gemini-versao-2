@@ -4,7 +4,7 @@ extends AttackStateBase
 @export var travel_speed: float = 300.0
 
 func _init() -> void:
-	animation_name = "tatsu_crouch_light"
+	animation_name = "tatsumaki"
 
 func _ready() -> void:
 	stance_dim = "crouch"

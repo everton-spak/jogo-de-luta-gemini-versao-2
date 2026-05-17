@@ -294,19 +294,38 @@
 [ext_resource type="Script" uid="uid://ojbra1goyxef" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandJoudanHeavy.gd" id="217_5uixd"]
 [ext_resource type="Script" uid="uid://cyvcwkreoag83" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandJoudanLight.gd" id="218_p6pc0"]
 [ext_resource type="Script" uid="uid://dwvwwihqymc16" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirLightKick.gd" id="222_3rsyo"]
+[ext_resource type="Texture2D" uid="uid://cyjoi4givqty8" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-1.png" id="225_cmeo4"]
 [ext_resource type="Script" uid="uid://dckfa30aygmyq" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchAttack.gd" id="225_p6pc0"]
+[ext_resource type="Texture2D" uid="uid://bx57s6urblk2r" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-2.png" id="226_1tgx7"]
 [ext_resource type="Script" uid="uid://dagf0ppby018y" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchLightPunch.gd" id="226_god42"]
+[ext_resource type="Texture2D" uid="uid://5fg8vfydesgw" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-3.png" id="227_1s6u8"]
 [ext_resource type="Script" uid="uid://b7g0h783chpek" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchLightKick.gd" id="227_m4v07"]
+[ext_resource type="Texture2D" uid="uid://dt2gv2a45t4s8" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-4.png" id="228_vx1ql"]
+[ext_resource type="Texture2D" uid="uid://d02ho6le0kde5" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-5.png" id="229_keydj"]
 [ext_resource type="Script" uid="uid://dq6hdr47om40f" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHeavyPunch.gd" id="230_shp"]
+[ext_resource type="Texture2D" uid="uid://jft1wv6ofsce" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-6.png" id="230_xmk2m"]
+[ext_resource type="Texture2D" uid="uid://vrj2mctq15ta" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-7.png" id="231_4lcvd"]
 [ext_resource type="Script" uid="uid://bleet8eernho1" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHeavyKick.gd" id="231_shk"]
 [ext_resource type="Script" uid="uid://b6xow40418ulf" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchHeavyPunch.gd" id="232_chp"]
+[ext_resource type="Texture2D" uid="uid://b64g2i12yx8m8" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-8.png" id="232_jm2yj"]
 [ext_resource type="Script" uid="uid://da4n8abewh4sn" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchHeavyKick.gd" id="233_chk"]
+[ext_resource type="Texture2D" uid="uid://bdfs8hagjrhfd" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-9.png" id="233_wsivj"]
 [ext_resource type="Script" uid="uid://bryow80sw7yll" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHeavyPunch.gd" id="234_ahp"]
+[ext_resource type="Texture2D" uid="uid://damfhu3ghbhi" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-10.png" id="234_rc7cr"]
 [ext_resource type="Script" uid="uid://xknaf1qb8wa4" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHeavyKick.gd" id="235_ahk"]
+[ext_resource type="Texture2D" uid="uid://dbspsv0ae7wtt" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-11.png" id="235_avodt"]
+[ext_resource type="Texture2D" uid="uid://b55ioqer15rfu" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-12.png" id="236_l7h2e"]
+[ext_resource type="Texture2D" uid="uid://bnruuxv08i4cx" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-13.png" id="237_tujoa"]
+[ext_resource type="Texture2D" uid="uid://dc1ud8rbbcmkh" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-14.png" id="238_0sow3"]
+[ext_resource type="Script" uid="uid://4w2rkwj5yqgp" path="res://components/input/player inputs/SpecialMoves/TatsumakiMove.gd" id="285_oj8r5"]
 [ext_resource type="Script" uid="uid://dpgrfl4w5gwr2" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHadoukenHeavy.gd" id="296_pwf66"]
 [ext_resource type="Script" uid="uid://do45n6dq681s4" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHadoukenLight.gd" id="297_v5rjw"]
 [ext_resource type="Script" uid="uid://chor2kl82lego" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirDivekickHeavy.gd" id="298_5inco"]
 [ext_resource type="Script" uid="uid://08cgaryaryrc" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirDivekickLight.gd" id="299_up63a"]
+[ext_resource type="Script" uid="uid://dj08uw6rn6dck" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandTatsumakiLight.gd" id="307_fkbsy"]
+[ext_resource type="Script" uid="uid://cybuity8pq5vu" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandTatsumakiHeavy.gd" id="313_shvcb"]
+[ext_resource type="Script" uid="uid://cocc24qwi0dn6" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirTatsumakiHeavy.gd" id="324_1s6u8"]
+[ext_resource type="Script" uid="uid://c6wklwvkpy8b0" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirTatsumakiLight.gd" id="325_vx1ql"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(96, 235)
@@ -1147,6 +1166,53 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("225_cmeo4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("226_1tgx7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("227_1s6u8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("228_vx1ql")
+}, {
+"duration": 1.0,
+"texture": ExtResource("229_keydj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("230_xmk2m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("231_4lcvd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("232_jm2yj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("233_wsivj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("234_rc7cr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("235_avodt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("236_l7h2e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("237_tujoa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("238_0sow3")
+}],
+"loop": false,
+"name": &"tatsumaki",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("60_0j382")
 }, {
 "duration": 1.0,
@@ -1242,7 +1308,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(0, -16.5)
 scale = Vector2(2.0317461, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"joudan_air"
+animation = &"tatsumaki"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -1330,6 +1396,10 @@ metadata/_custom_type_script = "uid://dmh7xqhxvmx7s"
 
 [node name="JoudanMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=576257823]
 script = ExtResource("194_w5oev")
+
+[node name="TatsumakiMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=285840771]
+script = ExtResource("285_oj8r5")
+metadata/_custom_type_script = "uid://4w2rkwj5yqgp"
 
 [node name="NormalMoves" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=551649016]
 script = ExtResource("174_tnpkv")
@@ -1488,6 +1558,14 @@ travel_speed = 800.0
 travel_decel = 100.0
 travel_anim_frames = 3
 
+[node name="StandTatsumakiHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=206786555]
+script = ExtResource("313_shvcb")
+metadata/_custom_type_script = "uid://cybuity8pq5vu"
+
+[node name="StandTatsumakiLight" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=450246451]
+script = ExtResource("307_fkbsy")
+metadata/_custom_type_script = "uid://dj08uw6rn6dck"
+
 [node name="AirAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1334317197]
 script = ExtResource("197_wvc5d")
 stance_dim = "air"
@@ -1532,6 +1610,14 @@ strength_dim = "heavy"
 script = ExtResource("299_up63a")
 stance_dim = "air"
 strength_dim = "light"
+
+[node name="AirTatsumakiHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=1354054769]
+script = ExtResource("324_1s6u8")
+metadata/_custom_type_script = "uid://cocc24qwi0dn6"
+
+[node name="AirTatsumakiLight" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=941616619]
+script = ExtResource("325_vx1ql")
+metadata/_custom_type_script = "uid://c6wklwvkpy8b0"
 
 [node name="CrouchAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=2100969619]
 script = ExtResource("225_p6pc0")
