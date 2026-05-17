@@ -1,5 +1,5 @@
 class_name CrouchLightPunch
-extends State
+extends AttackStateBase
 
 func _init() -> void:
 	animation_name = "lp_crouch"

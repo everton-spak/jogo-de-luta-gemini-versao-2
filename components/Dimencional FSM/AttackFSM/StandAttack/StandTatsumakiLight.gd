@@ -1,5 +1,5 @@
 class_name StandTatsumakiLight
-extends State
+extends AttackStateBase
 
 @export var travel_speed: float = 300.0
 

@@ -240,12 +240,16 @@ func _build_fsm_state_chain(fsm: StateMachine, depth: int) -> String:
 			frames_text = " [color=#44ccff][%d F][/color]" % fsm.current_state.state_frames
 			
 		# Se for um ataque, mostra a fase (Startup, Active, Recovery)
-		if fsm.current_state is AttackComponent:
-			var attack = fsm.current_state as AttackComponent
-			match attack._phase:
-				0: frames_text += " [color=#ffaa00](STARTUP)[/color]"
-				1: frames_text += " [color=#ff4444](ACTIVE)[/color]"
-				2: frames_text += " [color=#44bbff](RECOVERY)[/color]"
+		# AttackComponent agora é shared (composição) — lê _launched/_active_ended/_recovered
+		if fsm.current_state is AttackStateBase:
+			var ac = fsm.current_state.attack
+			if ac:
+				if not ac._launched:
+					frames_text += " [color=#ffaa00](STARTUP)[/color]"
+				elif not ac._active_ended:
+					frames_text += " [color=#ff4444](ACTIVE)[/color]"
+				elif not ac._recovered:
+					frames_text += " [color=#44bbff](RECOVERY)[/color]"
 			
 		s += "[b][color=%s]%s[/color][/b]%s%s\n" % [color, state_name, score_text, frames_text]
 		

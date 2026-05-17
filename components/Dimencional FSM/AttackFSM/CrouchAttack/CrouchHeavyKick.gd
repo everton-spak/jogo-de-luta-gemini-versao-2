@@ -1,5 +1,5 @@
 class_name CrouchHeavyKick
-extends State
+extends AttackStateBase
 
 func _init() -> void:
 	animation_name = "hk_crouch"

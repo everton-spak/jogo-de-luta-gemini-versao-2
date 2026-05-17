@@ -1,5 +1,5 @@
 class_name AirHeavyPunch
-extends State
+extends AttackStateBase
 
 func _init() -> void:
 	animation_name = "hp_air"

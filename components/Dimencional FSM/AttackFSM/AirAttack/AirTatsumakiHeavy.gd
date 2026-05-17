@@ -1,5 +1,5 @@
 class_name AirTatsumakiHeavy
-extends State
+extends AttackStateBase
 
 @export var travel_speed: float = 420.0
 @export var travel_lift: float = -120.0

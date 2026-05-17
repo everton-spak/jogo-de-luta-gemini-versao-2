@@ -1,5 +1,5 @@
 class_name StandLightKick
-extends State
+extends AttackStateBase
 
 func _init() -> void:
 	anim_close = "lk_close"

@@ -1,195 +1,117 @@
 class_name AttackComponent
 extends Component
 
-# Sinal mantido pois AttackComponent ainda emite (mesmo que nada escute hoje).
-signal transition_requested(new_state_name: String, payload: Dictionary)
+# Executor do ciclo startup → active → recovery dos golpes.
+# Composição: o State detém os dados e os hooks (animation_name, hitbox_offset,
+# damage, _on_launch, _during_active, etc.); o AttackComponent é UM nó compartilhado
+# no Fighter que executa o ciclo lendo do State e chamando os hooks no momento certo.
 
-# =========================================================
-# 🏷️ TAGS E CLASSIFICAÇÃO
-# =========================================================
-@export_group("Tags & Classification")
-## Tags que o InputBuffer lerá (ex: "Cancellable" permite interromper o golpe)
-@export var attack_tags: Array = ["Attacking"]
-## Tipo de ataque (High: defende em pé, Mid: defende agachado/em pé, Low: defende agachado)
-@export_enum("High", "Mid", "Low", "Throw", "Unblockable") var attack_type: String = "Mid"
-
-# =========================================================
-# ⏱️ FRAME DATA
-# =========================================================
-@export_group("Frame Data")
-@export var startup_time: float = 0.05
-@export var active_time: float = 0.1
-@export var recovery_time: float = 0.15
-
-# =========================================================
-# ⚔️ HITBOX & VISUAIS
-# =========================================================
-@export_group("Visuals & Hitbox")
-@export var animation_name: String = ""
-@export var hitbox_pos: Vector2 = Vector2(60, -10)
-@export var hitbox_size: Vector2 = Vector2(50, 40)
-
-# =========================================================
-# 💥 PROPRIEDADES DE COMBATE
-# =========================================================
-@export_group("Combat Properties")
-@export var damage_value: float = 10.0
-@export var hitstun_time: float = 0.4
-@export var blockstun_time: float = 0.2
-@export var pushback_force: float = 200.0
-@export var causes_knockdown: bool = false
-@export var meter_gain: float = 5.0
-@export var base_scaling: float = 1.0 # Usado no ComboManager
-
-# =========================================================
-# ✨ EXTRAS
-# =========================================================
-@export_group("Extras")
-@export var startup_sfx: AudioStream
-@export var hit_sfx: AudioStream
-@export_enum("None", "Full", "Strike", "Projectile", "Throw") var invincibility_type: String = "None"
-@export var invincibility_duration: float = 0.0
-
-var _timer: float = 0.0
-var _phase: int = 0 # 0: Startup, 1: Active, 2: Recovery
-
-# Refs cacheadas (antes vinham de graça via State.gd)
-var anim: Component
+# Refs cacheadas
 var hitbox: Component
 var facing: Component
 
+# Lifecycle state (válido entre begin/end)
+# Tipado como Node pra evitar ciclo State ↔ AttackComponent no parser do GDScript.
+# Em runtime sempre é um State; acessos a _state.xxx são duck-typed.
+var _state: Node = null
+var _frames: int = 0
+var _launched: bool = false
+var _active_ended: bool = false
+var _recovered: bool = false
+
 func _on_initialized() -> void:
-	anim = get_component("AnimatedSpriteComponent")
 	hitbox = get_component("HitboxComponent")
 	facing = get_component("FacingComponent")
 
-func _on_enter(_payload: Dictionary = {}) -> void:
-	_timer = 0.0
-	_phase = 0
-	
-	# 1. Toca a animação específica usando o Componente Animador
-	#var anim = fighter.get_component("AnimatedSpriteComponent")
-	if anim and animation_name != "":
-		anim.play(animation_name)
-		
-	# 2. Toca som e aplica I-Frames
-	_play_sfx(startup_sfx)
-	_apply_invincibility()
-	
-	# 3. Configura a física do golpe usando o novo sistema de Hitbox
-	_setup_hitbox()
-	_update_hitbox_properties()
+# ==========================================
+# API pública chamada pelo State (via AttackStateBase ou enter() custom)
+# ==========================================
 
-func _setup_hitbox() -> void:
-	#var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
+func begin(state) -> void:
+	_state = state
+	_frames = 0
+	_launched = false
+	_active_ended = false
+	_recovered = false
+
+	state._apply_enter_velocity()
+	state._select_and_play_animation()
+	setup_hitbox(state)
+	disable_hitbox()
+
+# Retorna true quando o ciclo terminou. AttackStateBase ignora o retorno —
+# a transição é emitida pelo hook _on_recovered() do próprio State.
+func tick(delta: float) -> bool:
+	if _state == null:
+		return false
+	_frames += 1
+
+	# Fase 1: startup
+	if not _launched:
+		_state._during_startup(delta)
+		if _frames >= _state.startup_frames:
+			_launched = true
+			_state._on_launch()
+		return false
+
+	# Fase 2: active
+	if not _active_ended:
+		_state._during_active(delta)
+		if _state.active_frames > 0 and _frames >= _state.startup_frames + _state.active_frames:
+			_active_ended = true
+			_state._on_active_end()
+			if _state.recovery_frames == 0:
+				_recovered = true
+				_state._on_recovered()
+				return true
+			return false
+		# Fallback: active_frames=0 + animação tocada acabou → encerra active
+		if _state.active_frames == 0 and (_state.animation_name != "" or _state.anim_close != ""):
+			var s_anim = _state.anim
+			if s_anim and s_anim.has_method("is_playing") and not s_anim.is_playing():
+				if _state._should_end_on_anim_end():
+					_active_ended = true
+					_state._on_active_end()
+					if _state.recovery_frames == 0:
+						_recovered = true
+						_state._on_recovered()
+						return true
+		return false
+
+	# Fase 3: recovery
+	if not _recovered:
+		_state._during_recovery(delta)
+		if _state.recovery_frames > 0 and _frames >= _state.startup_frames + _state.active_frames + _state.recovery_frames:
+			_recovered = true
+			_state._on_recovered()
+			return true
+
+	return false
+
+func end() -> void:
+	disable_hitbox()
+	_state = null
+
+# ==========================================
+# Hitbox helpers — públicos pra fluxos custom (Shoryuken)
+# ==========================================
+
+func setup_hitbox(state) -> void:
 	if not hitbox: return
-	
-	# Garante que começa desligada
-	hitbox.disable_box() 
-	
-	# Busca o FacingComponent para saber para qual lado estamos virados
-	#var facing = fighter.get_component("FacingComponent")
 	var f_dir = facing.current_facing if facing else 1.0
-	
-	# Posiciona o Area2D dinamicamente
+	hitbox.damage = state.damage
+	hitbox.hitstun_duration = state.hitstun
+	hitbox.knockback_force = Vector2(state.knockback.x * f_dir, state.knockback.y)
+	hitbox.attack_level = state.attack_level
 	if hitbox.area_2d:
-		hitbox.area_2d.position = Vector2(hitbox_pos.x * f_dir, hitbox_pos.y)
-	
-	# Ajusta o tamanho exato da colisão (Se for retangular)
-	if hitbox.collision_shape and hitbox.collision_shape.shape is RectangleShape2D:
-		hitbox.collision_shape.shape.size = hitbox_size
+		hitbox.area_2d.position = Vector2(state.hitbox_offset.x * f_dir, state.hitbox_offset.y)
+	if hitbox.collision_shape:
+		if hitbox.collision_shape.shape is RectangleShape2D:
+			hitbox.collision_shape.shape.size = state.hitbox_size
+		hitbox.collision_shape.debug_color = Color(1.0, 0.0, 0.0, 0.4)
 
-func _update_hitbox_properties() -> void:
-	#var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
-	if not hitbox: return
-	
-	# [NOVO] Em vez de usar set_meta, injetamos os valores diretamente nas 
-	# propriedades do componente fortemente tipado! Isso é mais rápido e seguro.
-	hitbox.damage = int(damage_value)
-	hitbox.hitstun_duration = hitstun_time
-	hitbox.pushback_force = Vector2(pushback_force, 0) # Assumindo empurrão horizontal base
-	
-	# Transforma o Enum visual ("Mid") na string exata ("mid") que a Hurtbox espera
-	hitbox.attack_level = attack_type.to_lower()
+func enable_hitbox() -> void:
+	if hitbox: hitbox.enable_box()
 
-func physics_update(_delta: float) -> void:
-	if not fighter: return
-	_timer += _delta
-
-	# =========================================================
-	# ⏱️ MÁQUINA DE ESTADOS INTERNA DO GOLPE
-	# =========================================================
-	#var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
-	
-	match _phase:
-		0: # STARTUP (Preparação do golpe, braço esticando)
-			if _timer >= startup_time:
-				_phase = 1
-				if hitbox: hitbox.enable_box()
-		
-		1: # ACTIVE (Dano ativo, punho bate)
-			if _timer >= (startup_time + active_time):
-				_phase = 2
-				if hitbox: hitbox.disable_box()
-		
-		2: # RECOVERY (Recuperação, puxando o braço de volta)
-			if _timer >= (startup_time + active_time + recovery_time):
-				_on_attack_finished()
-				
-	# Gerencia o fim da invencibilidade
-	if invincibility_duration > 0 and _timer >= invincibility_duration:
-		_remove_invincibility()
-
-func _on_attack_finished() -> void:
-	# [NOVO] Devolve para a árvore os estados com base na nova nomenclatura.
-	# Quando o golpe termina, mandamos o lutador pro Idle ou Fall. 
-	# A própria FSM deles se vira com Input depois!
-	if fighter.is_on_floor():
-		transition_requested.emit("IdleState", {})
-	else:
-		transition_requested.emit("FallState", {})
-
-func _on_exit() -> void:
-	# Limpeza de segurança crucial: se tomarmos dano e o estado for interrompido, 
-	# garantimos que o soco seja desativado imediatamente.
-	#var hitbox = fighter.get_component("HitboxComponent") as HitboxComponent
+func disable_hitbox() -> void:
 	if hitbox: hitbox.disable_box()
-	_remove_invincibility()
-	
-func get_tags() -> Array:
-	# Mantém a tipagem estrita de Array[String] exigida pela StateMachine
-	var typed_tags: Array[String] = []
-	for tag in attack_tags:
-		typed_tags.append(String(tag))
-	return typed_tags
-	
-# =========================================================
-# 📏 FUNÇÃO DE SUPORTE PARA ATAQUES DE PERTO (CLOSE NORMALS)
-# =========================================================
-func _is_near_opponent() -> bool:
-	# [NOVO] Substituímos a matemática manual pesada pelo nosso sistema 
-	# inteligente do ProximityBoxComponent que faz o trabalho físico de colisão!
-	var proximity_box = fighter.get_component("ProximityBoxComponent") as ProximityBoxComponent
-	
-	if proximity_box and proximity_box.is_active():
-		return proximity_box.is_target_near
-		
-	return false 
-
-# =========================================================
-# 🔊 FUNÇÕES DE UTILIDADE (VFX & SOM)
-# =========================================================
-func _play_sfx(stream: AudioStream) -> void:
-	if stream == null or not fighter: return
-	# Futuramente: fighter.get_component("AudioComponent").play(stream)
-	pass
-
-func _apply_invincibility() -> void:
-	if invincibility_type == "None" or not fighter: return
-	# Futuramente: injetar no HitboxComponent ou HurtboxComponent as imunidades
-	pass
-
-func _remove_invincibility() -> void:
-	if invincibility_type == "None" or not fighter: return
-	# Futuramente: limpar as imunidades
-	pass

@@ -1,5 +1,5 @@
 class_name StandJoudanLight
-extends State
+extends AttackStateBase
 
 @export var step_speed: float = 80.0
 @export var travel_speed: float = 500.0
@@ -31,7 +31,7 @@ func _during_startup(delta: float) -> void:
 	if movement: movement.apply_attack_step(step_speed, delta)
 
 func _on_launch() -> void:
-	_enable_hitbox()
+	if attack: attack.enable_hitbox()
 	if movement: movement.apply_facing_impulse(travel_speed)
 
 func _during_active(delta: float) -> void:

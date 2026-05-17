@@ -1,5 +1,5 @@
 class_name AirLightPunch
-extends State
+extends AttackStateBase
 
 func _init() -> void:
 	animation_name = "lp_air"

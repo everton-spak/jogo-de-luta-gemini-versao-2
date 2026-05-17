@@ -1,5 +1,5 @@
 class_name AirDivekickLight
-extends State
+extends AttackStateBase
 
 @export var dive_speed_x: float = 350.0
 @export var dive_speed_y: float = 700.0

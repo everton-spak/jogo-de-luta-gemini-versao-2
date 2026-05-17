@@ -1,5 +1,5 @@
 class_name CrouchTatsumakiHeavy
-extends State
+extends AttackStateBase
 
 @export var travel_speed: float = 450.0
 

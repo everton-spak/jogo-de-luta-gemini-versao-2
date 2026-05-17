@@ -1,5 +1,5 @@
 class_name CrouchHeavyPunch
-extends State
+extends AttackStateBase
 
 # Y offset per frame to keep feet exactly on floor (floor contact = y+100, scale_y = 2.3113208)
 # Formula: 116.5 - (frame_height_px * 2.3113208 / 2)

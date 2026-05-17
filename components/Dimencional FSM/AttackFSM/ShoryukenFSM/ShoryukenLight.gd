@@ -25,8 +25,9 @@ func enter(_payload: Dictionary = {}) -> void:
 	var f_dir = facing.current_facing if facing else 1.0
 	_start_x = fighter.global_position.x
 	fighter.velocity = Vector2(ground_velocity_x * f_dir, 0.0)
-	_setup_hitbox()
-	_disable_hitbox()
+	if attack:
+		attack.setup_hitbox(self)
+		attack.disable_hitbox()
 	if anim: anim.play(animation_name)
 	_connect_frame_changed(_on_frame_changed)
 
@@ -53,9 +54,9 @@ func physics_update(_delta: float) -> void:
 
 	if not _hitbox_active and state_frames >= startup_frames:
 		_hitbox_active = true
-		_enable_hitbox()
+		if attack: attack.enable_hitbox()
 
 func exit() -> void:
 	super.exit()
-	_disable_hitbox()
+	if attack: attack.disable_hitbox()
 	_disconnect_frame_changed(_on_frame_changed)
