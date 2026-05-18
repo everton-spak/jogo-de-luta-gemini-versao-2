@@ -32,6 +32,8 @@ var _spawned: bool = false
 var _in_recovery: bool = false
 var _recovery_timer: float = 0.0
 var _is_charging: bool = false
+# Multiplier capturado no momento da soltura do botão (1.0 = normal, >1.0 = carregado).
+var _charge_multiplier: float = 1.0
 
 func enter(_payload: Dictionary = {}) -> void:
 	super.enter(_payload)
@@ -39,6 +41,7 @@ func enter(_payload: Dictionary = {}) -> void:
 	_in_recovery = false
 	_recovery_timer = 0.0
 	_is_charging = false
+	_charge_multiplier = 1.0
 	# Stand/crouch zeram momentum; air mantém
 	if fighter and stance_dim != "air":
 		fighter.velocity = Vector2.ZERO
@@ -76,7 +79,7 @@ func physics_update(delta: float) -> void:
 					return
 
 	# Fase de carga: enquanto botão segurado, pausa a animação no charge_pause_frame.
-	# Solta o botão → resume e segue pro spawn do projétil.
+	# Solta o botão → captura o multiplier (tier de carga) e resume.
 	if charge_pause_frame >= 0 and anim:
 		var is_held: bool = input != null and input.is_action_pressed(charging_btn)
 		if not _is_charging:
@@ -86,7 +89,16 @@ func physics_update(delta: float) -> void:
 				return
 		else:
 			if is_held:
+				# Pulso visual a cada 6 frames (~100ms a 60fps) com cor por tier.
+				if vfx and special and state_frames % 6 == 0:
+					var tier_status: String = special.classify_charge(charging_btn).get("status", "normal")
+					vfx.play_charge_pulse(tier_status)
 				return # mantém pausado
+			# Botão soltou: lê o tier de carga ANTES do ChargeTracker zerar o tempo.
+			# (ChargeTracker._physics_process roda depois deste, então o tempo ainda está cheio.)
+			if special:
+				var classification = special.classify_charge(charging_btn)
+				_charge_multiplier = classification.get("multiplier", 1.0)
 			_is_charging = false
 			anim.resume()
 
@@ -130,5 +142,9 @@ func _spawn_projectile() -> void:
 	else:
 		proj.global_position = fighter.global_position + Vector2(spawn_offset_fallback.x * f_dir, spawn_offset_fallback.y)
 
+	# Escala visual + hitbox cresce com o tier de carga (1.0 normal, 1.5 strong, 2.5 super).
+	proj.scale = Vector2(_charge_multiplier, _charge_multiplier)
+
 	if proj.has_method("launch"):
-		proj.launch(f_dir, proj_speed, fighter, proj_damage, proj_hitstun, proj_knockback, proj_speed_y)
+		var scaled_damage := int(proj_damage * _charge_multiplier)
+		proj.launch(f_dir, proj_speed, fighter, scaled_damage, proj_hitstun, proj_knockback, proj_speed_y)

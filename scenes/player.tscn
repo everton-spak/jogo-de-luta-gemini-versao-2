@@ -322,6 +322,7 @@
 [ext_resource type="Texture2D" uid="uid://bnruuxv08i4cx" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-13.png" id="237_tujoa"]
 [ext_resource type="Texture2D" uid="uid://dc1ud8rbbcmkh" path="res://shin ryu sprites/animaçoes/attack/especial attack/1200-14.png" id="238_0sow3"]
 [ext_resource type="Script" uid="uid://4w2rkwj5yqgp" path="res://components/input/player inputs/SpecialMoves/TatsumakiMove.gd" id="285_oj8r5"]
+[ext_resource type="Script" uid="uid://b6xdnoff57bxa" path="res://components/general components/VfxComponent.gd" id="287_1s6u8"]
 [ext_resource type="Script" uid="uid://dpgrfl4w5gwr2" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHadoukenHeavy.gd" id="296_pwf66"]
 [ext_resource type="Script" uid="uid://do45n6dq681s4" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHadoukenLight.gd" id="297_v5rjw"]
 [ext_resource type="Script" uid="uid://chor2kl82lego" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirDivekickHeavy.gd" id="298_5inco"]
@@ -1336,7 +1337,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(0, -16.5)
 scale = Vector2(2.0317461, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"hybrid_dash"
+animation = &"hadouken_stand"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -1446,6 +1447,10 @@ metadata/_custom_type_script = "uid://ccqn7jbx1qpmk"
 [node name="CrouchMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=1237822180]
 script = ExtResource("176_4cgac")
 metadata/_custom_type_script = "uid://csfglcfnf5i66"
+
+[node name="VfxComponent" type="Node" parent="Component" unique_id=1478877004]
+script = ExtResource("287_1s6u8")
+metadata/_custom_type_script = "uid://b6xdnoff57bxa"
 
 [node name="StateMachine" type="Node" parent="Component" unique_id=1543863041]
 script = ExtResource("174_nswu7")

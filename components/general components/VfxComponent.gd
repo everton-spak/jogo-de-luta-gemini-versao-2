@@ -1,69 +1,110 @@
-class_name VFXComponent
+class_name VfxComponent
 extends Component
 
-#@onready var fighter: CharacterBody2D = owner
-@onready var sprite: Sprite2D = owner.get_node("Sprite2D")
+# Efeitos visuais do lutador: flash de cor, ghost (afterimage), hit spark.
+# State.gd cacheia este componente como `vfx`. Qualquer estado pode chamar
+# `vfx.play_flash("cancel")` ou `vfx.spawn_ghost()` sem se preocupar com null
+# (os métodos são early-return se vfx não foi setado).
 
-# NOVA VARIÁVEL: Arraste a sua cena de faísca (ex: vfx_spark.tscn) para aqui no Inspetor
-@export var hit_spark_scene: PackedScene 
-
-# Cores pré-definidas para consistência visual
-const COLORS = {
-	"cancel": Color(0.0, 2.0, 5.0),    # Azul Neon (HDR)
-	"counter": Color(5.0, 0.0, 0.0),   # Vermelho Intenso
-	"buster": Color(5.0, 3.0, 0.0),    # Dourado/Laranja
-	"white": Color.WHITE
+# Cores pré-definidas (HDR pra dar brilho com glow ligado no ambiente).
+const COLORS := {
+	"cancel": Color(0.0, 2.0, 5.0),        # Azul neon
+	"counter": Color(5.0, 0.0, 0.0),       # Vermelho intenso
+	"buster": Color(5.0, 3.0, 0.0),        # Dourado/laranja
+	"charge_normal": Color(2.0, 2.0, 5.0), # Azul claro (carga estágio 1)
+	"charge_strong": Color(0.0, 5.0, 0.0), # Verde HDR (carga estágio 2)
+	"charge_super": Color(5.0, 0.0, 0.0),  # Vermelho HDR (carga estágio 3)
+	"white": Color.WHITE,
 }
 
-# 1. Efeito de Brilho (Flash)
-func play_flash(type: String, duration: float = 0.15):
-	var color = COLORS.get(type, COLORS.white)
+@export var hit_spark_scene: PackedScene
+# Ghost por padrão fica atrás do sprite real (z_index = sprite.z_index + offset)
+@export var ghost_z_offset: int = -1
+
+# Cacheado em _on_initialized via fighter.
+var sprite: AnimatedSprite2D
+
+func _on_initialized() -> void:
+	if not fighter: return
+	sprite = fighter.get_node_or_null("AnimatedSprite2D")
+
+# ==========================================
+# 1. FLASH (modulate temporário no fighter)
+# ==========================================
+# Pinta o fighter com a cor do `type` (cancel/counter/buster/charge/white)
+# e faz tween de volta pro branco em `duration` segundos.
+func play_flash(type: String, duration: float = 0.15) -> void:
+	if not fighter: return
+	var color: Color = COLORS.get(type, COLORS.white)
 	fighter.modulate = color
-	
-	var tween = create_tween()
+	var tween := create_tween()
 	tween.tween_property(fighter, "modulate", Color.WHITE, duration)
 
-# 2. Efeito de Rastro (Ghost/Afterimage)
-func spawn_ghost(type: String = "cancel", lifetime: float = 0.2):
-	var ghost = Sprite2D.new()
-	ghost.texture = sprite.texture
-	ghost.hframes = sprite.hframes
-	ghost.vframes = sprite.vframes
+# ==========================================
+# 2. GHOST (afterimage do frame atual)
+# ==========================================
+# Spawna uma cópia do AnimatedSprite2D na cena raiz, semi-transparente,
+# que esmaece em `lifetime` segundos.
+func spawn_ghost(type: String = "cancel", lifetime: float = 0.2) -> void:
+	if not sprite or not sprite.sprite_frames: return
+
+	var ghost := AnimatedSprite2D.new()
+	ghost.sprite_frames = sprite.sprite_frames
+	ghost.animation = sprite.animation
 	ghost.frame = sprite.frame
 	ghost.flip_h = sprite.flip_h
-	ghost.global_position = fighter.global_position
-	
-	# Cor do fantasma baseada no tipo
-	var base_color = COLORS.get(type, Color.WHITE)
-	base_color.a = 0.6 # Transparência
+	ghost.global_position = sprite.global_position
+	ghost.scale = sprite.scale
+	ghost.z_index = sprite.z_index + ghost_z_offset
+
+	var base_color: Color = COLORS.get(type, Color.WHITE)
+	base_color.a = 0.6
 	ghost.modulate = base_color
-	
-	# Adiciona à cena (Root) para o fantasma não seguir o player
+
 	get_tree().current_scene.add_child(ghost)
-	
-	# Animação de sumiço
-	var tween = create_tween()
+
+	var tween := create_tween()
 	tween.tween_property(ghost, "modulate:a", 0.0, lifetime)
 	tween.tween_callback(ghost.queue_free)
 
-# 3. Efeito Combinado de Cancelamento
-func play_cancel_fx():
-	play_flash("cancel")
-	spawn_ghost("cancel")
-
 # ==========================================
-# 4. EFEITOS DE IMPACTO (NOVO!)
+# 3. HIT SPARK (faísca de impacto)
 # ==========================================
+# Spawna a `hit_spark_scene` (PackedScene atribuída no Inspector) numa posição global.
+# is_heavy = true tinge de vermelho e aumenta a escala.
 func spawn_hit_spark(contact_point: Vector2, is_heavy: bool = false) -> void:
 	if not hit_spark_scene: return
-	
+
 	var spark = hit_spark_scene.instantiate()
 	get_tree().current_scene.add_child(spark)
-	
-	# Coloca a faísca exatamente no ponto central da colisão
 	spark.global_position = contact_point
-	
-	# Se for um Heavy Hit, reusa a sua cor "counter" e aumenta a escala!
+
 	if is_heavy:
 		spark.modulate = COLORS["counter"]
 		spark.scale = Vector2(1.5, 1.5)
+
+# ==========================================
+# 4. COMBOS PRONTOS
+# ==========================================
+# Flash + ghost azul: bom pra cancels de tier (LP→HP, etc.)
+func play_cancel_fx() -> void:
+	play_flash("cancel")
+	spawn_ghost("cancel")
+
+# Flash + ghost dourado: bom pra disparo de super/buster.
+func play_buster_fx() -> void:
+	play_flash("buster")
+	spawn_ghost("buster")
+
+# Pulso de carga colorido por tier (vindo do SpecialMechanicComponent.classify_charge):
+# - "normal" → azul claro (carga inicial)
+# - "strong" → verde   (estágio 2)
+# - "super"  → vermelho (estágio 3)
+# Use a cada poucos frames com `duration` curto pra dar feedback visual contínuo.
+func play_charge_pulse(tier: String = "normal", duration: float = 0.1) -> void:
+	var color_key := "charge_normal"
+	if tier == "strong":
+		color_key = "charge_strong"
+	elif tier == "super":
+		color_key = "charge_super"
+	play_flash(color_key, duration)
