@@ -65,15 +65,22 @@ func _physics_process(delta: float) -> void:
 	# 🚨 TRAVA DE SEGURANÇA: Se ainda não carregou, ignora a física!
 	if not _is_ready_to_fight:
 		return
-		
+
+	# CAPTURA SÍNCRONA: garante que o histórico tem os inputs deste frame ANTES
+	# da FSM rodar. Roda mesmo durante hitstop pra não perder inputs bufferizados.
+	# Sem isso, consume_action em macro-cancel falharia (o buffer ainda estaria
+	# vazio porque _process roda depois de _physics_process no mesmo frame).
+	var buffer = get_component("InputBufferComponent")
+	if buffer:
+		buffer.capture(delta)
+
 	var hitstop = get_component("HitstopComponent")
-	
+
 	if hitstop and hitstop.is_stopped():
 		return
-		
+
 	# 🥊 A PONTE DE COMANDO:
 	# Antes de rodar a física, perguntamos ao Buffer se há um soco/chute
-	var buffer = get_component("InputBufferComponent")
 	var history = get_component("InputHistoryComponent")
 	if buffer and root_fsm:
 		# Pegamos as tags do estado atual (ex: "Neutral") para saber se podemos atacar

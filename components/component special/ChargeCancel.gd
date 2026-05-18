@@ -13,15 +13,15 @@ extends Component
 # pressionado NESTE frame (just_pressed). Não é a mesma coisa que "simultâneo
 # dentro de uma janela" — esse caso usa SimultaneousInterpreterComponent.
 const MACRO_CANCELS := {
-	"light_punch": {
-		"light_kick": "hybrid_dash"
+	"punch_light": {
+		"kick_light": "hybrid_dash"
 	},
-	"light_kick": {
-		"light_punch": "hybrid_dash",
-		"heavy_punch": "special_throw"
+	"kick_light": {
+		"punch_light": "hybrid_dash",
+		"punch_heavy": "special_throw"
 	},
-	"heavy_punch": {
-		"light_kick": "special_throw"
+	"punch_heavy": {
+		"kick_light": "special_throw"
 	}
 }
 
@@ -35,22 +35,27 @@ const MACRO_CANCELS := {
 
 var input: Component
 var charge_tracker: ChargeTrackerComponent
+var history: InputHistoryComponent
 
 func _on_initialized() -> void:
 	input = get_component("InputComponent")
-	charge_tracker = get_component("ChargeTrackerComponent")
+	charge_tracker = get_component("ChargeTrackerComponent") as ChargeTrackerComponent
+	history = get_component("InputHistoryComponent") as InputHistoryComponent
 
-# Retorna o nome do macro disparado (ex: "hybrid_dash", "special_throw") ou ""
-# se nada. Caller só chama isto enquanto charging_btn estiver pressionado.
-func check_macro(charging_btn: String) -> String:
-	if not input: return ""
-	if not MACRO_CANCELS.has(charging_btn): return ""
+# Retorna {"macro": "hybrid_dash", "complement": "kick_light"} no acerto, ou {} no vazio.
+# Self-contained: exige que charging_btn esteja sendo segurado AGORA e que
+# o complemento tenha sido pressionado NESTE frame (is_action_just_pressed).
+# O caller é responsável por consumir o complement do buffer pra não duplicar input.
+func check_macro(charging_btn: String) -> Dictionary:
+	if not input: return {}
+	if not MACRO_CANCELS.has(charging_btn): return {}
+	if not input.is_action_pressed(charging_btn): return {}
 
 	var possible_cancels = MACRO_CANCELS[charging_btn]
 	for complement_btn in possible_cancels:
 		if input.is_action_just_pressed(complement_btn):
-			return possible_cancels[complement_btn]
-	return ""
+			return {"macro": possible_cancels[complement_btn], "complement": complement_btn}
+	return {}
 
 # Classifica a carga acumulada de um botão em tiers normal/strong/super.
 # Lê o tempo direto do ChargeTrackerComponent. Caller normalmente chama isto

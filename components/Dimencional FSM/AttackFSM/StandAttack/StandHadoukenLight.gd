@@ -4,6 +4,7 @@ extends ProjectileAttackState
 func _init() -> void:
 	animation_name = "hadouken_stand"
 	recovery_time = 0.25
+	charge_pause_frame = 2 # ajuste no Inspector pra bater com seu spritesheet
 
 func _ready() -> void:
 	stance_dim = "ground"

@@ -27,7 +27,11 @@ func _on_initialized() -> void:
 	simultaneous = get_component("SimultaneousInterpreterComponent")
 	input = get_component("InputComponent")
 
-func _process(_delta: float) -> void:
+# IMPORTANTE: chamado EXPLICITAMENTE por Fighter._physics_process antes do FSM rodar.
+# Não usamos _process (Godot) porque _process roda DEPOIS de _physics_process no mesmo
+# frame — isso fazia consume_action falhar (buffer ainda não tinha o input quando o FSM
+# tentava consumir). Capturar aqui garante: capture → check_special_moves → physics_update.
+func capture(_delta: float) -> void:
 	if not input or not history: return
 
 	# 1. Captura Botões de Ação (Just Pressed e Just Released para Negative Edge)

@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://cqu1dwtctej8t" path="res://shin ryu sprites/animaçoes/dash/100-0.png" id="10_fcu33"]
 [ext_resource type="Texture2D" uid="uid://chit76iltennb" path="res://shin ryu sprites/animaçoes/dash/100-1.png" id="11_qmsq4"]
 [ext_resource type="Texture2D" uid="uid://dtje2mo8joc6l" path="res://shin ryu sprites/animaçoes/dash/100-2.png" id="12_5vs2b"]
+[ext_resource type="Texture2D" uid="uid://hra7qwyxdpql" path="res://shin ryu sprites/animaçoes/attack/especial attack/1600-10.png" id="14_1s6u8"]
 [ext_resource type="Texture2D" uid="uid://dd3qdn1m1ag3d" path="res://shin ryu sprites/animaçoes/idle/0-1.png" id="16_reqs7"]
 [ext_resource type="Texture2D" uid="uid://d11h5p2liylfr" path="res://shin ryu sprites/animaçoes/idle/0-2.png" id="17_2yjfb"]
 [ext_resource type="Texture2D" uid="uid://dqvc4i143sq78" path="res://shin ryu sprites/animaçoes/idle/0-3.png" id="18_dnnjp"]
@@ -68,9 +69,12 @@
 [ext_resource type="Texture2D" uid="uid://ddtpsfaql3ham" path="res://shin ryu sprites/animaçoes/jump/41-9.png" id="42_2xkbm"]
 [ext_resource type="Texture2D" uid="uid://cahr51gjrxrii" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-1.png" id="43_8iei4"]
 [ext_resource type="Texture2D" uid="uid://diyap4dwvs0e" path="res://shin ryu sprites/animaçoes/jump/41-10.png" id="43_dqoq3"]
+[ext_resource type="Texture2D" uid="uid://ccd48bd3f3lm4" path="res://shin ryu sprites/animaçoes/attack/especial attack/3900-0.png" id="43_vx1ql"]
+[ext_resource type="Texture2D" uid="uid://so3h80agu6wj" path="res://shin ryu sprites/animaçoes/attack/especial attack/3900-1.png" id="44_keydj"]
 [ext_resource type="Texture2D" uid="uid://c214841frajjx" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-2.png" id="44_kgfsc"]
 [ext_resource type="Texture2D" uid="uid://duo64s5nasmw2" path="res://shin ryu sprites/animaçoes/jump/41-11.png" id="44_y8tjj"]
 [ext_resource type="Texture2D" uid="uid://04rgo6dj5hrx" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-0.png" id="45_kg5hq"]
+[ext_resource type="Texture2D" uid="uid://c0c0vcj6rquat" path="res://shin ryu sprites/animaçoes/attack/especial attack/3900-2.png" id="45_xmk2m"]
 [ext_resource type="Texture2D" uid="uid://bna2u2hw3cunt" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-3.png" id="45_xt5ia"]
 [ext_resource type="Texture2D" uid="uid://ml2lhr8q0lec" path="res://shin ryu sprites/animaçoes/attack/normal attack/puch/620-1.png" id="46_kp0if"]
 [ext_resource type="Texture2D" uid="uid://c8mmctgo7giro" path="res://shin ryu sprites/animaçoes/attack/normal attack/kick/640-4.png" id="46_od10n"]
@@ -326,6 +330,8 @@
 [ext_resource type="Script" uid="uid://cybuity8pq5vu" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandTatsumakiHeavy.gd" id="313_shvcb"]
 [ext_resource type="Script" uid="uid://cocc24qwi0dn6" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirTatsumakiHeavy.gd" id="324_1s6u8"]
 [ext_resource type="Script" uid="uid://c6wklwvkpy8b0" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirTatsumakiLight.gd" id="325_vx1ql"]
+[ext_resource type="Script" uid="uid://di1hqfc5y7cid" path="res://components/Dimencional FSM/AttackFSM/HybridDashState.gd" id="327_xacm8"]
+[ext_resource type="Script" uid="uid://dkxnusugxcl37" path="res://components/Dimencional FSM/AttackFSM/SuperThrowState.gd" id="328_ut8wx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(96, 235)
@@ -387,6 +393,14 @@ animations = [{
 "loop": false,
 "name": &"dash_forward",
 "speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_1s6u8")
+}],
+"loop": true,
+"name": &"dodge",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -743,6 +757,20 @@ animations = [{
 }],
 "loop": false,
 "name": &"hp_far",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("43_vx1ql")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_keydj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_xmk2m")
+}],
+"loop": false,
+"name": &"hybrid_dash",
 "speed": 10.0
 }, {
 "frames": [{
@@ -1308,7 +1336,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(0, -16.5)
 scale = Vector2(2.0317461, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"tatsumaki"
+animation = &"hybrid_dash"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -1659,3 +1687,11 @@ ground_anim_frames = 3
 stance_dim = "ground"
 strength_dim = "light"
 metadata/_custom_type_script = "uid://c54oo8x45fpms"
+
+[node name="HybridDashState" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=872004606]
+script = ExtResource("327_xacm8")
+metadata/_custom_type_script = "uid://di1hqfc5y7cid"
+
+[node name="SuperThrowState" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1260746901]
+script = ExtResource("328_ut8wx")
+metadata/_custom_type_script = "uid://dkxnusugxcl37"

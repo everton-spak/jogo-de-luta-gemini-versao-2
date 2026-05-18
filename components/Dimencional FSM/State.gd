@@ -55,6 +55,7 @@ var health: Component
 var vfx: Component
 var combo_scaling : Component
 var attack: AttackComponent # executor de ciclo de ataque (composição)
+var special: SpecialMechanicComponent # regras de macro-cancel + tiers de carga
 
 var state_time_sec: float = 0.0
 var state_frames: int = 0
@@ -87,6 +88,7 @@ func _on_initialized() -> void:
 	vfx = fighter.get_component("VfxComponent")
 	combo_scaling = fighter.get_component("ScalingComboComponent")
 	attack = fighter.get_component("AttackComponent") as AttackComponent
+	special = fighter.get_component("SpecialMechanicComponent") as SpecialMechanicComponent
 
 # ==========================================
 # Lifecycle base — só counters.

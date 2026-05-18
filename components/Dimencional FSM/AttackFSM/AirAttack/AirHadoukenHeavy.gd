@@ -8,6 +8,7 @@ func _init() -> void:
 	proj_damage = 15
 	proj_hitstun = 0.45
 	proj_knockback = Vector2(280, -80)
+	charge_pause_frame = 3
 
 func _ready() -> void:
 	stance_dim = "air"

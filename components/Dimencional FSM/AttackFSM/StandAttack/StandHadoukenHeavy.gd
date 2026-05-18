@@ -8,6 +8,7 @@ func _init() -> void:
 	proj_hitstun = 0.45
 	proj_knockback = Vector2(280, -80)
 	recovery_time = 0.35
+	charge_pause_frame = 2 # ajuste no Inspector pra bater com seu spritesheet
 
 func _ready() -> void:
 	stance_dim = "ground"

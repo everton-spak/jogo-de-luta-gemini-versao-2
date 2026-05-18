@@ -43,6 +43,15 @@ func consume_action(action_name: String) -> void:
 			_buffer.remove_at(i)
 			break
 
+# Remove TODAS as entradas de um input. Usar quando o golpe é absorvido por um
+# cancel (ex: macro de hybrid_dash) e nenhum follow-up do mesmo botão pode sair.
+func consume_all_action(action_name: String) -> void:
+	for i in range(_buffer.size() - 1, -1, -1):
+		if _buffer[i]["input"] == action_name:
+			_buffer.remove_at(i)
+	last_consumed_action = action_name
+	last_consumed_time = Time.get_ticks_msec()
+
 # Restaura o último input consumido se estiver dentro de uma janela de tempo (ex: 50ms)
 func restore_last_consumed(tolerance_msec: int = 50) -> void:
 	if last_consumed_action != "" and (Time.get_ticks_msec() - last_consumed_time) <= tolerance_msec:

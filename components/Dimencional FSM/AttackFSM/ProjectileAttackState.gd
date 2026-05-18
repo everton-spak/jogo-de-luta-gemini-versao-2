@@ -23,15 +23,22 @@ extends State
 # Tempo extra após o fim da animação antes de transicionar (0 = imediato)
 @export var recovery_time: float = 0.0
 
+@export_group("Charge (segura o botão pra pausar a anim)")
+# Frame da animação onde pausar enquanto o botão estiver segurado.
+# -1 = sem fase de charge (Hadouken vai direto até o fim).
+@export var charge_pause_frame: int = -1
+
 var _spawned: bool = false
 var _in_recovery: bool = false
 var _recovery_timer: float = 0.0
+var _is_charging: bool = false
 
 func enter(_payload: Dictionary = {}) -> void:
 	super.enter(_payload)
 	_spawned = false
 	_in_recovery = false
 	_recovery_timer = 0.0
+	_is_charging = false
 	# Stand/crouch zeram momentum; air mantém
 	if fighter and stance_dim != "air":
 		fighter.velocity = Vector2.ZERO
@@ -40,6 +47,48 @@ func enter(_payload: Dictionary = {}) -> void:
 
 func physics_update(delta: float) -> void:
 	super.physics_update(delta)
+
+	var charging_btn := "punch_light" if strength_dim == "light" else "punch_heavy"
+
+	# Macro-cancel: durante o Hadouken (carregando ou não), se o jogador
+	# continua segurando o botão e aperta o complemento, cancela em
+	# hybrid_dash (light) ou super_throw (heavy).
+	if special:
+		var result := special.check_macro(charging_btn)
+		if not result.is_empty():
+			# Limpa o complemento (e o próprio charging_btn) do buffer pra NormalMoves
+			# não disparar um golpe normal logo depois.
+			if input_buffer and input_buffer.history:
+				input_buffer.history.consume_all_action(result.complement)
+				input_buffer.history.consume_all_action(charging_btn)
+			match result.macro:
+				"hybrid_dash":
+					transition_requested.emit("HybridDashState", {})
+					return
+				"special_throw":
+					# Super throw só existe na variante de perto. De longe (ou sem
+					# inimigo detectado pelo proximity) cancela direto pra recovery.
+					var is_near: bool = proximity != null and proximity.is_target_near
+					if is_near:
+						transition_requested.emit("SuperThrowState", {})
+					else:
+						transition_requested.emit(_resolve_recovery_state(), {})
+					return
+
+	# Fase de carga: enquanto botão segurado, pausa a animação no charge_pause_frame.
+	# Solta o botão → resume e segue pro spawn do projétil.
+	if charge_pause_frame >= 0 and anim:
+		var is_held: bool = input != null and input.is_action_pressed(charging_btn)
+		if not _is_charging:
+			if anim.get_current_frame() >= charge_pause_frame and is_held:
+				_is_charging = true
+				anim.pause()
+				return
+		else:
+			if is_held:
+				return # mantém pausado
+			_is_charging = false
+			anim.resume()
 
 	if _in_recovery:
 		_recovery_timer -= delta
