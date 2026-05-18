@@ -1,77 +1,67 @@
 class_name SpecialMechanicComponent
 extends Component
 
-@export var max_charge_time: float = 1.5
-@export var min_charge_time: float = 0.2
+# Detém só o que é EXCLUSIVO desta mecânica:
+#   1. Tabela MACRO_CANCELS — regras de "botão segurado + botão complementar"
+#   2. Classificação de tiers (normal/strong/super) por tempo de carga
+#
+# O tracking de tempo de botão segurado fica no ChargeTrackerComponent.
+# Detecção genérica de botões simultâneos fica no SimultaneousInterpreterComponent.
 
-var current_charge: float = 0.0
-var input: Component 
-
-# A Tabela de Regras de Combinação (Macros)
-# Formato: "botao_sendo_segurado": { "botao_apertado": "resultado" }
-const MACRO_CANCELS = {
-	# Se segura Soco Fraco e aperta Chute Fraco -> Dash
+# Regras de macro-cancel: "botão segurado" → {"complementar apertado": "resultado"}.
+# Disparado quando charging_btn está sendo segurado AGORA e complement_btn foi
+# pressionado NESTE frame (just_pressed). Não é a mesma coisa que "simultâneo
+# dentro de uma janela" — esse caso usa SimultaneousInterpreterComponent.
+const MACRO_CANCELS := {
 	"light_punch": {
 		"light_kick": "hybrid_dash"
 	},
-	# Se segura Chute Fraco e aperta Soco Fraco -> Dash | Aperta Soco Forte -> Throw
 	"light_kick": {
-		"light_punch": "hybrid_dash", 
+		"light_punch": "hybrid_dash",
 		"heavy_punch": "special_throw"
 	},
-	# Se segura Soco Forte e aperta Chute Fraco -> Throw
 	"heavy_punch": {
 		"light_kick": "special_throw"
 	}
 }
 
+@export_group("Tiers da Carga")
+# Limiares em ms (alinhado com a unidade do ChargeTrackerComponent).
+@export var min_charge_msec: float = 200.0
+@export var max_charge_msec: float = 1500.0
+@export var normal_multiplier: float = 1.0
+@export var strong_multiplier: float = 1.5
+@export var super_multiplier: float = 2.5
+
+var input: Component
+var charge_tracker: ChargeTrackerComponent
+
 func _on_initialized() -> void:
 	input = get_component("InputComponent")
+	charge_tracker = get_component("ChargeTrackerComponent")
 
-func reset_charge() -> void:
-	current_charge = 0.0
+# Retorna o nome do macro disparado (ex: "hybrid_dash", "special_throw") ou ""
+# se nada. Caller só chama isto enquanto charging_btn estiver pressionado.
+func check_macro(charging_btn: String) -> String:
+	if not input: return ""
+	if not MACRO_CANCELS.has(charging_btn): return ""
 
-func process_charge(charging_btn: String, delta: float) -> Dictionary:
-	
-	# =========================================================
-	# 1. REGRA DE OURO: CHECAGEM DE CANCELAMENTO (MACROS)
-	# =========================================================
-	if current_charge > 0.0 or input.is_action_pressed(charging_btn):
-		
-		# Verifica se o botão que está sendo segurado possui alguma regra de cancelamento
-		if MACRO_CANCELS.has(charging_btn):
-			var possible_cancels = MACRO_CANCELS[charging_btn]
-			
-			# Varre todos os botões que combinam com o que está sendo segurado
-			for complement_btn in possible_cancels:
-				if input.is_action_just_pressed(complement_btn):
-					current_charge = 0.0 # Destrói a carga da magia
-					# Retorna o status exato da combinação (ex: "hybrid_dash")
-					return {"status": possible_cancels[complement_btn]}
+	var possible_cancels = MACRO_CANCELS[charging_btn]
+	for complement_btn in possible_cancels:
+		if input.is_action_just_pressed(complement_btn):
+			return possible_cancels[complement_btn]
+	return ""
 
-	# =========================================================
-	# 2. CONTINUA CARREGANDO A MAGIA NORMALMENTE
-	# =========================================================
-	if input.is_action_pressed(charging_btn):
-		current_charge += delta
-		return {"status": "charging", "time": current_charge}
-		
-	# =========================================================
-	# 3. SOLTOU O BOTÃO (DISPARA A MAGIA CARREGADA)
-	# =========================================================
-	elif current_charge > 0.0:
-		var final_charge = current_charge
-		current_charge = 0.0 
-		
-		# Avalia o nível da carga baseando-se nas variáveis exportadas
-		if final_charge >= max_charge_time:
-			return {"status": "super", "multiplier": 2.5}
-		elif final_charge >= min_charge_time:
-			return {"status": "strong", "multiplier": 1.5}
-		else:
-			return {"status": "normal", "multiplier": 1.0}
-			
-	# =========================================================
-	# 4. NENHUMA AÇÃO (Inativo)
-	# =========================================================
-	return {"status": "inactive"}
+# Classifica a carga acumulada de um botão em tiers normal/strong/super.
+# Lê o tempo direto do ChargeTrackerComponent. Caller normalmente chama isto
+# após is_action_just_released(btn) pra avaliar o que sai no release.
+func classify_charge(btn: String) -> Dictionary:
+	var t := 0.0
+	if charge_tracker:
+		t = charge_tracker.get_button_charge_time(btn)
+
+	if t >= max_charge_msec:
+		return {"status": "super", "multiplier": super_multiplier, "time_msec": t}
+	if t >= min_charge_msec:
+		return {"status": "strong", "multiplier": strong_multiplier, "time_msec": t}
+	return {"status": "normal", "multiplier": normal_multiplier, "time_msec": t}

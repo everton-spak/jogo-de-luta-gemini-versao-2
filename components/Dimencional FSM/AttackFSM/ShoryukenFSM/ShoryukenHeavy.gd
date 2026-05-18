@@ -25,6 +25,7 @@ func enter(_payload: Dictionary = {}) -> void:
 	var f_dir = facing.current_facing if facing else 1.0
 	_start_x = fighter.global_position.x
 	fighter.velocity = Vector2(ground_velocity_x * f_dir, 0.0)
+	fighter.set_posture_collision("crouch")
 	if attack:
 		attack.setup_hitbox(self)
 		attack.disable_hitbox()
@@ -48,6 +49,7 @@ func physics_update(_delta: float) -> void:
 		if dist >= ground_distance:
 			_launched_up = true
 			fighter.velocity = Vector2(0.0, velocity_y)
+			fighter.set_posture_collision("air")
 			_disconnect_frame_changed(_on_frame_changed)
 			if anim: anim.resume()
 		return

@@ -627,7 +627,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hk_far",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -711,7 +711,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hp_crouch",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1209,7 +1209,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"tatsumaki",
-"speed": 15.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
