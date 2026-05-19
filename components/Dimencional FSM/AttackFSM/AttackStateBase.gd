@@ -8,13 +8,29 @@ extends State
 # e chama os hooks (_during_startup, _on_launch, etc.) que vivem no State.
 # Estados de ataque com fluxo customizado (Shoryuken, ProjectileAttackState)
 # continuam `extends State` e gerenciam o ciclo sozinhos.
+#
+# Motion moves (charge_pause_frame >= 0) automaticamente ganham:
+# - Charge phase: pausa anim enquanto botão segurado, multiplier no release
+# - Macro-cancel: cancel em hybrid_dash/super_throw via complemento
 
 func enter(_payload: Dictionary = {}) -> void:
 	super.enter(_payload)
+	_reset_charge()
 	if attack: attack.begin(self)
 
 func physics_update(delta: float) -> void:
 	super.physics_update(delta)
+
+	# Motion moves: macro-cancel e charge phase. Skip se charge_pause_frame < 0
+	# (golpes normais não passam por esses checks porque _get_charging_button
+	# retorna "" via inferência por type_dim).
+	var charging_btn := _get_charging_button()
+	if charging_btn != "":
+		if _check_macro(charging_btn):
+			return
+		if _tick_charge(charging_btn):
+			return # paused — não avança o tick do AttackComponent
+
 	if attack: attack.tick(delta)
 
 func exit() -> void:

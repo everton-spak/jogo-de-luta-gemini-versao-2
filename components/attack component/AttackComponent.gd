@@ -115,3 +115,12 @@ func enable_hitbox() -> void:
 
 func disable_hitbox() -> void:
 	if hitbox: hitbox.disable_box()
+
+# Escala dano e tamanho da hitbox atual pelo multiplier informado.
+# Usado pelo charge phase dos motion moves (State._tick_charge) após capturar o tier.
+# Aplica em cima da config feita por setup_hitbox no begin() — então só chamar após begin().
+func apply_multiplier(mult: float) -> void:
+	if not hitbox or mult == 1.0: return
+	hitbox.damage = int(hitbox.damage * mult)
+	if hitbox.collision_shape and hitbox.collision_shape.shape is RectangleShape2D:
+		hitbox.collision_shape.shape.size *= mult

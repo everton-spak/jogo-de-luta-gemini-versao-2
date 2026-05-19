@@ -4,6 +4,7 @@ extends State
 # Base para ataques que disparam projétil (Hadouken stand/crouch/air).
 # Spawna o projétil quando a animação atinge spawn_frame.
 # Suporta recovery_time opcional após o fim da animação.
+# Charge phase + macro-cancel vêm dos helpers de State.gd (_tick_charge, _check_macro).
 
 @export_group("Projétil")
 @export var projectile_scene: PackedScene
@@ -23,25 +24,16 @@ extends State
 # Tempo extra após o fim da animação antes de transicionar (0 = imediato)
 @export var recovery_time: float = 0.0
 
-@export_group("Charge (segura o botão pra pausar a anim)")
-# Frame da animação onde pausar enquanto o botão estiver segurado.
-# -1 = sem fase de charge (Hadouken vai direto até o fim).
-@export var charge_pause_frame: int = -1
-
 var _spawned: bool = false
 var _in_recovery: bool = false
 var _recovery_timer: float = 0.0
-var _is_charging: bool = false
-# Multiplier capturado no momento da soltura do botão (1.0 = normal, >1.0 = carregado).
-var _charge_multiplier: float = 1.0
 
 func enter(_payload: Dictionary = {}) -> void:
 	super.enter(_payload)
 	_spawned = false
 	_in_recovery = false
 	_recovery_timer = 0.0
-	_is_charging = false
-	_charge_multiplier = 1.0
+	_reset_charge()
 	# Stand/crouch zeram momentum; air mantém
 	if fighter and stance_dim != "air":
 		fighter.velocity = Vector2.ZERO
@@ -51,56 +43,15 @@ func enter(_payload: Dictionary = {}) -> void:
 func physics_update(delta: float) -> void:
 	super.physics_update(delta)
 
-	var charging_btn := "punch_light" if strength_dim == "light" else "punch_heavy"
+	var charging_btn := _get_charging_button()
 
-	# Macro-cancel: durante o Hadouken (carregando ou não), se o jogador
-	# continua segurando o botão e aperta o complemento, cancela em
-	# hybrid_dash (light) ou super_throw (heavy).
-	if special:
-		var result := special.check_macro(charging_btn)
-		if not result.is_empty():
-			# Limpa o complemento (e o próprio charging_btn) do buffer pra NormalMoves
-			# não disparar um golpe normal logo depois.
-			if input_buffer and input_buffer.history:
-				input_buffer.history.consume_all_action(result.complement)
-				input_buffer.history.consume_all_action(charging_btn)
-			match result.macro:
-				"hybrid_dash":
-					transition_requested.emit("HybridDashState", {})
-					return
-				"special_throw":
-					# Super throw só existe na variante de perto. De longe (ou sem
-					# inimigo detectado pelo proximity) cancela direto pra recovery.
-					var is_near: bool = proximity != null and proximity.is_target_near
-					if is_near:
-						transition_requested.emit("SuperThrowState", {})
-					else:
-						transition_requested.emit(_resolve_recovery_state(), {})
-					return
+	# Macro-cancel: hybrid_dash (light) ou super_throw (heavy).
+	if _check_macro(charging_btn):
+		return
 
-	# Fase de carga: enquanto botão segurado, pausa a animação no charge_pause_frame.
-	# Solta o botão → captura o multiplier (tier de carga) e resume.
-	if charge_pause_frame >= 0 and anim:
-		var is_held: bool = input != null and input.is_action_pressed(charging_btn)
-		if not _is_charging:
-			if anim.get_current_frame() >= charge_pause_frame and is_held:
-				_is_charging = true
-				anim.pause()
-				return
-		else:
-			if is_held:
-				# Pulso visual a cada 6 frames (~100ms a 60fps) com cor por tier.
-				if vfx and special and state_frames % 6 == 0:
-					var tier_status: String = special.classify_charge(charging_btn).get("status", "normal")
-					vfx.play_charge_pulse(tier_status)
-				return # mantém pausado
-			# Botão soltou: lê o tier de carga ANTES do ChargeTracker zerar o tempo.
-			# (ChargeTracker._physics_process roda depois deste, então o tempo ainda está cheio.)
-			if special:
-				var classification = special.classify_charge(charging_btn)
-				_charge_multiplier = classification.get("multiplier", 1.0)
-			_is_charging = false
-			anim.resume()
+	# Charge phase: pausa anim enquanto botão segurado.
+	if _tick_charge(charging_btn):
+		return
 
 	if _in_recovery:
 		_recovery_timer -= delta

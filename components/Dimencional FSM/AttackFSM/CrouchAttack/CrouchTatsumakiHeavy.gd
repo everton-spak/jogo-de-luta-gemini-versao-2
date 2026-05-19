@@ -5,6 +5,7 @@ extends AttackStateBase
 
 func _init() -> void:
 	animation_name = "tatsu_crouch_heavy"
+	charge_pause_frame = 2
 
 func _ready() -> void:
 	stance_dim = "crouch"

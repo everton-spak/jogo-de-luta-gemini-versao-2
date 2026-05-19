@@ -12,6 +12,7 @@ var _start_x: float = 0.0
 
 func _init() -> void:
 	animation_name = "shoryuken"
+	charge_pause_frame = 2 # ajusta no Inspector pra bater com o spritesheet
 
 func _ready() -> void:
 	type_dim = "shoryuken"
@@ -20,6 +21,7 @@ func _ready() -> void:
 
 func enter(_payload: Dictionary = {}) -> void:
 	super.enter(_payload)
+	_reset_charge()
 	_launched_up = false
 	_hitbox_active = false
 	var f_dir = facing.current_facing if facing else 1.0
@@ -39,6 +41,13 @@ func _on_frame_changed() -> void:
 
 func physics_update(_delta: float) -> void:
 	super.physics_update(_delta)
+
+	# Motion move: macro-cancel + charge phase antes do fluxo de slide/launch.
+	var charging_btn := _get_charging_button()
+	if _check_macro(charging_btn):
+		return
+	if _tick_charge(charging_btn):
+		return # paused — não avança o slide
 
 	var dist = abs(fighter.global_position.x - _start_x)
 

@@ -12,6 +12,7 @@ var _resumed: bool = false
 
 func _init() -> void:
 	animation_name = "joudan_stand"
+	charge_pause_frame = 2
 
 func _ready() -> void:
 	stance_dim = "ground"
