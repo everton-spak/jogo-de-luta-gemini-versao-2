@@ -1,17 +1,15 @@
 class_name StandJoudanHeavy
 extends AttackStateBase
 
-@export var step_speed: float = 120.0
-@export var travel_speed: float = 700.0
-@export var travel_decel: float = 200.0
-@export var travel_anim_frames: int = 4
-@export var recoil_force: float = 150.0
-# Mínimo de physics frames de dash antes do _on_frame_changed STOP. Ver Light.
-@export var min_dash_frames: int = 8
+@export var velocity: float = 700.0
+@export var distance: float = 220.0
+# Frame onde a anim PAUSA (freeze pose) enquanto o personagem ainda avança.
+# Não afeta a distância — após atingir `distance`, a anim retoma e toca o resto.
+@export var travel_anim_frames: int = 3
 
+var _start_x: float = 0.0
 var _stopped: bool = false
-var _resumed: bool = false
-var _frames_since_launch: int = -1
+var _anim_paused: bool = false
 
 func _init() -> void:
 	animation_name = "joudan_stand"
@@ -25,52 +23,30 @@ func _ready() -> void:
 
 func _apply_enter_velocity() -> void:
 	_stopped = false
-	_resumed = false
-	_frames_since_launch = -1
+	_anim_paused = false
 	if movement: movement.stop_horizontal()
-
-func _select_and_play_animation() -> void:
-	super._select_and_play_animation()
-	_connect_frame_changed(_on_frame_changed)
-
-func _during_startup(delta: float) -> void:
-	# Se o jogador está segurando pra carregar, não avança no startup.
-	var btn := _get_charging_button()
-	if btn != "" and input and input.is_action_pressed(btn):
-		return
-	if movement: movement.apply_attack_step(step_speed, delta)
+	if fighter: _start_x = fighter.global_position.x
 
 func _on_launch() -> void:
 	if attack: attack.enable_hitbox()
-	if movement: movement.apply_facing_impulse(travel_speed)
-	_frames_since_launch = 0
+	if movement: movement.apply_facing_impulse(velocity)
 
-func _during_active(delta: float) -> void:
-	if _frames_since_launch >= 0:
-		_frames_since_launch += 1
-	if not _stopped:
-		if movement: movement.apply_friction(travel_decel, delta)
-	elif not _resumed:
-		_resumed = true
-		if anim: anim.resume()
+func _during_active(_delta: float) -> void:
+	if _stopped or not fighter: return
+
+	# Pausa a anim no travel_anim_frames (freeze pose), personagem segue avançando.
+	if not _anim_paused and anim != null and anim.get_current_frame() >= travel_anim_frames:
+		anim.pause()
+		_anim_paused = true
+
+	var traveled: float = abs(fighter.global_position.x - _start_x)
+	if traveled >= distance:
+		_stopped = true
+		if movement: movement.stop_horizontal()
+		if anim != null: anim.resume()
+		return
+
+	if movement: movement.apply_facing_impulse(velocity)
 
 func _should_end_on_anim_end() -> bool:
-	return not (_stopped and not _resumed)
-
-func _on_recovered() -> void:
-	if movement: movement.apply_knockback_self(recoil_force)
-	super._on_recovered()
-
-func _on_frame_changed() -> void:
-	if anim and anim.get_current_frame() >= travel_anim_frames:
-		# Garante mínimo de dash frames (ver Light).
-		if _frames_since_launch >= 0 and _frames_since_launch < min_dash_frames:
-			return
-		anim.pause()
-		if movement: movement.stop_horizontal()
-		_stopped = true
-		_disconnect_frame_changed(_on_frame_changed)
-
-func exit() -> void:
-	super.exit()
-	_disconnect_frame_changed(_on_frame_changed)
+	return _stopped

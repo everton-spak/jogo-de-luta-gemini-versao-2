@@ -1337,7 +1337,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(0, -16.5)
 scale = Vector2(2.0317461, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"shoryuken"
+animation = &"joudan_stand"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -1580,16 +1580,15 @@ type_dim = "hadouken"
 
 [node name="StandJoudanHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1607750661]
 script = ExtResource("217_5uixd")
-step_speed = 25.0
-travel_speed = 2000.0
-travel_anim_frames = 3
+velocity = 1000.0
+distance = 500.0
+travel_anim_frames = 4
 
 [node name="StandJoudanLight" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1985796689]
 script = ExtResource("218_p6pc0")
-step_speed = 25.0
-travel_speed = 1000.0
-travel_decel = 100.0
-travel_anim_frames = 3
+velocity = 1000.0
+distance = 350.0
+travel_anim_frames = 4
 
 [node name="StandTatsumakiHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=206786555]
 script = ExtResource("313_shvcb")

@@ -16,7 +16,19 @@ extends State
 func enter(_payload: Dictionary = {}) -> void:
 	super.enter(_payload)
 	_reset_charge()
+	_ensure_posture()
 	if attack: attack.begin(self)
+
+# Garante que o collider+sprite estão na postura correta pra esse golpe.
+# Sem isso, ao cancelar de um golpe agachado pra um golpe em pé (ou vice-versa)
+# o collider fica na postura do golpe anterior e o sprite do novo golpe é
+# desenhado deslocado (parece que o personagem afunda).
+func _ensure_posture() -> void:
+	if not fighter: return
+	match stance_dim:
+		"ground": fighter.set_posture_collision("stand")
+		"crouch": fighter.set_posture_collision("crouch")
+		"air": fighter.set_posture_collision("air")
 
 func physics_update(delta: float) -> void:
 	super.physics_update(delta)
