@@ -71,6 +71,9 @@ var _charge_multiplier: float = 1.0
 # Velocity salva ao começar o charge — restaurada ao soltar o botão.
 # Trava o avanço (Tatsumaki, Shoryuken) sem perder o impulso programado.
 var _pre_charge_velocity: Vector2 = Vector2.ZERO
+# Marca que o lifecycle do attack está bloqueado por hold (pode ser antes
+# da anim atingir charge_pause_frame — evita que _on_launch dispare cedo).
+var _charge_blocked: bool = false
 
 func _on_initialized() -> void:
 	if not fighter:
@@ -203,6 +206,7 @@ func _reset_charge() -> void:
 	_is_charging = false
 	_charge_multiplier = 1.0
 	_pre_charge_velocity = Vector2.ZERO
+	_charge_blocked = false
 
 # Processa a fase de charge. Retorna `true` se o state está pausado (caller deve
 # pular sua própria física neste frame).
@@ -220,29 +224,39 @@ func _tick_charge(charging_btn: String) -> bool:
 	if input != null:
 		is_held = input.is_action_pressed(charging_btn)
 
-	if not _is_charging:
-		if anim.get_current_frame() >= charge_pause_frame and is_held:
-			_is_charging = true
-			anim.pause()
-			# Trava o avanço: salva a velocity programada e zera enquanto carrega.
+	# Se botão segurado, bloqueia o lifecycle do attack imediatamente (mesmo antes
+	# da anim atingir o pause_frame). Sem isso, _on_launch dispara cedo em moves
+	# com startup curto + anim fps baixo (Joudan startup=3, anim fps=12 → launch
+	# em ~50ms, anim só atinge frame 2 em ~166ms).
+	if is_held:
+		# Primeira vez bloqueando: salva velocity programada.
+		if not _charge_blocked:
+			_charge_blocked = true
 			if fighter:
 				_pre_charge_velocity = fighter.velocity
-				fighter.velocity = Vector2.ZERO
-			return true
-		return false
-
-	if is_held:
-		# Reafirma a trava (caso outro sistema mexa na velocity entre frames).
 		if fighter:
 			fighter.velocity = Vector2.ZERO
-		# Pulso visual a cada 6 frames (~100ms) com cor por tier (azul/verde/vermelho).
-		if vfx and special and state_frames % 6 == 0:
+
+		# Quando a anim atingir o pause_frame, pausa visualmente e marca _is_charging.
+		if not _is_charging and anim.get_current_frame() >= charge_pause_frame:
+			_is_charging = true
+			anim.pause()
+
+		# Pulso visual (só faz sentido depois que a anim chegou no charge_pause_frame).
+		if _is_charging and vfx and special and state_frames % 30 == 0:
 			var pulse_data: Dictionary = special.classify_charge(charging_btn)
 			var tier_status: String = str(pulse_data.get("status", "normal"))
 			vfx.play_charge_pulse(tier_status)
 		return true
 
-	# Botão soltou — restaura a velocity programada antes do attack continuar.
+	# Botão NÃO segurado.
+	if not _charge_blocked:
+		# Nunca bloqueou — fluxo normal sem charge.
+		return false
+
+	# Botão soltou após bloquear — restaura cor + velocity, captura multiplier.
+	if vfx:
+		vfx.clear_charge_pulse()
 	if fighter:
 		fighter.velocity = _pre_charge_velocity
 
@@ -257,6 +271,7 @@ func _tick_charge(charging_btn: String) -> bool:
 		attack.apply_multiplier(_charge_multiplier)
 
 	_is_charging = false
+	_charge_blocked = false
 	anim.resume()
 	return false
 
@@ -268,6 +283,11 @@ func _check_macro(charging_btn: String) -> bool:
 	var result: Dictionary = special.check_macro(charging_btn)
 	if result.is_empty():
 		return false
+
+	# Limpa modulate da carga antes de transicionar (caso o macro tenha disparado
+	# durante a charge phase — o release não vai acontecer).
+	if vfx:
+		vfx.clear_charge_pulse()
 
 	# Consume os dois botões pra evitar duplo-input após o cancel.
 	var complement: String = result["complement"]

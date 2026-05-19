@@ -11,9 +11,9 @@ const COLORS := {
 	"cancel": Color(0.0, 2.0, 5.0),        # Azul neon
 	"counter": Color(5.0, 0.0, 0.0),       # Vermelho intenso
 	"buster": Color(5.0, 3.0, 0.0),        # Dourado/laranja
-	"charge_normal": Color(2.0, 2.0, 5.0), # Azul claro (carga estágio 1)
-	"charge_strong": Color(0.0, 5.0, 0.0), # Verde HDR (carga estágio 2)
-	"charge_super": Color(5.0, 0.0, 0.0),  # Vermelho HDR (carga estágio 3)
+	"charge_normal": Color(0.8, 1.0, 2.2), # Azul médio (carga estágio 1)
+	"charge_strong": Color(2.0, 2.0, 0.5), # Verde médio (carga estágio 2)
+	"charge_super": Color(2.0, 0.5, 0.5),  # Vermelho médio (carga estágio 3)
 	"white": Color.WHITE,
 }
 
@@ -23,6 +23,9 @@ const COLORS := {
 
 # Cacheado em _on_initialized via fighter.
 var sprite: AnimatedSprite2D
+
+# Tween dedicado pro pulse de carga — matado a cada novo pulse pra evitar sobreposição.
+var _charge_tween: Tween
 
 func _on_initialized() -> void:
 	if not fighter: return
@@ -96,15 +99,30 @@ func play_buster_fx() -> void:
 	play_flash("buster")
 	spawn_ghost("buster")
 
-# Pulso de carga colorido por tier (vindo do SpecialMechanicComponent.classify_charge):
+# Pulso de carga por tier (vindo do SpecialMechanicComponent.classify_charge):
 # - "normal" → azul claro (carga inicial)
 # - "strong" → verde   (estágio 2)
 # - "super"  → vermelho (estágio 3)
-# Use a cada poucos frames com `duration` curto pra dar feedback visual contínuo.
-func play_charge_pulse(tier: String = "normal", duration: float = 0.1) -> void:
+# Pulsa: seta cor + tween de volta pro branco em `duration` segundos.
+# Mata o tween anterior pra cada pulse ficar visível na cor correta sem sobreposição.
+func play_charge_pulse(tier: String = "normal", duration: float = 0.45) -> void:
+	if not fighter: return
 	var color_key := "charge_normal"
 	if tier == "strong":
 		color_key = "charge_strong"
 	elif tier == "super":
 		color_key = "charge_super"
-	play_flash(color_key, duration)
+	var color: Color = COLORS.get(color_key, COLORS.white)
+
+	if _charge_tween and _charge_tween.is_valid():
+		_charge_tween.kill()
+	fighter.modulate = color
+	_charge_tween = create_tween()
+	_charge_tween.tween_property(fighter, "modulate", Color.WHITE, duration)
+
+# Restaura o modulate do fighter pro branco. Chamar ao soltar o botão de carga.
+func clear_charge_pulse() -> void:
+	if _charge_tween and _charge_tween.is_valid():
+		_charge_tween.kill()
+	if fighter:
+		fighter.modulate = Color.WHITE
