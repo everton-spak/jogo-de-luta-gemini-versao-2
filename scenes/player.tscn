@@ -1592,10 +1592,12 @@ travel_anim_frames = 4
 
 [node name="StandTatsumakiHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=206786555]
 script = ExtResource("313_shvcb")
+travel_speed = 500.0
 metadata/_custom_type_script = "uid://cybuity8pq5vu"
 
 [node name="StandTatsumakiLight" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=450246451]
 script = ExtResource("307_fkbsy")
+travel_speed = 400.0
 metadata/_custom_type_script = "uid://dj08uw6rn6dck"
 
 [node name="AirAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1334317197]

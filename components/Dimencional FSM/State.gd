@@ -74,6 +74,9 @@ var _pre_charge_velocity: Vector2 = Vector2.ZERO
 # Marca que o lifecycle do attack está bloqueado por hold (pode ser antes
 # da anim atingir charge_pause_frame — evita que _on_launch dispare cedo).
 var _charge_blocked: bool = false
+# Último tier mostrado pelo pulse — usado pra forçar pulse imediato em transição
+# de tier (senão o pulse ficaria desatualizado por até 500ms).
+var _last_pulse_tier: String = ""
 
 func _on_initialized() -> void:
 	if not fighter:
@@ -207,6 +210,7 @@ func _reset_charge() -> void:
 	_charge_multiplier = 1.0
 	_pre_charge_velocity = Vector2.ZERO
 	_charge_blocked = false
+	_last_pulse_tier = ""
 
 # Processa a fase de charge. Retorna `true` se o state está pausado (caller deve
 # pular sua própria física neste frame).
@@ -242,11 +246,13 @@ func _tick_charge(charging_btn: String) -> bool:
 			_is_charging = true
 			anim.pause()
 
-		# Pulso visual (só faz sentido depois que a anim chegou no charge_pause_frame).
-		if _is_charging and vfx and special and state_frames % 30 == 0:
+		# Pulso visual: a cada 30 frames (~500ms) OU imediato quando o tier muda.
+		if _is_charging and vfx and special:
 			var pulse_data: Dictionary = special.classify_charge(charging_btn)
 			var tier_status: String = str(pulse_data.get("status", "normal"))
-			vfx.play_charge_pulse(tier_status)
+			if tier_status != _last_pulse_tier or state_frames % 30 == 0:
+				_last_pulse_tier = tier_status
+				vfx.play_charge_pulse(tier_status)
 		return true
 
 	# Botão NÃO segurado.

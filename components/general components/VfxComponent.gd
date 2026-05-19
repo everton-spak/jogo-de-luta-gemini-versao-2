@@ -11,9 +11,9 @@ const COLORS := {
 	"cancel": Color(0.0, 2.0, 5.0),        # Azul neon
 	"counter": Color(5.0, 0.0, 0.0),       # Vermelho intenso
 	"buster": Color(5.0, 3.0, 0.0),        # Dourado/laranja
-	"charge_normal": Color(0.0, 0.0, 5.0), # Azul médio (carga estágio 1)
-	"charge_strong": Color(2.0, 2.0, 0.5), # Verde médio (carga estágio 2)
-	"charge_super": Color(2.0, 0.5, 0.5),  # Vermelho médio (carga estágio 3)
+	"charge_normal": Color(0.4, 0.6, 1.5), # Azul suave (carga estágio 1)
+	"charge_strong": Color(0.5, 1.0, 0.5), # Verde suave (carga estágio 2)
+	"charge_super": Color(1.0, 0.5, 0.5),  # Vermelho suave (carga estágio 3)
 	"white": Color.WHITE,
 }
 
