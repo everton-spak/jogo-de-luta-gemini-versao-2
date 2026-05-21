@@ -37,6 +37,20 @@ var input: Component
 var charge_tracker: ChargeTrackerComponent
 var history: InputHistoryComponent
 
+# ==========================================
+# Estado de charge (uma carga ativa por vez no fighter).
+# Movido do State.gd — o State agora só delega via _tick_charge/_check_macro/etc.
+# ==========================================
+var _is_charging: bool = false
+# Multiplier capturado no release. Lido pelo State via getter (_charge_multiplier).
+var charge_multiplier: float = 1.0
+# Velocity salva ao começar o charge — restaurada ao soltar (trava o avanço).
+var _pre_charge_velocity: Vector2 = Vector2.ZERO
+# Marca lifecycle bloqueado por hold (pode ser antes da anim atingir charge_pause_frame).
+var _charge_blocked: bool = false
+# Último tier pulsado — força pulse imediato em transição de tier.
+var _last_pulse_tier: String = ""
+
 func _on_initialized() -> void:
 	input = get_component("InputComponent")
 	charge_tracker = get_component("ChargeTrackerComponent") as ChargeTrackerComponent
@@ -70,3 +84,113 @@ func classify_charge(btn: String) -> Dictionary:
 	if t >= min_charge_msec:
 		return {"status": "strong", "multiplier": strong_multiplier, "time_msec": t}
 	return {"status": "normal", "multiplier": normal_multiplier, "time_msec": t}
+
+# ==========================================
+# Charge phase (motion moves)
+# Recebe o `state` (State node) e opera sobre ele. Antes vivia no State.gd.
+# ==========================================
+
+# Reseta o estado de charge no início do golpe. Chamar no enter() do state.
+func reset_charge() -> void:
+	_is_charging = false
+	charge_multiplier = 1.0
+	_pre_charge_velocity = Vector2.ZERO
+	_charge_blocked = false
+	_last_pulse_tier = ""
+
+# Inferência do botão de carga a partir das dimensões do golpe.
+# Hadouken/Shoryuken → punch_*; Tatsumaki/Joudan → kick_*.
+func charging_button_for(state) -> String:
+	var prefix := ""
+	if state.type_dim == "hadouken" or state.type_dim == "shoryuken":
+		prefix = "punch"
+	elif state.type_dim == "tatsumaki" or state.type_dim == "joudan":
+		prefix = "kick"
+	if prefix == "" or (state.strength_dim != "light" and state.strength_dim != "heavy"):
+		return ""
+	return prefix + "_" + state.strength_dim
+
+# Processa a fase de charge. Retorna `true` se o state está pausado (caller deve
+# pular sua própria física neste frame).
+func tick_charge(state, charging_btn: String) -> bool:
+	if state.charge_pause_frame < 0 or not state.anim:
+		return false
+
+	var is_held: bool = false
+	if input != null:
+		is_held = input.is_action_pressed(charging_btn)
+
+	# Botão segurado: bloqueia o lifecycle imediatamente (mesmo antes da anim
+	# atingir o pause_frame) pra _on_launch não disparar cedo.
+	if is_held:
+		if not _charge_blocked:
+			_charge_blocked = true
+			if state.fighter:
+				_pre_charge_velocity = state.fighter.velocity
+		if state.fighter:
+			state.fighter.velocity = Vector2.ZERO
+
+		if not _is_charging and state.anim.get_current_frame() >= state.charge_pause_frame:
+			_is_charging = true
+			state.anim.pause()
+
+		# Pulse: a cada 30 frames (~500ms) OU imediato quando o tier muda.
+		if _is_charging and state.vfx:
+			var pulse_data: Dictionary = classify_charge(charging_btn)
+			var tier_status: String = str(pulse_data.get("status", "normal"))
+			if tier_status != _last_pulse_tier or state.state_frames % 30 == 0:
+				_last_pulse_tier = tier_status
+				state.vfx.play_charge_pulse(tier_status)
+		return true
+
+	# Botão NÃO segurado.
+	if not _charge_blocked:
+		return false
+
+	# Botão soltou após bloquear — restaura cor + velocity, captura multiplier.
+	if state.vfx:
+		state.vfx.clear_charge_pulse()
+	if state.fighter:
+		state.fighter.velocity = _pre_charge_velocity
+
+	# Captura o tier ANTES do ChargeTracker zerar.
+	var classification: Dictionary = classify_charge(charging_btn)
+	charge_multiplier = float(classification.get("multiplier", 1.0))
+
+	if state.attack and charge_multiplier > 1.0:
+		state.attack.apply_multiplier(charge_multiplier)
+
+	_is_charging = false
+	_charge_blocked = false
+	state.anim.resume()
+	return false
+
+# Processa o macro-cancel. Retorna `true` se disparou (caller deve `return`).
+func process_macro(state, charging_btn: String) -> bool:
+	var result: Dictionary = check_macro(charging_btn)
+	if result.is_empty():
+		return false
+
+	# Limpa modulate da carga antes de transicionar.
+	if state.vfx:
+		state.vfx.clear_charge_pulse()
+
+	# Consume os dois botões pra evitar duplo-input após o cancel.
+	var complement: String = result["complement"]
+	if state.input_buffer and state.input_buffer.history:
+		state.input_buffer.history.consume_all_action(complement)
+		state.input_buffer.history.consume_all_action(charging_btn)
+
+	var macro_name: String = result["macro"]
+	match macro_name:
+		"hybrid_dash":
+			state.transition_requested.emit("HybridDashState", {})
+		"special_throw":
+			var is_near: bool = false
+			if state.proximity != null:
+				is_near = state.proximity.is_target_near
+			if is_near:
+				state.transition_requested.emit("SuperThrowState", {})
+			else:
+				state.transition_requested.emit(state._resolve_recovery_state(), {})
+	return true

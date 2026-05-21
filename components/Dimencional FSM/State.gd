@@ -65,18 +65,11 @@ var special: SpecialMechanicComponent # regras de macro-cancel + tiers de carga
 var state_time_sec: float = 0.0
 var state_frames: int = 0
 
-# Estado de charge (válido durante o ciclo do golpe).
-var _is_charging: bool = false
-var _charge_multiplier: float = 1.0
-# Velocity salva ao começar o charge — restaurada ao soltar o botão.
-# Trava o avanço (Tatsumaki, Shoryuken) sem perder o impulso programado.
-var _pre_charge_velocity: Vector2 = Vector2.ZERO
-# Marca que o lifecycle do attack está bloqueado por hold (pode ser antes
-# da anim atingir charge_pause_frame — evita que _on_launch dispare cedo).
-var _charge_blocked: bool = false
-# Último tier mostrado pelo pulse — usado pra forçar pulse imediato em transição
-# de tier (senão o pulse ficaria desatualizado por até 500ms).
-var _last_pulse_tier: String = ""
+# Multiplier de carga — lido do SpecialMechanicComponent (a lógica vive lá).
+# Usado por ProjectileAttackState pra escalar o projétil.
+var _charge_multiplier: float:
+	get:
+		return special.charge_multiplier if special else 1.0
 
 func _on_initialized() -> void:
 	if not fighter:
@@ -201,133 +194,22 @@ func process_cancel_routes() -> bool:
 	return false
 
 # ==========================================
-# Charge phase (motion moves)
+# Charge phase (motion moves) — DELEGADO pro SpecialMechanicComponent.
+# A lógica vive em ChargeCancel.gd; aqui são só forwards finos pros estados
+# de ataque (AttackStateBase, ProjectileAttackState, Shoryukens) chamarem.
 # ==========================================
 
-# Reseta o estado de charge no início do golpe. Chamar no enter() do state.
 func _reset_charge() -> void:
-	_is_charging = false
-	_charge_multiplier = 1.0
-	_pre_charge_velocity = Vector2.ZERO
-	_charge_blocked = false
-	_last_pulse_tier = ""
+	if special: special.reset_charge()
 
-# Processa a fase de charge. Retorna `true` se o state está pausado (caller deve
-# pular sua própria física neste frame).
-# - Se charge_pause_frame < 0, retorna false (sem charge).
-# - Se ainda não chargou e o frame ainda não chegou, retorna false.
-# - Se o frame chegou e o botão ainda segurado: pausa anim, retorna true (toca pulse VFX).
-# - Se já está chargando e botão ainda segurado: mantém pausado, retorna true.
-# - Se já está chargando e botão soltou: lê o multiplier do classify_charge,
-#   aplica no AttackComponent (se houver), resume anim, retorna false.
 func _tick_charge(charging_btn: String) -> bool:
-	if charge_pause_frame < 0 or not anim:
-		return false
+	return special.tick_charge(self, charging_btn) if special else false
 
-	var is_held: bool = false
-	if input != null:
-		is_held = input.is_action_pressed(charging_btn)
-
-	# Se botão segurado, bloqueia o lifecycle do attack imediatamente (mesmo antes
-	# da anim atingir o pause_frame). Sem isso, _on_launch dispara cedo em moves
-	# com startup curto + anim fps baixo (Joudan startup=3, anim fps=12 → launch
-	# em ~50ms, anim só atinge frame 2 em ~166ms).
-	if is_held:
-		# Primeira vez bloqueando: salva velocity programada.
-		if not _charge_blocked:
-			_charge_blocked = true
-			if fighter:
-				_pre_charge_velocity = fighter.velocity
-		if fighter:
-			fighter.velocity = Vector2.ZERO
-
-		# Quando a anim atingir o pause_frame, pausa visualmente e marca _is_charging.
-		if not _is_charging and anim.get_current_frame() >= charge_pause_frame:
-			_is_charging = true
-			anim.pause()
-
-		# Pulso visual: a cada 30 frames (~500ms) OU imediato quando o tier muda.
-		if _is_charging and vfx and special:
-			var pulse_data: Dictionary = special.classify_charge(charging_btn)
-			var tier_status: String = str(pulse_data.get("status", "normal"))
-			if tier_status != _last_pulse_tier or state_frames % 30 == 0:
-				_last_pulse_tier = tier_status
-				vfx.play_charge_pulse(tier_status)
-		return true
-
-	# Botão NÃO segurado.
-	if not _charge_blocked:
-		# Nunca bloqueou — fluxo normal sem charge.
-		return false
-
-	# Botão soltou após bloquear — restaura cor + velocity, captura multiplier.
-	if vfx:
-		vfx.clear_charge_pulse()
-	if fighter:
-		fighter.velocity = _pre_charge_velocity
-
-	# Captura o tier ANTES do ChargeTracker zerar (ordem de _physics_process
-	# garante isso: Fighter roda antes dos componentes filhos).
-	if special:
-		var classification: Dictionary = special.classify_charge(charging_btn)
-		_charge_multiplier = float(classification.get("multiplier", 1.0))
-
-	# Aplica o multiplier na hitbox já configurada no begin().
-	if attack and _charge_multiplier > 1.0:
-		attack.apply_multiplier(_charge_multiplier)
-
-	_is_charging = false
-	_charge_blocked = false
-	anim.resume()
-	return false
-
-# Processa o macro-cancel. Retorna `true` se um macro disparou e a transição
-# foi emitida — caller deve `return` imediatamente após.
 func _check_macro(charging_btn: String) -> bool:
-	if not special:
-		return false
-	var result: Dictionary = special.check_macro(charging_btn)
-	if result.is_empty():
-		return false
+	return special.process_macro(self, charging_btn) if special else false
 
-	# Limpa modulate da carga antes de transicionar (caso o macro tenha disparado
-	# durante a charge phase — o release não vai acontecer).
-	if vfx:
-		vfx.clear_charge_pulse()
-
-	# Consume os dois botões pra evitar duplo-input após o cancel.
-	var complement: String = result["complement"]
-	if input_buffer and input_buffer.history:
-		input_buffer.history.consume_all_action(complement)
-		input_buffer.history.consume_all_action(charging_btn)
-
-	var macro_name: String = result["macro"]
-	match macro_name:
-		"hybrid_dash":
-			transition_requested.emit("HybridDashState", {})
-		"special_throw":
-			# Super throw só existe na variante de perto. Longe = cancela pra recovery.
-			var is_near: bool = false
-			if proximity != null:
-				is_near = proximity.is_target_near
-			if is_near:
-				transition_requested.emit("SuperThrowState", {})
-			else:
-				transition_requested.emit(_resolve_recovery_state(), {})
-	return true
-
-# Inferência do botão de carga a partir das dimensões do golpe.
-# Hadouken/Shoryuken → punch_*; Tatsumaki/Joudan → kick_*.
-# Override em estados que precisam de regra custom (ex: divekick herda do Joudan).
 func _get_charging_button() -> String:
-	var prefix := ""
-	if type_dim == "hadouken" or type_dim == "shoryuken":
-		prefix = "punch"
-	elif type_dim == "tatsumaki" or type_dim == "joudan":
-		prefix = "kick"
-	if prefix == "" or (strength_dim != "light" and strength_dim != "heavy"):
-		return ""
-	return prefix + "_" + strength_dim
+	return special.charging_button_for(self) if special else ""
 
 # ==========================================
 # Helpers de animação (úteis pra Shoryukens que pausam frame específico)
