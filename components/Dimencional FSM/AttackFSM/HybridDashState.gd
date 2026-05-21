@@ -16,8 +16,20 @@ func _ready() -> void:
 	cancel_tier_dim = 3
 	recovery_state = "IdleState"
 
+# Sobrescreve o _ensure_posture do AttackStateBase pra usar collider de crouch
+# (em vez do default "stand" que viria do stance_dim="ground").
+func _ensure_posture() -> void:
+	if fighter: fighter.set_posture_collision("crouch")
+
 # Sobrescreve o default do State (que zeraria a velocity por estar no chão).
 # Dispara o avanço pra frente com base no facing.
 func _apply_enter_velocity() -> void:
 	var f_dir = facing.current_facing if facing else 1.0
 	fighter.velocity = Vector2(dash_speed * f_dir, 0.0)
+	# Pulse azul rápido (fade 0.15s) marcando o início do dash.
+	if vfx: vfx.play_charge_pulse("normal", 0.15)
+
+# Pulse rápido a cada 5 frames (~166ms) durante o dash.
+func _during_active(_delta: float) -> void:
+	if vfx and state_frames % 5 == 0:
+		vfx.play_charge_pulse("normal", 0.1)
