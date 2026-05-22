@@ -94,6 +94,15 @@ func end() -> void:
 	disable_hitbox()
 	_state = null
 
+# Fase atual do ciclo do golpe ativo. "none" se não há golpe rodando (ou se o
+# estado ativo não usa o AttackComponent — Shoryuken/projétil). Lido pelo
+# CancelComponent pra restringir cancel por janela (startup/active/recovery).
+func current_phase() -> String:
+	if _state == null: return "none"
+	if not _launched: return "startup"
+	if not _active_ended: return "active"
+	return "recovery"
+
 # ==========================================
 # Lógica DEFAULT dos hooks do State.
 # Chamados via forwards finos em State.gd (State._on_launch → default_on_launch).

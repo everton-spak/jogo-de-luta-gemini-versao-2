@@ -6,6 +6,7 @@ var current_state: State
 var current_state_name: String = ""
 var last_winning_score: int = 0
 var _global_state_map: Dictionary = {}
+var _cancel: CancelComponent = null # política de cancelamento (lazy via get_component)
 
 func _on_initialized() -> void:
 	sub_components.clear()
@@ -137,30 +138,40 @@ func get_active_leaf() -> State:
 	return node
 
 # ==========================================
-# Gate de cancelamento por TIER (cancel_tier_dim).
-# Chamado pelo Fighter antes de aplicar uma query de input. Retorna true se a
-# transição é permitida. Regra clássica de fighting game:
-#   - De um estado neutro/movimento (tier 0): pode ir pra qualquer coisa.
-#   - Dentro de um golpe (tier ≥1): só cancela em tier ESTRITAMENTE maior
-#     (normal→special→super), ou em si mesmo se can_cancel_self (chain/rapid-fire).
-# Sem isso, qualquer golpe interromperia qualquer outro (só filtrado por tags).
+# Gate de cancelamento. Chamado pelo Fighter antes de aplicar uma query de input.
+# MECÂNICA aqui (achar leaf ativo + simular leaf-alvo); a POLÍTICA (a transição
+# é permitida?) é delegada pro CancelComponent. Se o componente não estiver na
+# cena, cai no _fallback_tier_gate (regra básica de tier) pra não travar o jogo.
 # ==========================================
 func passes_cancel_gate(query: Dictionary) -> bool:
-	var current_leaf := get_active_leaf()
-	var target_leaf := _simulate_leaf_routing(query)
+	var from_leaf := get_active_leaf()
+	var to_leaf := _simulate_leaf_routing(query)
 	# Sem info suficiente → não bloqueia (deixa o roteamento por tags decidir).
-	if current_leaf == null or target_leaf == null:
+	if from_leaf == null or to_leaf == null:
 		return true
 
-	var current_tier: int = current_leaf.cancel_tier_dim
-	var next_tier: int = target_leaf.cancel_tier_dim
+	if _cancel == null:
+		_cancel = get_component("CancelComponent") as CancelComponent
 
-	if current_tier == 0:
-		return true # neutro/movimento libera tudo
-	if next_tier > current_tier:
-		return true # cancela em tier maior
-	if target_leaf.name == current_leaf.name and current_leaf.can_cancel_self:
-		return true # self-chain (rapid fire)
+	var allowed: bool
+	if _cancel != null:
+		allowed = _cancel.can_cancel(from_leaf, to_leaf)
+	else:
+		allowed = _fallback_tier_gate(from_leaf, to_leaf)
+
+	# Contabiliza a rota do combo só quando a transição vai mesmo acontecer.
+	if allowed and _cancel != null:
+		_cancel.register_cancel(from_leaf, to_leaf)
+	return allowed
+
+# Regra básica de tier — usada SÓ se o CancelComponent não existir na cena.
+func _fallback_tier_gate(from_leaf: State, to_leaf: State) -> bool:
+	if from_leaf.cancel_tier_dim == 0:
+		return true
+	if to_leaf.cancel_tier_dim > from_leaf.cancel_tier_dim:
+		return true
+	if to_leaf.name == from_leaf.name and from_leaf.can_cancel_self:
+		return true
 	return false
 
 func _is_child_of_fsm() -> bool:

@@ -153,9 +153,9 @@ func _resolve_recovery_state() -> String:
 	return attack.default_resolve_recovery_state(self) if attack else "IdleState"
 
 # ==========================================
-# Cancel routing — gate de tier vive em StateMachine.passes_cancel_gate,
-# chamado pelo Fighter antes de aplicar a query. Usa cancel_tier_dim/can_cancel_self
-# (declarados acima como @export) pra decidir se a transição é permitida.
+# Cancel routing — MECÂNICA em StateMachine.passes_cancel_gate (achar leaf ativo/alvo),
+# POLÍTICA no CancelComponent.can_cancel (usa cancel_tier_dim/can_cancel_self abaixo).
+# O Fighter chama o gate antes de aplicar a query de input.
 # ==========================================
 
 # ==========================================
