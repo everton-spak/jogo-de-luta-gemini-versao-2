@@ -2,9 +2,11 @@ class_name AttackComponent
 extends Component
 
 # Executor do ciclo startup → active → recovery dos golpes.
-# Composição: o State detém os dados e os hooks (animation_name, hitbox_offset,
-# damage, _on_launch, _during_active, etc.); o AttackComponent é UM nó compartilhado
-# no Fighter que executa o ciclo lendo do State e chamando os hooks no momento certo.
+# Composição: o State detém os DADOS (animation_name, hitbox_offset, damage, ...);
+# o AttackComponent é UM nó compartilhado no Fighter que executa o ciclo e contém
+# a LÓGICA DEFAULT dos hooks (default_* abaixo). Os hooks do State (_on_launch,
+# _during_active, etc.) são forwards finos pra cá; estados folha sobrescrevem o
+# hook que precisarem e o override vence o forward.
 
 # Refs cacheadas
 var hitbox: Component
@@ -91,6 +93,51 @@ func tick(delta: float) -> bool:
 func end() -> void:
 	disable_hitbox()
 	_state = null
+
+# ==========================================
+# Lógica DEFAULT dos hooks do State.
+# Chamados via forwards finos em State.gd (State._on_launch → default_on_launch).
+# Recebem o state (`s`) como parâmetro pra ler dados/refs (duck-typed em runtime).
+# Estados folha que sobrescrevem o hook no State nunca chegam aqui.
+# ==========================================
+
+func default_apply_enter_velocity(s) -> void:
+	if s.fighter and s.stance_dim != "air":
+		s.fighter.velocity = Vector2.ZERO
+
+func default_select_and_play_animation(s) -> void:
+	if s.anim_close != "":
+		var is_near = s.proximity and s.proximity.is_target_near
+		if is_near:
+			s.hitbox_offset = s.offset_close
+			s.hitbox_size = s.size_close
+			if s.anim: s.anim.play(s.anim_close)
+		else:
+			s.hitbox_offset = s.offset_far
+			s.hitbox_size = s.size_far
+			if s.anim: s.anim.play(s.anim_far)
+	elif s.animation_name != "":
+		if s.anim: s.anim.play(s.animation_name)
+
+func default_on_launch(_s) -> void:
+	enable_hitbox()
+
+func default_on_active_end(_s) -> void:
+	disable_hitbox()
+
+# Emite a transição via _resolve_recovery_state() VIRTUAL do state — assim um
+# override (ex. ProjectileAttackState) é respeitado em vez do default abaixo.
+func default_on_recovered(s) -> void:
+	s.transition_requested.emit(s._resolve_recovery_state(), {})
+
+func default_resolve_recovery_state(s) -> String:
+	if s.recovery_state != "":
+		return s.recovery_state
+	if s.stance_dim == "air":
+		return "FallState"
+	if s.stance_dim == "crouch":
+		return "CrouchState"
+	return "IdleState"
 
 # ==========================================
 # Hitbox helpers — públicos pra fluxos custom (Shoryuken)

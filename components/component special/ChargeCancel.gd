@@ -1,12 +1,17 @@
 class_name SpecialMechanicComponent
 extends Component
 
-# Detém só o que é EXCLUSIVO desta mecânica:
+# Dono das mecânicas de motion move (charge + macro-cancel). Contém:
 #   1. Tabela MACRO_CANCELS — regras de "botão segurado + botão complementar"
 #   2. Classificação de tiers (normal/strong/super) por tempo de carga
+#   3. Orquestração da CHARGE PHASE (tick_charge/reset_charge/charging_button_for)
+#      + o estado da carga ativa (_is_charging, _charge_blocked, charge_multiplier).
+#      Movido do State.gd — o State agora só delega via _tick_charge/_check_macro/etc.
+#   4. Disparo do MACRO-CANCEL (process_macro → hybrid_dash / special_throw)
 #
-# O tracking de tempo de botão segurado fica no ChargeTrackerComponent.
-# Detecção genérica de botões simultâneos fica no SimultaneousInterpreterComponent.
+# Delega o que é de outro componente: tempo de botão segurado → ChargeTrackerComponent;
+# botões simultâneos → SimultaneousInterpreterComponent; scaling da hitbox →
+# AttackComponent.apply_multiplier; pulse de carga → VfxComponent.
 
 # Regras de macro-cancel: "botão segurado" → {"complementar apertado": "resultado"}.
 # Disparado quando charging_btn está sendo segurado AGORA e complement_btn foi

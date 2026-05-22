@@ -95,3 +95,14 @@ func is_playing() -> bool:
 	if sprite:
 		return sprite.is_playing()
 	return false
+
+# --- SIGNAL frame_changed (usado por Shoryukens p/ pausar frame específico) ---
+# Guarda anti-duplicata embutida.
+
+func connect_frame_changed(cb: Callable) -> void:
+	if sprite and not sprite.frame_changed.is_connected(cb):
+		sprite.frame_changed.connect(cb)
+
+func disconnect_frame_changed(cb: Callable) -> void:
+	if sprite and sprite.frame_changed.is_connected(cb):
+		sprite.frame_changed.disconnect(cb)

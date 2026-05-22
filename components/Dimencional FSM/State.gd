@@ -120,53 +120,37 @@ func physics_update(delta: float) -> void:
 	state_frames += 1
 
 # ==========================================
-# Hooks de ciclo de ataque (chamados pelo AttackComponent).
-# Defaults sensatos aqui; estados de ataque sobrescrevem o que precisarem.
+# Hooks de ciclo de ataque — DELEGADOS pro AttackComponent.
+# A lógica default vive lá (default_*); aqui são só forwards finos (mesmo padrão
+# da charge phase → SpecialMechanicComponent). Estados de ataque sobrescrevem o
+# hook que precisarem e o override vence o forward (dispatch virtual do GDScript).
 # Estados de movimento herdam mas nunca disparam (não passam por AttackStateBase).
 # ==========================================
 
 func _apply_enter_velocity() -> void:
-	if fighter and stance_dim != "air":
-		fighter.velocity = Vector2.ZERO
+	if attack: attack.default_apply_enter_velocity(self)
 
 func _select_and_play_animation() -> void:
-	if anim_close != "":
-		var is_near = proximity and proximity.is_target_near
-		if is_near:
-			hitbox_offset = offset_close
-			hitbox_size = size_close
-			if anim: anim.play(anim_close)
-		else:
-			hitbox_offset = offset_far
-			hitbox_size = size_far
-			if anim: anim.play(anim_far)
-	elif animation_name != "":
-		if anim: anim.play(animation_name)
+	if attack: attack.default_select_and_play_animation(self)
 
 func _during_startup(_delta: float) -> void: pass
 func _during_active(_delta: float) -> void: pass
 func _during_recovery(_delta: float) -> void: pass
 
 func _on_launch() -> void:
-	if attack: attack.enable_hitbox()
+	if attack: attack.default_on_launch(self)
 
 func _on_active_end() -> void:
-	if attack: attack.disable_hitbox()
+	if attack: attack.default_on_active_end(self)
 
 func _on_recovered() -> void:
-	transition_requested.emit(_resolve_recovery_state(), {})
+	if attack: attack.default_on_recovered(self)
 
 func _should_end_on_anim_end() -> bool:
 	return true
 
 func _resolve_recovery_state() -> String:
-	if recovery_state != "":
-		return recovery_state
-	if stance_dim == "air":
-		return "FallState"
-	if stance_dim == "crouch":
-		return "CrouchState"
-	return "IdleState"
+	return attack.default_resolve_recovery_state(self) if attack else "IdleState"
 
 # ==========================================
 # Cancel routing
@@ -212,16 +196,15 @@ func _get_charging_button() -> String:
 	return special.charging_button_for(self) if special else ""
 
 # ==========================================
-# Helpers de animação (úteis pra Shoryukens que pausam frame específico)
+# Helpers de animação — DELEGADOS pro AnimatedSpriteComponent.
+# Forwards finos; a guarda anti-duplicata vive lá.
 # ==========================================
 
 func _connect_frame_changed(cb: Callable) -> void:
-	if anim and anim.sprite and not anim.sprite.frame_changed.is_connected(cb):
-		anim.sprite.frame_changed.connect(cb)
+	if anim: anim.connect_frame_changed(cb)
 
 func _disconnect_frame_changed(cb: Callable) -> void:
-	if anim and anim.sprite and anim.sprite.frame_changed.is_connected(cb):
-		anim.sprite.frame_changed.disconnect(cb)
+	if anim: anim.disconnect_frame_changed(cb)
 
 func get_tags() -> Array[String]:
 	return []
