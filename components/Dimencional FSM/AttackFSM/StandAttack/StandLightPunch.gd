@@ -13,3 +13,4 @@ func _ready() -> void:
 	stance_dim = "ground"
 	type_dim = "punch"
 	strength_dim = "light"
+	cancel_tier_dim = 1 # fraco

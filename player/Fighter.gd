@@ -87,8 +87,10 @@ func _physics_process(delta: float) -> void:
 		var current_tags = root_fsm.get_tags()
 		var move_payload = buffer.check_special_moves(current_tags)
 		
-		# Se o buffer encontrou uma Query (um soco), ele manda para a FSM!
-		if not move_payload.is_empty():
+		# Achou uma Query: passa pelo GATE DE TIER antes de mandar pra FSM.
+			# O gate barra cancelamentos ilegais (ex: special de volta num normal).
+			# Ver StateMachine.passes_cancel_gate.
+		if not move_payload.is_empty() and root_fsm.passes_cancel_gate(move_payload.get("query", {})):
 			root_fsm.enter(move_payload)
 			# REMOVIDO: history._buffer.clear() 
 			# Limpar o buffer globalmente destrói inputs simultâneos (ex: Pulo + Soco).

@@ -125,6 +125,44 @@ func _simulate_leaf_routing(query: Dictionary) -> State:
 		else: return best_child
 	return null
 
+# Desce a cadeia de current_state até o estado folha ativo (o que realmente
+# está rodando agora). Usado pelo gate de cancelamento pra ler o tier atual.
+func get_active_leaf() -> State:
+	var node: State = self
+	while node is StateMachine:
+		var sm := node as StateMachine
+		if sm.current_state == null:
+			break
+		node = sm.current_state
+	return node
+
+# ==========================================
+# Gate de cancelamento por TIER (cancel_tier_dim).
+# Chamado pelo Fighter antes de aplicar uma query de input. Retorna true se a
+# transição é permitida. Regra clássica de fighting game:
+#   - De um estado neutro/movimento (tier 0): pode ir pra qualquer coisa.
+#   - Dentro de um golpe (tier ≥1): só cancela em tier ESTRITAMENTE maior
+#     (normal→special→super), ou em si mesmo se can_cancel_self (chain/rapid-fire).
+# Sem isso, qualquer golpe interromperia qualquer outro (só filtrado por tags).
+# ==========================================
+func passes_cancel_gate(query: Dictionary) -> bool:
+	var current_leaf := get_active_leaf()
+	var target_leaf := _simulate_leaf_routing(query)
+	# Sem info suficiente → não bloqueia (deixa o roteamento por tags decidir).
+	if current_leaf == null or target_leaf == null:
+		return true
+
+	var current_tier: int = current_leaf.cancel_tier_dim
+	var next_tier: int = target_leaf.cancel_tier_dim
+
+	if current_tier == 0:
+		return true # neutro/movimento libera tudo
+	if next_tier > current_tier:
+		return true # cancela em tier maior
+	if target_leaf.name == current_leaf.name and current_leaf.can_cancel_self:
+		return true # self-chain (rapid fire)
+	return false
+
 func _is_child_of_fsm() -> bool:
 	var p = get_parent()
 	while p != null:

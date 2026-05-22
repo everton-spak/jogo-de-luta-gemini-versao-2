@@ -153,29 +153,10 @@ func _resolve_recovery_state() -> String:
 	return attack.default_resolve_recovery_state(self) if attack else "IdleState"
 
 # ==========================================
-# Cancel routing
+# Cancel routing — gate de tier vive em StateMachine.passes_cancel_gate,
+# chamado pelo Fighter antes de aplicar a query. Usa cancel_tier_dim/can_cancel_self
+# (declarados acima como @export) pra decidir se a transição é permitida.
 # ==========================================
-
-func process_cancel_routes() -> bool:
-	if input_buffer == null: return false
-	var command = input_buffer.check_special_moves(get_tags())
-	if command.is_empty(): return false
-
-	if command.has("query"):
-		var query = command["query"]
-		var root_fsm = get_component("StateMachine")
-
-		if root_fsm and root_fsm is StateMachine:
-			var target_node = root_fsm._simulate_leaf_routing(query)
-
-			if target_node:
-				var next_tier = target_node.cancel_tier_dim
-				var current_tier = self.cancel_tier_dim
-
-				if next_tier > current_tier or (target_node.name == self.name and can_cancel_self):
-					transition_requested.emit(target_node.name, command)
-					return true
-	return false
 
 # ==========================================
 # Charge phase (motion moves) — DELEGADO pro SpecialMechanicComponent.

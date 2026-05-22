@@ -8,3 +8,4 @@ func _ready() -> void:
 	stance_dim = "air"
 	type_dim = "kick"
 	strength_dim = "heavy"
+	cancel_tier_dim = 2 # forte
