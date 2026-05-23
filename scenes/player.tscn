@@ -260,6 +260,13 @@
 [ext_resource type="Script" uid="uid://bq7x2ncpaz9km" path="res://components/cancel component/CancelComponent.gd" id="167_cnclc"]
 [ext_resource type="Script" uid="uid://cp8m2r3n9xkb4" path="res://components/posture component/PostureComponent.gd" id="168_pstur"]
 [ext_resource type="Script" uid="uid://dxn7q4mz8vplg" path="res://components/projectile component/ProjectileSpawnerComponent.gd" id="168_prjsp"]
+[ext_resource type="Script" uid="uid://cn5kt8j2qvxw3" path="res://components/Dimencional FSM/HurtFSM/HurtFSM.gd" id="200_hrtfsm"]
+[ext_resource type="Script" uid="uid://b3w7x9pmqz4nh" path="res://components/Dimencional FSM/HurtFSM/HurtState.gd" id="201_hrtst"]
+[ext_resource type="Script" uid="uid://dr2n6cqxwfp8m" path="res://components/Dimencional FSM/HurtFSM/BlockState.gd" id="201_blkst"]
+[ext_resource type="Script" uid="uid://cp4m8j9xt3wkn" path="res://components/Dimencional FSM/HurtFSM/KOState.gd" id="201_kost"]
+[ext_resource type="Script" uid="uid://dk7p2nmxqfvb5" path="res://components/Dimencional FSM/HurtFSM/AirHurtState.gd" id="201_arhrt"]
+[ext_resource type="Script" uid="uid://b9x3qmpw5n7kt" path="res://components/Dimencional FSM/HurtFSM/ThrownState.gd" id="201_thrwn"]
+[ext_resource type="Script" uid="uid://dn4kx8mqp2vw7" path="res://components/Dimencional FSM/HurtFSM/ThrowTechState.gd" id="201_thtch"]
 [ext_resource type="Script" uid="uid://4sw1xiqu777m" path="res://components/input/InputBuffer/InputBuffer.gd" id="172_tj70q"]
 [ext_resource type="Script" uid="uid://b2humt7xx1iki" path="res://components/input/InputBuffer/DirectionalInterpreterComponent.gd" id="173_wvc5d"]
 [ext_resource type="Script" uid="uid://dl0p3of8s38ey" path="res://components/input/InputBuffer/InputHistoryComponent.gd" id="174_27c74"]
@@ -1724,3 +1731,33 @@ metadata/_custom_type_script = "uid://di1hqfc5y7cid"
 [node name="SuperThrowState" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1260746901]
 script = ExtResource("328_ut8wx")
 metadata/_custom_type_script = "uid://dkxnusugxcl37"
+
+[node name="HurtFSM" type="Node" parent="Component/StateMachine" unique_id=200000001]
+script = ExtResource("200_hrtfsm")
+initial_state_name = "HurtState"
+react_dim = "yes"
+metadata/_custom_type_script = "uid://cn5kt8j2qvxw3"
+
+[node name="HurtState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000002]
+script = ExtResource("201_hrtst")
+metadata/_custom_type_script = "uid://b3w7x9pmqz4nh"
+
+[node name="BlockState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000003]
+script = ExtResource("201_blkst")
+metadata/_custom_type_script = "uid://dr2n6cqxwfp8m"
+
+[node name="KOState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000004]
+script = ExtResource("201_kost")
+metadata/_custom_type_script = "uid://cp4m8j9xt3wkn"
+
+[node name="AirHurtState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000005]
+script = ExtResource("201_arhrt")
+metadata/_custom_type_script = "uid://dk7p2nmxqfvb5"
+
+[node name="ThrownState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000006]
+script = ExtResource("201_thrwn")
+metadata/_custom_type_script = "uid://b9x3qmpw5n7kt"
+
+[node name="ThrowTechState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000007]
+script = ExtResource("201_thtch")
+metadata/_custom_type_script = "uid://dn4kx8mqp2vw7"

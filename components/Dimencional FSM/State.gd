@@ -10,6 +10,9 @@ var input_buffer: Component
 @export_enum("any", "neutral", "forward", "backward") var direction_dim: String = "any"
 @export var type_dim: String = "any" # Ex: "punch", "kick", "dash", "special"
 @export_enum("any", "close", "far") var proximity_dim: String = "any"
+# "yes" só na HurtFSM e seus leaves — força queries de hit/block/ko/etc a rotearem
+# pra HurtFSM em vez do MovementStateMachine (que ganharia o empate por ordem).
+@export_enum("any", "yes", "no") var react_dim: String = "any"
 
 @export_group("Regras de Cancelamento")
 @export var cancel_tier_dim: int = 0 # 0=Passivo, 1=Fraco, 2=Forte, 3=Especial, 4=Super
