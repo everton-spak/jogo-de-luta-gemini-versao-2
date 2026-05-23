@@ -6,7 +6,7 @@ func _ready() -> void:
 
 func enter(payload: Dictionary = {}) -> void:
 	if fighter:
-		fighter.set_posture_collision("crouch")
+		if posture: posture.apply("crouch")
 	super.enter(payload)
 
 func get_machine_tags() -> Array[String]:

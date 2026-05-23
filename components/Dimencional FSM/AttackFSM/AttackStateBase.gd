@@ -24,11 +24,11 @@ func enter(_payload: Dictionary = {}) -> void:
 # o collider fica na postura do golpe anterior e o sprite do novo golpe é
 # desenhado deslocado (parece que o personagem afunda).
 func _ensure_posture() -> void:
-	if not fighter: return
+	if not posture: return
 	match stance_dim:
-		"ground": fighter.set_posture_collision("stand")
-		"crouch": fighter.set_posture_collision("crouch")
-		"air": fighter.set_posture_collision("air")
+		"ground": posture.apply("stand")
+		"crouch": posture.apply("crouch")
+		"air": posture.apply("air")
 
 func physics_update(delta: float) -> void:
 	super.physics_update(delta)

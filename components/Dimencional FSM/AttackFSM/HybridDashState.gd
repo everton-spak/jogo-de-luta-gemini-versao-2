@@ -19,7 +19,7 @@ func _ready() -> void:
 # Sobrescreve o _ensure_posture do AttackStateBase pra usar collider de crouch
 # (em vez do default "stand" que viria do stance_dim="ground").
 func _ensure_posture() -> void:
-	if fighter: fighter.set_posture_collision("crouch")
+	if posture: posture.apply("crouch")
 
 # Sobrescreve o default do State (que zeraria a velocity por estar no chão).
 # Dispara o avanço pra frente com base no facing.

@@ -3,7 +3,7 @@ extends State
 
 func enter(_payload: Dictionary = {}) -> void:
 	if fighter:
-		fighter.set_posture_collision("stand")
+		if posture: posture.apply("stand")
 	if anim:
 		anim.play("idle")
 		

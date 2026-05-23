@@ -19,21 +19,22 @@ func _ready() -> void:
 func _apply_enter_velocity() -> void:
 	if fighter:
 		fighter.velocity = Vector2.ZERO
-		fighter.set_posture_collision("stand")
-		_base_sprite_y = fighter.get_sprite_position_y()
+	if posture:
+		posture.apply("stand")
+		_base_sprite_y = posture.get_sprite_y()
 		_apply_frame_offset(0)
 	_connect_frame_changed(_on_frame_changed)
 
 func exit() -> void:
 	super.exit()
 	_disconnect_frame_changed(_on_frame_changed)
-	if fighter:
-		fighter.set_posture_collision("crouch")
+	if posture:
+		posture.apply("crouch")
 
 func _on_frame_changed() -> void:
 	if anim:
 		_apply_frame_offset(anim.get_current_frame())
 
 func _apply_frame_offset(frame: int) -> void:
-	if fighter and frame < FRAME_Y_OFFSETS.size():
-		fighter.set_sprite_position_y(_base_sprite_y + FRAME_Y_OFFSETS[frame])
+	if posture and frame < FRAME_Y_OFFSETS.size():
+		posture.set_sprite_y(_base_sprite_y + FRAME_Y_OFFSETS[frame])

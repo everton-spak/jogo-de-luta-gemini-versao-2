@@ -77,25 +77,23 @@ func _resolve_recovery_state() -> String:
 	return "FallState" if stance_dim == "air" else "IdleState"
 
 func _spawn_projectile() -> void:
-	if not projectile_scene or not fighter: return
-	var proj = projectile_scene.instantiate()
-	fighter.get_parent().add_child(proj)
-	var f_dir = facing.current_facing if facing else 1.0
-
-	var marker: Node = null
-	if spawn_marker_alt != "":
-		marker = fighter.get_node_or_null(spawn_marker_alt)
-	if not marker:
-		marker = fighter.get_node_or_null(spawn_marker_name)
-
-	if marker:
-		proj.global_position = fighter.global_position + Vector2(marker.position.x * f_dir, marker.position.y)
-	else:
-		proj.global_position = fighter.global_position + Vector2(spawn_offset_fallback.x * f_dir, spawn_offset_fallback.y)
-
-	# Escala visual + hitbox cresce com o tier de carga (1.0 normal, 1.5 strong, 2.5 super).
-	proj.scale = Vector2(_charge_multiplier, _charge_multiplier)
-
-	if proj.has_method("launch"):
-		var scaled_damage := int(proj_damage * _charge_multiplier)
-		proj.launch(f_dir, proj_speed, fighter, scaled_damage, proj_hitstun, proj_knockback, proj_speed_y)
+	# Delegado pro ProjectileSpawnerComponent (busca por nome — não usa cast de
+	# classe pra funcionar mesmo se o class_name ainda não foi indexado pelo editor).
+	# call() invoca o método duck-typed, contornando o tipo estático Component.
+	if not fighter:
+		push_warning("[ProjectileAttackState] fighter null — projétil não disparado")
+		return
+	var spawner = fighter.get_component("ProjectileSpawnerComponent")
+	if spawner == null:
+		push_warning("[ProjectileAttackState] ProjectileSpawnerComponent não encontrado na cena — projétil não disparado")
+		return
+	var scaled_damage: int = int(proj_damage * _charge_multiplier)
+	spawner.call("spawn_and_launch",
+		projectile_scene,
+		spawn_marker_name,
+		spawn_marker_alt,
+		spawn_offset_fallback,
+		proj_speed, proj_speed_y,
+		scaled_damage, proj_hitstun, proj_knockback,
+		_charge_multiplier
+	)

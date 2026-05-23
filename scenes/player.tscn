@@ -258,6 +258,8 @@
 [ext_resource type="Texture2D" uid="uid://bj8e24i4hvp53" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-14.png" id="154_w5oev"]
 [ext_resource type="Script" uid="uid://w3deme3it6nx" path="res://components/attack component/AttackComponent.gd" id="167_dygpo"]
 [ext_resource type="Script" uid="uid://bq7x2ncpaz9km" path="res://components/cancel component/CancelComponent.gd" id="167_cnclc"]
+[ext_resource type="Script" uid="uid://cp8m2r3n9xkb4" path="res://components/posture component/PostureComponent.gd" id="168_pstur"]
+[ext_resource type="Script" uid="uid://dxn7q4mz8vplg" path="res://components/projectile component/ProjectileSpawnerComponent.gd" id="168_prjsp"]
 [ext_resource type="Script" uid="uid://4sw1xiqu777m" path="res://components/input/InputBuffer/InputBuffer.gd" id="172_tj70q"]
 [ext_resource type="Script" uid="uid://b2humt7xx1iki" path="res://components/input/InputBuffer/DirectionalInterpreterComponent.gd" id="173_wvc5d"]
 [ext_resource type="Script" uid="uid://dl0p3of8s38ey" path="res://components/input/InputBuffer/InputHistoryComponent.gd" id="174_27c74"]
@@ -1325,12 +1327,6 @@ size = Vector2(129, 23)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1479694764]
 script = ExtResource("1_lw0jh")
-stand_size = Vector2(96, 235)
-stand_pos = Vector2(-3, -17.5)
-crouch_size = Vector2(96, 140)
-crouch_pos = Vector2(-3, 30)
-air_size = Vector2(80, 200)
-air_pos = Vector2(-3, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=402613336]
 position = Vector2(-3, -17.5)
@@ -1389,6 +1385,20 @@ metadata/_custom_type_script = "uid://dtp8mk3rml45t"
 [node name="CancelComponent" type="Node" parent="Component" unique_id=167123456]
 script = ExtResource("167_cnclc")
 metadata/_custom_type_script = "uid://bq7x2ncpaz9km"
+
+[node name="PostureComponent" type="Node" parent="Component" unique_id=168000001]
+script = ExtResource("168_pstur")
+stand_size = Vector2(96, 235)
+stand_pos = Vector2(-3, -17.5)
+crouch_size = Vector2(96, 140)
+crouch_pos = Vector2(-3, 30)
+air_size = Vector2(80, 200)
+air_pos = Vector2(-3, 0)
+metadata/_custom_type_script = "uid://cp8m2r3n9xkb4"
+
+[node name="ProjectileSpawnerComponent" type="Node" parent="Component" unique_id=168000002]
+script = ExtResource("168_prjsp")
+metadata/_custom_type_script = "uid://dxn7q4mz8vplg"
 
 [node name="HitboxComponent" type="Node" parent="Component" unique_id=693266882 node_paths=PackedStringArray("area_2d")]
 script = ExtResource("186_5uixd")

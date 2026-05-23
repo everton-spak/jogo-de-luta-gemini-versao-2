@@ -14,7 +14,7 @@ func enter(_payload: Dictionary = {}) -> void:
 	
 	if fighter:
 		fighter.velocity.x = 0
-		fighter.set_posture_collision("crouch")
+		if posture: posture.apply("crouch")
 		
 	#var anim = fighter.get_component("AnimatedSpriteComponent")
 	if anim:

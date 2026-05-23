@@ -61,6 +61,7 @@ var vfx: Component
 var combo_scaling : Component
 var attack: AttackComponent # executor de ciclo de ataque (composição)
 var special: SpecialMechanicComponent # regras de macro-cancel + tiers de carga
+var posture: PostureComponent # geometria de collider/sprite por postura
 
 var state_time_sec: float = 0.0
 var state_frames: int = 0
@@ -100,6 +101,7 @@ func _on_initialized() -> void:
 	combo_scaling = fighter.get_component("ScalingComboComponent")
 	attack = fighter.get_component("AttackComponent") as AttackComponent
 	special = fighter.get_component("SpecialMechanicComponent") as SpecialMechanicComponent
+	posture = fighter.get_component("PostureComponent") as PostureComponent
 
 # ==========================================
 # Lifecycle base — só counters.

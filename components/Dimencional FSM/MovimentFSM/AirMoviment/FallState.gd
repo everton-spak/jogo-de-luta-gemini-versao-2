@@ -27,7 +27,7 @@ func enter(payload: Dictionary = {}) -> void:
 	
 	#var anim = fighter.get_component("AnimatedSpriteComponent")
 	if fighter:
-		fighter.set_posture_collision("air")
+		if posture: posture.apply("air")
 	if anim:
 		anim.play("fall")
 
@@ -39,7 +39,7 @@ func physics_update(delta: float) -> void:
 
 	if fighter.is_on_floor():
 		fighter.velocity.x = 0
-		fighter.set_posture_collision("stand")
+		if posture: posture.apply("stand")
 		transition_requested.emit(landing_state, {})
 
 func get_tags() -> Array[String]:
