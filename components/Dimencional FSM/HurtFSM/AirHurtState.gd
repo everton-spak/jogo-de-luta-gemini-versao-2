@@ -54,8 +54,13 @@ func physics_update(delta: float) -> void:
 		if health and health.current_health <= 0:
 			transition_requested.emit("KOState", {})
 		else:
-			# TODO Tier 3: trocar pra KnockdownState quando existir.
-			transition_requested.emit("IdleState", {})
+			# Passa o knockback restante pro KnockdownState dar continuidade natural.
+			transition_requested.emit("KnockdownState", {
+				"hit_data": {
+					"knockback_x": fighter.velocity.x,
+					"knockback_y": fighter.velocity.y,
+				}
+			})
 
 func get_tags() -> Array[String]:
 	return ["Hurt", "Juggling"]

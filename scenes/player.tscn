@@ -302,6 +302,10 @@
 [ext_resource type="Script" uid="uid://cp4m8kaxt3wkn" path="res://components/Dimencional FSM/HurtFSM/KOState.gd" id="201_kost"]
 [ext_resource type="Script" uid="uid://cax3qmpw5n7kt" path="res://components/Dimencional FSM/HurtFSM/ThrownState.gd" id="201_thrwn"]
 [ext_resource type="Script" uid="uid://dn4kx8mqp2vw7" path="res://components/Dimencional FSM/HurtFSM/ThrowTechState.gd" id="201_thtch"]
+[ext_resource type="Script" uid="uid://dk8m3n7qpwxv5" path="res://components/Dimencional FSM/KnockdownFSM/KnockdownFSM.gd" id="300_kdfsm"]
+[ext_resource type="Script" uid="uid://b4q9x2mcnpzh7" path="res://components/Dimencional FSM/KnockdownFSM/KnockdownState.gd" id="301_kdst"]
+[ext_resource type="Script" uid="uid://cn5p8k4mxqvb3" path="res://components/Dimencional FSM/KnockdownFSM/GroundedState.gd" id="301_grnd"]
+[ext_resource type="Script" uid="uid://dr3w7n9qpmckx" path="res://components/Dimencional FSM/KnockdownFSM/WakeupState.gd" id="301_wake"]
 [ext_resource type="Script" uid="uid://cleae75n3lvvm" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenFSM.gd" id="201_vso6i"]
 [ext_resource type="Script" uid="uid://blt8hbfapgntj" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenHeavy.gd" id="202_20122"]
 [ext_resource type="Script" uid="uid://c54oo8x45fpms" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenLight.gd" id="203_apmd0"]
@@ -1765,3 +1769,20 @@ metadata/_custom_type_script = "uid://b9x3qmpw5n7kt"
 [node name="ThrowTechState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000007]
 script = ExtResource("201_thtch")
 metadata/_custom_type_script = "uid://dn4kx8mqp2vw7"
+
+[node name="KnockdownFSM" type="Node" parent="Component/StateMachine" unique_id=300000001]
+script = ExtResource("300_kdfsm")
+initial_state_name = "KnockdownState"
+metadata/_custom_type_script = "uid://dk8m3n7qpwxv5"
+
+[node name="KnockdownState" type="Node" parent="Component/StateMachine/KnockdownFSM" unique_id=300000002]
+script = ExtResource("301_kdst")
+metadata/_custom_type_script = "uid://b4q9x2mcnpzh7"
+
+[node name="GroundedState" type="Node" parent="Component/StateMachine/KnockdownFSM" unique_id=300000003]
+script = ExtResource("301_grnd")
+metadata/_custom_type_script = "uid://cn5p8k4mxqvb3"
+
+[node name="WakeupState" type="Node" parent="Component/StateMachine/KnockdownFSM" unique_id=300000004]
+script = ExtResource("301_wake")
+metadata/_custom_type_script = "uid://dr3w7n9qpmckx"
