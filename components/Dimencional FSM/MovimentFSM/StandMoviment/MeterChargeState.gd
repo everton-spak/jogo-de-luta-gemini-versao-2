@@ -22,7 +22,7 @@ extends State
 @export_group("VFX de Carga")
 # Cor única do pulse durante a carga. Default roxo HDR (com glow do ambient).
 # Valores > 1.0 em canais geram bright bloom; pra mais sutil, fique entre 0-1.
-@export var pulse_color: Color = Color(1.0, 0.0, 3.0)
+@export var pulse_color: Color = Color(1.3, 0.6, 2.0)
 # Intervalo entre pulses (frames @ 60fps). 15 = ~250ms (mesmo ritmo dos
 # motion moves pra consistência).
 @export var pulse_interval_frames: int = 15
