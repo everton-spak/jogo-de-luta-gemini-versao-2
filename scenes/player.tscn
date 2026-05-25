@@ -302,10 +302,6 @@
 [ext_resource type="Script" uid="uid://cp4m8kaxt3wkn" path="res://components/Dimencional FSM/HurtFSM/KOState.gd" id="201_kost"]
 [ext_resource type="Script" uid="uid://cax3qmpw5n7kt" path="res://components/Dimencional FSM/HurtFSM/ThrownState.gd" id="201_thrwn"]
 [ext_resource type="Script" uid="uid://dn4kx8mqp2vw7" path="res://components/Dimencional FSM/HurtFSM/ThrowTechState.gd" id="201_thtch"]
-[ext_resource type="Script" uid="uid://dk8m3n7qpwxv5" path="res://components/Dimencional FSM/KnockdownFSM/KnockdownFSM.gd" id="300_kdfsm"]
-[ext_resource type="Script" uid="uid://b4q9x2mcnpzh7" path="res://components/Dimencional FSM/KnockdownFSM/KnockdownState.gd" id="301_kdst"]
-[ext_resource type="Script" uid="uid://cn5p8k4mxqvb3" path="res://components/Dimencional FSM/KnockdownFSM/GroundedState.gd" id="301_grnd"]
-[ext_resource type="Script" uid="uid://dr3w7n9qpmckx" path="res://components/Dimencional FSM/KnockdownFSM/WakeupState.gd" id="301_wake"]
 [ext_resource type="Script" uid="uid://cleae75n3lvvm" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenFSM.gd" id="201_vso6i"]
 [ext_resource type="Script" uid="uid://blt8hbfapgntj" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenHeavy.gd" id="202_20122"]
 [ext_resource type="Script" uid="uid://c54oo8x45fpms" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenLight.gd" id="203_apmd0"]
@@ -344,6 +340,10 @@
 [ext_resource type="Script" uid="uid://do45n6dq681s4" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirHadoukenLight.gd" id="297_v5rjw"]
 [ext_resource type="Script" uid="uid://chor2kl82lego" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirDivekickHeavy.gd" id="298_5inco"]
 [ext_resource type="Script" uid="uid://08cgaryaryrc" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirDivekickLight.gd" id="299_up63a"]
+[ext_resource type="Script" uid="uid://dk8m3n7qpwxv5" path="res://components/Dimencional FSM/KnockdownFSM/KnockdownFSM.gd" id="300_kdfsm"]
+[ext_resource type="Script" uid="uid://cn5p8k4mxqvb3" path="res://components/Dimencional FSM/KnockdownFSM/GroundedState.gd" id="301_grnd"]
+[ext_resource type="Script" uid="uid://b4rax2mcnp0h7" path="res://components/Dimencional FSM/KnockdownFSM/KnockdownState.gd" id="301_kdst"]
+[ext_resource type="Script" uid="uid://dr3w7oaqpmckx" path="res://components/Dimencional FSM/KnockdownFSM/WakeupState.gd" id="301_wake"]
 [ext_resource type="Script" uid="uid://dj08uw6rn6dck" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandTatsumakiLight.gd" id="307_fkbsy"]
 [ext_resource type="Script" uid="uid://cybuity8pq5vu" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandTatsumakiHeavy.gd" id="313_shvcb"]
 [ext_resource type="Script" uid="uid://cocc24qwi0dn6" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirTatsumakiHeavy.gd" id="324_1s6u8"]
@@ -1464,6 +1464,7 @@ metadata/_custom_type_script = "uid://4w2rkwj5yqgp"
 
 [node name="DodgeMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=237919334]
 script = ExtResource("287_keydj")
+cooldown_msec = 100
 
 [node name="NormalMoves" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=551649016]
 script = ExtResource("174_tnpkv")

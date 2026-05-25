@@ -17,6 +17,17 @@ extends MoveComponent
 # longa demais". Tunar no Inspector: 200 é apertado, 400+ pega direções antigas.
 @export var dir_leniency_msec: int = 300
 
+# Cooldown contado a partir do FIM do dodge anterior. 1000ms = 1 segundo INTEIRO
+# de espera após o recovery do DodgeState antes de poder dodgear de novo.
+# A duração do dodge em si vem do DodgeState.duration_sec (fetchado abaixo),
+# então não precisa duplicar valor aqui se mexer no DodgeState.
+@export var cooldown_msec: int = 1000
+
+# Timestamp do último dodge disparado — base pro cálculo de cooldown.
+var _last_dodge_start_ms: int = 0
+# Cache do nó DodgeState (lazy load) pra ler duration_sec sem hardcode.
+var _dodge_state_ref: Node = null
+
 # Tap tracker — atualizado todo _physics_process via input direto.
 var _last_lr_tap_ms: int = 0
 var _last_lr_tap_x: float = 0.0
@@ -44,10 +55,19 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	if buffer.fighter:
 		fsm = buffer.fighter.get_component("StateMachine")
 
-	# Anti-spam: não inicia dodge se já estiver em movimento especial.
+	# Anti-spam 1: não inicia dodge se já estiver em movimento especial.
 	if fsm:
 		var current_tags = fsm.get_tags()
 		if "Dashing" in current_tags or ("Movement" in current_tags and "Invincible" in current_tags):
+			return {}
+
+	# Anti-spam 2: cooldown a partir do FIM do dodge anterior.
+	# Calcula o "lockout total" = duração do dodge + cooldown.
+	var now: int = Time.get_ticks_msec()
+	if _last_dodge_start_ms > 0:
+		var dodge_duration_ms: int = _get_dodge_duration_ms(buffer)
+		var total_lockout_ms: int = dodge_duration_ms + cooldown_msec
+		if (now - _last_dodge_start_ms) < total_lockout_ms:
 			return {}
 
 	# Trigger: LP+LK simultâneos (dentro da tolerância do interpreter).
@@ -59,6 +79,9 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 
 	# Consume os dois botões pra não disparar normais (LP/LK) no mesmo frame.
 	buffer.simultaneous.consume_simultaneous(["punch_light", "kick_light"])
+
+	# Marca o início do dodge pra o cooldown contar a partir daqui.
+	_last_dodge_start_ms = now
 
 	return {
 		"type": "dodge",
@@ -108,3 +131,14 @@ func _get_facing(buffer: InputBuffer) -> float:
 	if fc:
 		return float(fc.current_facing)
 	return 1.0
+
+# Lazy fetch do DodgeState pra ler duration_sec (single source of truth).
+# Fallback: 600ms se não achar (mesmo valor do default do DodgeState).
+func _get_dodge_duration_ms(buffer: InputBuffer) -> int:
+	if not _dodge_state_ref and buffer.fighter:
+		var fsm = buffer.fighter.get_component("StateMachine")
+		if fsm and fsm.has_method("find_state_recursive"):
+			_dodge_state_ref = fsm.find_state_recursive("DodgeState")
+	if _dodge_state_ref and "duration_sec" in _dodge_state_ref:
+		return int(_dodge_state_ref.duration_sec * 1000.0)
+	return 600
