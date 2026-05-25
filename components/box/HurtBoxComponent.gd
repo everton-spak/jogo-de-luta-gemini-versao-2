@@ -75,10 +75,19 @@ func _process_strike(hit_node: HitboxComponent) -> void:
 	if is_blocking:
 		target_type = "block"
 		final_damage = int(final_damage * 0.1) # chip
+		# Block NÃO adiciona stun (clássico SF) — só hits.
 	else:
+		# STUN: adiciona à StunBar antes de decidir o tipo. Se encher, vai pra dizzy.
+		var stun_system = fighter.get_component("StunSystemComponent")
+		var would_dizzy: bool = false
+		if stun_system and stun_system.has_method("add_from_hit"):
+			would_dizzy = stun_system.add_from_hit(hit_node.attack_level)
+
 		var future_hp: int = (health.current_health - final_damage) if health else 1
 		if future_hp <= 0:
-			target_type = "ko"
+			target_type = "ko"          # KO vence tudo (morreu)
+		elif would_dizzy:
+			target_type = "dizzy"        # Stun bar encheu → dizzy
 		elif current_stance == "air" or hit_node.knockback_force.y < -100:
 			target_type = "juggle"
 		else:
