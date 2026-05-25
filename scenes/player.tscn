@@ -16,7 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://chit76iltennb" path="res://shin ryu sprites/animaçoes/dash/100-1.png" id="11_qmsq4"]
 [ext_resource type="Texture2D" uid="uid://dtje2mo8joc6l" path="res://shin ryu sprites/animaçoes/dash/100-2.png" id="12_5vs2b"]
 [ext_resource type="Texture2D" uid="uid://cvjs5rxtiw01h" path="res://shin ryu sprites/animaçoes/apresentaçao/180-27.png" id="14_gxkpd"]
-[ext_resource type="Texture2D" uid="uid://cwejkvdu2h53d" path="res://shin ryu sprites/animaçoes/apresentaçao/180-28.png" id="15_fuh3r"]
 [ext_resource type="Texture2D" uid="uid://dd3qdn1m1ag3d" path="res://shin ryu sprites/animaçoes/idle/0-1.png" id="16_reqs7"]
 [ext_resource type="Texture2D" uid="uid://d11h5p2liylfr" path="res://shin ryu sprites/animaçoes/idle/0-2.png" id="17_2yjfb"]
 [ext_resource type="Texture2D" uid="uid://dqvc4i143sq78" path="res://shin ryu sprites/animaçoes/idle/0-3.png" id="18_dnnjp"]
@@ -415,9 +414,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("14_gxkpd")
-}, {
-"duration": 1.0,
-"texture": ExtResource("15_fuh3r")
 }],
 "loop": true,
 "name": &"dodge",
@@ -1538,6 +1534,7 @@ metadata/_custom_type_script = "uid://bacm7i3bljl2j"
 
 [node name="DodgeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=1236149552]
 script = ExtResource("296_xmk2m")
+dodge_distance = 200.0
 
 [node name="AirMovement" type="Node" parent="Component/StateMachine/MovementStateMachine" unique_id=446934277]
 script = ExtResource("182_7ehci")
