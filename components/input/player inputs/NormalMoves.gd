@@ -4,8 +4,14 @@ extends MoveComponent # Certifique-se de que a classe MoveComponent existe
 # Normais exigem que o estado atual permita cancelamentos (Cancellable).
 # Estados neutros (Idle, Walk, Jump, Fall) dão essa tag.
 # Estados de ataque NÃO dão essa tag por padrão, impedindo spam.
+
+# Light normais aguardam este tempo no buffer ANTES de firarem — dá tempo do
+# botão complementar chegar pra detectar LP+LK simultâneo (esquiva). Heavy
+# normais não precisam disso (não fazem parte de macro simultâneo).
+const LIGHT_DELAY_MSEC: int = 34 # ~2 frames @ 60fps
+
 func _ready() -> void:
-	allowed_tags = ["Cancellable"] 
+	allowed_tags = ["Cancellable"]
 
 func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	# 1. Detectar qual botão foi apertado (Prioridade: Fortes > Fracos)
@@ -17,9 +23,11 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 		button = "punch_heavy"; strength = "heavy"; type = "punch"
 	elif buffer.history.is_action_buffered("kick_heavy"):
 		button = "kick_heavy"; strength = "heavy"; type = "kick"
-	elif buffer.history.is_action_buffered("punch_light"):
+	# Lights só firam se já passaram LIGHT_DELAY_MSEC desde a pressão — janela
+	# pra detectar LP+LK simultâneo (dodge) sem consumir o LP cedo demais.
+	elif buffer.history.is_action_buffered("punch_light") and _is_light_aged_enough(buffer.history, "punch_light"):
 		button = "punch_light"; strength = "light"; type = "punch"
-	elif buffer.history.is_action_buffered("kick_light"):
+	elif buffer.history.is_action_buffered("kick_light") and _is_light_aged_enough(buffer.history, "kick_light"):
 		button = "kick_light"; strength = "light"; type = "kick"
 
 	# 2. Se nenhum botão foi apertado, retorna vazio
@@ -56,3 +64,12 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 		"strength": strength,
 		"stance": stance
 	}
+
+# Procura a entrada mais antiga deste action no buffer e checa se já passaram
+# LIGHT_DELAY_MSEC desde então. Se sim, libera o firing do light normal.
+func _is_light_aged_enough(history: InputHistoryComponent, action: String) -> bool:
+	var now: int = Time.get_ticks_msec()
+	for item in history._buffer:
+		if item["input"] == action:
+			return (now - int(item["timestamp"])) >= LIGHT_DELAY_MSEC
+	return false

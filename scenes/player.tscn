@@ -15,7 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://cqu1dwtctej8t" path="res://shin ryu sprites/animaçoes/dash/100-0.png" id="10_fcu33"]
 [ext_resource type="Texture2D" uid="uid://chit76iltennb" path="res://shin ryu sprites/animaçoes/dash/100-1.png" id="11_qmsq4"]
 [ext_resource type="Texture2D" uid="uid://dtje2mo8joc6l" path="res://shin ryu sprites/animaçoes/dash/100-2.png" id="12_5vs2b"]
-[ext_resource type="Texture2D" uid="uid://hra7qwyxdpql" path="res://shin ryu sprites/animaçoes/attack/especial attack/1600-10.png" id="14_1s6u8"]
+[ext_resource type="Texture2D" uid="uid://cvjs5rxtiw01h" path="res://shin ryu sprites/animaçoes/apresentaçao/180-27.png" id="14_gxkpd"]
+[ext_resource type="Texture2D" uid="uid://cwejkvdu2h53d" path="res://shin ryu sprites/animaçoes/apresentaçao/180-28.png" id="15_fuh3r"]
 [ext_resource type="Texture2D" uid="uid://dd3qdn1m1ag3d" path="res://shin ryu sprites/animaçoes/idle/0-1.png" id="16_reqs7"]
 [ext_resource type="Texture2D" uid="uid://d11h5p2liylfr" path="res://shin ryu sprites/animaçoes/idle/0-2.png" id="17_2yjfb"]
 [ext_resource type="Texture2D" uid="uid://dqvc4i143sq78" path="res://shin ryu sprites/animaçoes/idle/0-3.png" id="18_dnnjp"]
@@ -256,17 +257,10 @@
 [ext_resource type="Texture2D" uid="uid://dgfssg5ygrqcf" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-12.png" id="152_um52d"]
 [ext_resource type="Texture2D" uid="uid://rl5ioyqqwxcf" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-13.png" id="153_oke0v"]
 [ext_resource type="Texture2D" uid="uid://bj8e24i4hvp53" path="res://shin ryu sprites/animaçoes/attack/especial attack/1100-14.png" id="154_w5oev"]
+[ext_resource type="Script" uid="uid://bq7x2ncpa1akm" path="res://components/cancel component/CancelComponent.gd" id="167_cnclc"]
 [ext_resource type="Script" uid="uid://w3deme3it6nx" path="res://components/attack component/AttackComponent.gd" id="167_dygpo"]
-[ext_resource type="Script" uid="uid://bq7x2ncpaz9km" path="res://components/cancel component/CancelComponent.gd" id="167_cnclc"]
-[ext_resource type="Script" uid="uid://cp8m2r3n9xkb4" path="res://components/posture component/PostureComponent.gd" id="168_pstur"]
-[ext_resource type="Script" uid="uid://dxn7q4mz8vplg" path="res://components/projectile component/ProjectileSpawnerComponent.gd" id="168_prjsp"]
-[ext_resource type="Script" uid="uid://cn5kt8j2qvxw3" path="res://components/Dimencional FSM/HurtFSM/HurtFSM.gd" id="200_hrtfsm"]
-[ext_resource type="Script" uid="uid://b3w7x9pmqz4nh" path="res://components/Dimencional FSM/HurtFSM/HurtState.gd" id="201_hrtst"]
-[ext_resource type="Script" uid="uid://dr2n6cqxwfp8m" path="res://components/Dimencional FSM/HurtFSM/BlockState.gd" id="201_blkst"]
-[ext_resource type="Script" uid="uid://cp4m8j9xt3wkn" path="res://components/Dimencional FSM/HurtFSM/KOState.gd" id="201_kost"]
-[ext_resource type="Script" uid="uid://dk7p2nmxqfvb5" path="res://components/Dimencional FSM/HurtFSM/AirHurtState.gd" id="201_arhrt"]
-[ext_resource type="Script" uid="uid://b9x3qmpw5n7kt" path="res://components/Dimencional FSM/HurtFSM/ThrownState.gd" id="201_thrwn"]
-[ext_resource type="Script" uid="uid://dn4kx8mqp2vw7" path="res://components/Dimencional FSM/HurtFSM/ThrowTechState.gd" id="201_thtch"]
+[ext_resource type="Script" uid="uid://dxn7q4m08vplg" path="res://components/projectile component/ProjectileSpawnerComponent.gd" id="168_prjsp"]
+[ext_resource type="Script" uid="uid://cp8m2r3oaxkb4" path="res://components/posture component/PostureComponent.gd" id="168_pstur"]
 [ext_resource type="Script" uid="uid://4sw1xiqu777m" path="res://components/input/InputBuffer/InputBuffer.gd" id="172_tj70q"]
 [ext_resource type="Script" uid="uid://b2humt7xx1iki" path="res://components/input/InputBuffer/DirectionalInterpreterComponent.gd" id="173_wvc5d"]
 [ext_resource type="Script" uid="uid://dl0p3of8s38ey" path="res://components/input/InputBuffer/InputHistoryComponent.gd" id="174_27c74"]
@@ -301,6 +295,13 @@
 [ext_resource type="PackedScene" uid="uid://cd73a1fempa6y" path="res://scenes/hadouken_projectile.tscn" id="196_68nro"]
 [ext_resource type="Script" uid="uid://c1g062ypxvq3" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirAttack.gd" id="197_wvc5d"]
 [ext_resource type="Script" uid="uid://dgta2kw4y8pqj" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirLightPunch.gd" id="198_27c74"]
+[ext_resource type="Script" uid="uid://cn5kt8j2qvxw3" path="res://components/Dimencional FSM/HurtFSM/HurtFSM.gd" id="200_hrtfsm"]
+[ext_resource type="Script" uid="uid://dk7p2nmxqfvb5" path="res://components/Dimencional FSM/HurtFSM/AirHurtState.gd" id="201_arhrt"]
+[ext_resource type="Script" uid="uid://dr2n6cqxwfp8m" path="res://components/Dimencional FSM/HurtFSM/BlockState.gd" id="201_blkst"]
+[ext_resource type="Script" uid="uid://b3w7yapmq04nh" path="res://components/Dimencional FSM/HurtFSM/HurtState.gd" id="201_hrtst"]
+[ext_resource type="Script" uid="uid://cp4m8kaxt3wkn" path="res://components/Dimencional FSM/HurtFSM/KOState.gd" id="201_kost"]
+[ext_resource type="Script" uid="uid://cax3qmpw5n7kt" path="res://components/Dimencional FSM/HurtFSM/ThrownState.gd" id="201_thrwn"]
+[ext_resource type="Script" uid="uid://dn4kx8mqp2vw7" path="res://components/Dimencional FSM/HurtFSM/ThrowTechState.gd" id="201_thtch"]
 [ext_resource type="Script" uid="uid://cleae75n3lvvm" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenFSM.gd" id="201_vso6i"]
 [ext_resource type="Script" uid="uid://blt8hbfapgntj" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenHeavy.gd" id="202_20122"]
 [ext_resource type="Script" uid="uid://c54oo8x45fpms" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenLight.gd" id="203_apmd0"]
@@ -409,11 +410,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("14_1s6u8")
+"texture": ExtResource("14_gxkpd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_fuh3r")
 }],
 "loop": true,
 "name": &"dodge",
-"speed": 5.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1454,6 +1458,9 @@ script = ExtResource("194_w5oev")
 script = ExtResource("285_oj8r5")
 metadata/_custom_type_script = "uid://4w2rkwj5yqgp"
 
+[node name="DodgeMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=237919334]
+script = ExtResource("287_keydj")
+
 [node name="NormalMoves" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=551649016]
 script = ExtResource("174_tnpkv")
 allowed_tags = Array[String]([])
@@ -1471,9 +1478,6 @@ metadata/_custom_type_script = "uid://ccqn7jbx1qpmk"
 [node name="CrouchMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=1237822180]
 script = ExtResource("176_4cgac")
 metadata/_custom_type_script = "uid://csfglcfnf5i66"
-
-[node name="DodgeMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=237919334]
-script = ExtResource("287_keydj")
 
 [node name="VfxComponent" type="Node" parent="Component" unique_id=1478877004]
 script = ExtResource("287_1s6u8")

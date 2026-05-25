@@ -1,8 +1,10 @@
 class_name SimultaneousInterpreterComponent
 extends Component
 
-# Janela para considerar botões apertados "ao mesmo tempo" (ex: Agarrão, Golpes EX)
-@export var simultaneous_tolerance_msec: int = 50
+# Janela para considerar botões apertados "ao mesmo tempo" (ex: Agarrão, Golpes EX, Dodge).
+# 100ms (~6 frames @ 60fps) é o sweet spot pra percepção humana de "junto" — 50ms é muito
+# apertado e gera falsos negativos quando o segundo botão chega 2-3 frames depois.
+@export var simultaneous_tolerance_msec: int = 100
 
 var history: InputHistoryComponent
 

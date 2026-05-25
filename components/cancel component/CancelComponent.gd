@@ -21,6 +21,7 @@ extends Component
 #   4. Gatling      — cadeia de normais por força (light→light) quando habilitado.
 #   5. Self-cancel  — mesmo golpe, se can_cancel_self (rapid fire).
 #   6. Hit confirm  — special/super só cancelam se o golpe atual conectou.
+#                    (rastreado intrinsecamente via signal HitboxComponent.attack_connected)
 #   7. Rota de combo — limite de special-cancels por combo (reset no neutro).
 
 @export_group("Janela de Cancelamento")
@@ -32,8 +33,12 @@ extends Component
 
 @export_group("Hit Confirm")
 # Se true, cancelar um golpe em special/super (tier ≥3) exige que ele tenha
-# CONECTADO. Requer que o HitboxComponent exponha `has_connected` (duck-typed);
-# se não expuser, trata como conectado (não bloqueia).
+# CONECTADO. Rastreado intrinsecamente: o CancelComponent escuta o signal
+# `attack_connected` do HitboxComponent e marca _hit_confirmed=true. Reseta a
+# cada novo ataque (em register_cancel) e ao voltar pro neutro.
+# OBS: projéteis (Hadouken) têm hitbox PRÓPRIA — esse rastreio só pega hits do
+# hitbox principal do fighter. Pra hit-confirm em specials de projétil, o
+# projétil precisaria emitir um signal que aqui escutaria também (TODO).
 @export var require_hit_to_special_cancel: bool = false
 
 @export_group("Gatling (cadeia de normais)")
@@ -57,9 +62,21 @@ var attack: AttackComponent
 
 # Estado por combo — reset ao voltar pro neutro (via register_cancel).
 var _special_cancels_used: int = 0
+# Hit confirm — true se o ataque ATUAL conectou (set por signal do hitbox).
+# Reset a cada novo ataque (register_cancel) e ao voltar pro neutro.
+var _hit_confirmed: bool = false
 
 func _on_initialized() -> void:
 	attack = get_component("AttackComponent") as AttackComponent
+	# Auto-pluga no hitbox principal pra rastrear hits do fighter.
+	# (Hits de projétil não passam aqui — o projétil tem hitbox próprio.)
+	var hitbox = get_component("HitboxComponent")
+	if hitbox and hitbox.has_signal("attack_connected"):
+		if not hitbox.attack_connected.is_connected(_on_attack_connected):
+			hitbox.attack_connected.connect(_on_attack_connected)
+
+func _on_attack_connected(_target_box, _contact_point) -> void:
+	_hit_confirmed = true
 
 # ==========================================
 # Veredito principal — função PURA (sem efeitos colaterais).
@@ -109,6 +126,9 @@ func can_cancel(from: State, to: State) -> bool:
 func register_cancel(from: State, to: State) -> void:
 	if from == null or to == null:
 		return
+	# Novo ataque começou → hit ainda não confirmado (vale pra cancels desta nova janela).
+	if to.cancel_tier_dim >= 1:
+		_hit_confirmed = false
 	# Voltou pro neutro → combo acabou, zera a contagem.
 	if from.cancel_tier_dim == 0:
 		_reset_combo()
@@ -118,6 +138,7 @@ func register_cancel(from: State, to: State) -> void:
 
 func _reset_combo() -> void:
 	_special_cancels_used = 0
+	_hit_confirmed = false
 
 # ==========================================
 # Helpers de regra
@@ -141,10 +162,6 @@ func _gatling_allows(from: State, to: State) -> bool:
 	return GATLING.has(f) and t in GATLING[f]
 
 func _current_attack_connected() -> bool:
-	# Duck-typed: só bloqueia se o hitbox expõe estado de acerto E diz que não acertou.
-	if attack == null or attack.hitbox == null:
-		return true
-	var hb = attack.hitbox
-	if "has_connected" in hb:
-		return hb.has_connected
-	return true
+	# Flag interna setada pelo signal attack_connected do hitbox (auto-plugado
+	# no _on_initialized) e resetada a cada novo ataque (em register_cancel).
+	return _hit_confirmed
