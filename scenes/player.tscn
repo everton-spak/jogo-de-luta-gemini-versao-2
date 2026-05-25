@@ -278,8 +278,11 @@
 [ext_resource type="Script" uid="uid://c6720mxgxxvro" path="res://components/input/InputBuffer/SimultaneousInterpreterComponent.gd" id="177_tj70q"]
 [ext_resource type="Script" uid="uid://vgs2q8k73fgv" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/WalkState.gd" id="178_bbgjx"]
 [ext_resource type="Script" uid="uid://doj0cofoh2y3h" path="res://components/Dimencional FSM/AttackFSM/Attack.gd" id="179_gjsjf"]
+[ext_resource type="Script" uid="uid://3a1837411qod" path="res://components/general components/BarComponent.gd" id="180_meter"]
+[ext_resource type="Script" uid="uid://dn4w8k2mqxvph" path="res://components/input/player inputs/MeterChargeMove.gd" id="180_mtrch"]
 [ext_resource type="Script" uid="uid://djifb6hmi05xn" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/DashState.gd" id="180_tpmi1"]
 [ext_resource type="Script" uid="uid://cvhtl0psoewbd" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandAttack.gd" id="180_xxg78"]
+[ext_resource type="Script" uid="uid://c5yam3kpqnvwa" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/MeterChargeState.gd" id="181_mchst"]
 [ext_resource type="Script" uid="uid://bacm7i3bljl2j" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/RunState.gd" id="181_tpmi1"]
 [ext_resource type="Script" uid="uid://qxwbw3feaa7v" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandLightPunch.gd" id="181_xxg78"]
 [ext_resource type="Script" uid="uid://duvsv654f5i7j" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/AirMoviment.gd" id="182_7ehci"]
@@ -304,6 +307,11 @@
 [ext_resource type="Script" uid="uid://cleae75n3lvvm" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenFSM.gd" id="201_vso6i"]
 [ext_resource type="Script" uid="uid://blt8hbfapgntj" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenHeavy.gd" id="202_20122"]
 [ext_resource type="Script" uid="uid://c54oo8x45fpms" path="res://components/Dimencional FSM/AttackFSM/ShoryukenFSM/ShoryukenLight.gd" id="203_apmd0"]
+[ext_resource type="Texture2D" uid="uid://cgqeho8k00phn" path="res://shin ryu sprites/animaçoes/apresentaçao/195-17.png" id="203_fekp8"]
+[ext_resource type="Texture2D" uid="uid://b7y8p0q6rxeci" path="res://shin ryu sprites/animaçoes/apresentaçao/195-18.png" id="204_khbvb"]
+[ext_resource type="Texture2D" uid="uid://dd5xff7gjwnm5" path="res://shin ryu sprites/animaçoes/apresentaçao/195-19.png" id="205_sjcy8"]
+[ext_resource type="Texture2D" uid="uid://2buhv41eeth3" path="res://shin ryu sprites/animaçoes/apresentaçao/195-20.png" id="206_p2v33"]
+[ext_resource type="Texture2D" uid="uid://cldn5w6i4sjhd" path="res://shin ryu sprites/animaçoes/apresentaçao/195-21.png" id="207_brgmb"]
 [ext_resource type="Script" uid="uid://b3m1o76stdlee" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandLightKick.gd" id="215_5lhw1"]
 [ext_resource type="Script" uid="uid://ojbra1goyxef" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandJoudanHeavy.gd" id="217_5uixd"]
 [ext_resource type="Script" uid="uid://cyvcwkreoag83" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandJoudanLight.gd" id="218_p6pc0"]
@@ -1120,6 +1128,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("203_fekp8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("204_khbvb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("205_sjcy8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("206_p2v33")
+}, {
+"duration": 1.0,
+"texture": ExtResource("207_brgmb")
+}],
+"loop": true,
+"name": &"meter_charge",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("48_4tsya")
 }, {
 "duration": 1.0,
@@ -1347,7 +1375,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(0, -16.5)
 scale = Vector2(2.0317461, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"dodge"
+animation = &"meter_charge"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -1462,6 +1490,9 @@ metadata/_custom_type_script = "uid://4w2rkwj5yqgp"
 script = ExtResource("287_keydj")
 cooldown_msec = 100
 
+[node name="MeterChargeMove" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=180000002]
+script = ExtResource("180_mtrch")
+
 [node name="NormalMoves" type="Node" parent="Component/InputBufferComponent/MoveList" unique_id=551649016]
 script = ExtResource("174_tnpkv")
 allowed_tags = Array[String]([])
@@ -1483,6 +1514,12 @@ metadata/_custom_type_script = "uid://csfglcfnf5i66"
 [node name="VfxComponent" type="Node" parent="Component" unique_id=1478877004]
 script = ExtResource("287_1s6u8")
 metadata/_custom_type_script = "uid://b6xdnoff57bxa"
+
+[node name="MeterBar" type="Node" parent="Component" unique_id=180000001]
+script = ExtResource("180_meter")
+resource_name = "Super"
+start_full = false
+metadata/_custom_type_script = "uid://3a1837411qod"
 
 [node name="StateMachine" type="Node" parent="Component" unique_id=1543863041]
 script = ExtResource("174_nswu7")
@@ -1535,6 +1572,10 @@ metadata/_custom_type_script = "uid://bacm7i3bljl2j"
 [node name="DodgeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=1236149552]
 script = ExtResource("296_xmk2m")
 dodge_distance = 200.0
+
+[node name="MeterChargeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=180000003]
+script = ExtResource("181_mchst")
+sprite_y_offset = -10.0
 
 [node name="AirMovement" type="Node" parent="Component/StateMachine/MovementStateMachine" unique_id=446934277]
 script = ExtResource("182_7ehci")

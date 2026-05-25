@@ -5,29 +5,29 @@ extends MoveComponent # Certifique-se de que a classe MoveComponent existe
 # Estados neutros (Idle, Walk, Jump, Fall) dão essa tag.
 # Estados de ataque NÃO dão essa tag por padrão, impedindo spam.
 
-# Light normais aguardam este tempo no buffer ANTES de firarem — dá tempo do
-# botão complementar chegar pra detectar LP+LK simultâneo (esquiva). Heavy
-# normais não precisam disso (não fazem parte de macro simultâneo).
-const LIGHT_DELAY_MSEC: int = 34 # ~2 frames @ 60fps
+# TODOS os normais aguardam este tempo no buffer ANTES de firarem — dá tempo
+# de detectar macros simultâneos (LP+LK = dodge, LP+HK = meter_charge, etc.)
+# sem que NormalMoves consuma o primeiro botão antes do complemento chegar.
+# Aplica-se a heavy E light igualmente pra simetria entre todos os macros.
+const NORMAL_DELAY_MSEC: int = 34 # ~2 frames @ 60fps
 
 func _ready() -> void:
 	allowed_tags = ["Cancellable"]
 
 func check_execution_query(buffer: InputBuffer) -> Dictionary:
-	# 1. Detectar qual botão foi apertado (Prioridade: Fortes > Fracos)
+	# 1. Detectar qual botão foi apertado (Prioridade: Fortes > Fracos).
+	# Cada um precisa ter envelhecido NORMAL_DELAY_MSEC no buffer pra firar.
 	var button = ""
 	var strength = ""
 	var type = ""
 
-	if buffer.history.is_action_buffered("punch_heavy"):
+	if buffer.history.is_action_buffered("punch_heavy") and _is_aged_enough(buffer.history, "punch_heavy"):
 		button = "punch_heavy"; strength = "heavy"; type = "punch"
-	elif buffer.history.is_action_buffered("kick_heavy"):
+	elif buffer.history.is_action_buffered("kick_heavy") and _is_aged_enough(buffer.history, "kick_heavy"):
 		button = "kick_heavy"; strength = "heavy"; type = "kick"
-	# Lights só firam se já passaram LIGHT_DELAY_MSEC desde a pressão — janela
-	# pra detectar LP+LK simultâneo (dodge) sem consumir o LP cedo demais.
-	elif buffer.history.is_action_buffered("punch_light") and _is_light_aged_enough(buffer.history, "punch_light"):
+	elif buffer.history.is_action_buffered("punch_light") and _is_aged_enough(buffer.history, "punch_light"):
 		button = "punch_light"; strength = "light"; type = "punch"
-	elif buffer.history.is_action_buffered("kick_light") and _is_light_aged_enough(buffer.history, "kick_light"):
+	elif buffer.history.is_action_buffered("kick_light") and _is_aged_enough(buffer.history, "kick_light"):
 		button = "kick_light"; strength = "light"; type = "kick"
 
 	# 2. Se nenhum botão foi apertado, retorna vazio
@@ -66,10 +66,10 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	}
 
 # Procura a entrada mais antiga deste action no buffer e checa se já passaram
-# LIGHT_DELAY_MSEC desde então. Se sim, libera o firing do light normal.
-func _is_light_aged_enough(history: InputHistoryComponent, action: String) -> bool:
+# NORMAL_DELAY_MSEC desde então. Se sim, libera o firing do normal.
+func _is_aged_enough(history: InputHistoryComponent, action: String) -> bool:
 	var now: int = Time.get_ticks_msec()
 	for item in history._buffer:
 		if item["input"] == action:
-			return (now - int(item["timestamp"])) >= LIGHT_DELAY_MSEC
+			return (now - int(item["timestamp"])) >= NORMAL_DELAY_MSEC
 	return false

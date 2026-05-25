@@ -32,11 +32,29 @@ const MACRO_CANCELS := {
 
 @export_group("Tiers da Carga")
 # Limiares em ms (alinhado com a unidade do ChargeTrackerComponent).
-@export var min_charge_msec: float = 200.0
-@export var max_charge_msec: float = 1500.0
+# min_charge_msec = quanto tempo o tier NORMAL dura (jogador ainda pode soltar
+# pra hadouken normal sem scaling). 1200ms (~72 frames) dá MUITO tempo de
+# leitura do azul antes do strong; ajuste no Inspector se quiser mais curto.
+@export var min_charge_msec: float = 1200.0
+# max_charge_msec = quando o STRONG vira super. 3000ms total (1200ms normal +
+# 1800ms strong) deixa cada fase com bastante tempo de leitura.
+@export var max_charge_msec: float = 3000.0
 @export var normal_multiplier: float = 1.0
 @export var strong_multiplier: float = 1.5
 @export var super_multiplier: float = 2.5
+
+# Ritmo do pulse VFX — TODOS tiers piscam no mesmo ritmo do super (vermelho):
+# blink rápido e curto. A única diferença entre tiers é a COR.
+const PULSE_INTERVAL_BY_TIER := {
+	"normal": 15, # ~250ms entre pulses (60fps)
+	"strong": 15,
+	"super": 15,
+}
+const PULSE_FADE_BY_TIER := {
+	"normal": 0.25,
+	"strong": 0.25,
+	"super": 0.25,
+}
 
 var input: Component
 var charge_tracker: ChargeTrackerComponent
@@ -139,13 +157,17 @@ func tick_charge(state, charging_btn: String) -> bool:
 			_is_charging = true
 			state.anim.pause()
 
-		# Pulse: a cada 30 frames (~500ms) OU imediato quando o tier muda.
+		# Pulse TIER-AWARE: ritmo + fade variam pelo tier atual.
+		# Normal: pulses lentos e visíveis (a "primeira cor" dura mais). Super: rápido e urgente.
+		# Pulse imediato em transição de tier pra feedback claro de "subi de faixa".
 		if _is_charging and state.vfx:
 			var pulse_data: Dictionary = classify_charge(charging_btn)
 			var tier_status: String = str(pulse_data.get("status", "normal"))
-			if tier_status != _last_pulse_tier or state.state_frames % 30 == 0:
+			var interval: int = int(PULSE_INTERVAL_BY_TIER.get(tier_status, 30))
+			var fade_duration: float = float(PULSE_FADE_BY_TIER.get(tier_status, 0.45))
+			if tier_status != _last_pulse_tier or state.state_frames % interval == 0:
 				_last_pulse_tier = tier_status
-				state.vfx.play_charge_pulse(tier_status)
+				state.vfx.play_charge_pulse(tier_status, fade_duration)
 		return true
 
 	# Botão NÃO segurado.
