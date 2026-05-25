@@ -15,8 +15,9 @@
 [ext_resource type="Texture2D" uid="uid://cqu1dwtctej8t" path="res://shin ryu sprites/animaçoes/dash/100-0.png" id="10_fcu33"]
 [ext_resource type="Texture2D" uid="uid://chit76iltennb" path="res://shin ryu sprites/animaçoes/dash/100-1.png" id="11_qmsq4"]
 [ext_resource type="Texture2D" uid="uid://dtje2mo8joc6l" path="res://shin ryu sprites/animaçoes/dash/100-2.png" id="12_5vs2b"]
-[ext_resource type="Texture2D" uid="uid://cvjs5rxtiw01h" path="res://shin ryu sprites/animaçoes/apresentaçao/180-27.png" id="14_gxkpd"]
+[ext_resource type="Texture2D" uid="uid://cqf8manb8l4ti" path="res://shin ryu sprites/animaçoes/apresentaçao/195-15.png" id="15_mhq33"]
 [ext_resource type="Texture2D" uid="uid://dd3qdn1m1ag3d" path="res://shin ryu sprites/animaçoes/idle/0-1.png" id="16_reqs7"]
+[ext_resource type="Texture2D" uid="uid://colq0g0fkoj2l" path="res://shin ryu sprites/animaçoes/apresentaçao/195-16.png" id="16_se5i1"]
 [ext_resource type="Texture2D" uid="uid://d11h5p2liylfr" path="res://shin ryu sprites/animaçoes/idle/0-2.png" id="17_2yjfb"]
 [ext_resource type="Texture2D" uid="uid://dqvc4i143sq78" path="res://shin ryu sprites/animaçoes/idle/0-3.png" id="18_dnnjp"]
 [ext_resource type="Texture2D" uid="uid://clehf5n3rddi" path="res://shin ryu sprites/animaçoes/idle/0-4.png" id="19_wqna8"]
@@ -427,11 +428,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("14_gxkpd")
+"texture": ExtResource("15_mhq33")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_se5i1")
 }],
 "loop": true,
 "name": &"dodge",
-"speed": 2.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1381,7 +1385,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(0, -16.5)
 scale = Vector2(2.0317461, 2.3113208)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"meter_charge"
+animation = &"dodge"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
