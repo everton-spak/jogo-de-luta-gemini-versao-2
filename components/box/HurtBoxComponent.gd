@@ -76,6 +76,12 @@ func _process_strike(hit_node: HitboxComponent) -> void:
 		target_type = "block"
 		final_damage = int(final_damage * 0.1) # chip
 		# Block NÃO adiciona stun (clássico SF) — só hits.
+
+		# GUARD METER: consome a barra. Se ZEROU → roteia pra GuardBrokenState.
+		var guard_system = fighter.get_component("GuardMeterComponent")
+		if guard_system and guard_system.has_method("consume_from_block"):
+			if guard_system.consume_from_block(hit_node.attack_level):
+				target_type = "guard_broken" # bar quebrou — castigo
 	else:
 		# STUN: adiciona à StunBar antes de decidir o tipo. Se encher, vai pra dizzy.
 		var stun_system = fighter.get_component("StunSystemComponent")
