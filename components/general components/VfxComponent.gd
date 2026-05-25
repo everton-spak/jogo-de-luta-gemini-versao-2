@@ -126,3 +126,15 @@ func clear_charge_pulse() -> void:
 		_charge_tween.kill()
 	if fighter:
 		fighter.modulate = Color.WHITE
+
+# Pulso genérico com cor arbitrária (em vez dos tiers normal/strong/super).
+# Útil pra states que querem cor única própria (MeterCharge = roxo, p.ex.).
+# Compartilha o _charge_tween — clear_charge_pulse zera tudo igual.
+func play_color_pulse(color: Color, duration: float = 0.45) -> void:
+	if not fighter:
+		return
+	if _charge_tween and _charge_tween.is_valid():
+		_charge_tween.kill()
+	fighter.modulate = color
+	_charge_tween = create_tween()
+	_charge_tween.tween_property(fighter, "modulate", Color.WHITE, duration)

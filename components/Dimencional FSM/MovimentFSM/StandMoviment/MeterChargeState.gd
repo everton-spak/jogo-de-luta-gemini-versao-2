@@ -19,6 +19,16 @@ extends State
 # NEGATIVO = sobe o sprite. 0 = sem ajuste. Restaura no exit.
 @export var sprite_y_offset: float = 0.0
 
+@export_group("VFX de Carga")
+# Cor única do pulse durante a carga. Default roxo HDR (com glow do ambient).
+# Valores > 1.0 em canais geram bright bloom; pra mais sutil, fique entre 0-1.
+@export var pulse_color: Color = Color(1.0, 0.0, 3.0)
+# Intervalo entre pulses (frames @ 60fps). 15 = ~250ms (mesmo ritmo dos
+# motion moves pra consistência).
+@export var pulse_interval_frames: int = 15
+# Fade-back-to-white de cada pulse, em segundos.
+@export var pulse_fade_sec: float = 0.25
+
 # Botões que precisam estar segurados pra manter o state. Se qualquer um for
 # solto, sai pro Idle.
 const HOLD_BUTTONS: Array[String] = ["punch_light", "kick_heavy"]
@@ -59,6 +69,9 @@ func exit() -> void:
 	# Restaura o Y original do sprite ao sair.
 	if posture and sprite_y_offset != 0.0:
 		posture.set_sprite_y(_base_sprite_y)
+	# Limpa o modulate de carga (volta pra branco caso tenha ficado tingido).
+	if vfx and vfx.has_method("clear_charge_pulse"):
+		vfx.clear_charge_pulse()
 
 func physics_update(delta: float) -> void:
 	super.physics_update(delta)
@@ -78,6 +91,11 @@ func physics_update(delta: float) -> void:
 	# call() pra ser duck-typed (meter_bar é Component, add é de BarComponent).
 	if meter_bar:
 		meter_bar.call("add", charge_rate_per_sec * delta)
+
+	# VFX: pulse periódico na cor única (roxo default).
+	if vfx and pulse_interval_frames > 0 and state_frames % pulse_interval_frames == 0:
+		if vfx.has_method("play_color_pulse"):
+			vfx.play_color_pulse(pulse_color, pulse_fade_sec)
 
 func _holding_required() -> bool:
 	if not input:

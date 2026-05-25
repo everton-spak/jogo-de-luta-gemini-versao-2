@@ -283,10 +283,6 @@
 [ext_resource type="Script" uid="uid://djifb6hmi05xn" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/DashState.gd" id="180_tpmi1"]
 [ext_resource type="Script" uid="uid://cvhtl0psoewbd" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandAttack.gd" id="180_xxg78"]
 [ext_resource type="Script" uid="uid://c5yam3kpqnvwa" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/MeterChargeState.gd" id="181_mchst"]
-[ext_resource type="Script" uid="uid://cm3n9p5xqkbvw" path="res://components/general components/StunSystemComponent.gd" id="190_stnsys"]
-[ext_resource type="Script" uid="uid://dr8w4mqnxp2vc" path="res://components/Dimencional FSM/HurtFSM/DizzyState.gd" id="190_dizz"]
-[ext_resource type="Script" uid="uid://b9x4p2knmqvwh" path="res://components/general components/GuardMeterComponent.gd" id="195_grdsys"]
-[ext_resource type="Script" uid="uid://cn7m5k3xqpvwb" path="res://components/Dimencional FSM/HurtFSM/GuardBrokenState.gd" id="195_grdbr"]
 [ext_resource type="Script" uid="uid://bacm7i3bljl2j" path="res://components/Dimencional FSM/MovimentFSM/StandMoviment/RunState.gd" id="181_tpmi1"]
 [ext_resource type="Script" uid="uid://qxwbw3feaa7v" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandLightPunch.gd" id="181_xxg78"]
 [ext_resource type="Script" uid="uid://duvsv654f5i7j" path="res://components/Dimencional FSM/MovimentFSM/AirMoviment/AirMoviment.gd" id="182_7ehci"]
@@ -295,13 +291,19 @@
 [ext_resource type="Script" uid="uid://buuofxfnkis7t" path="res://components/box/HitBoxComponent.gd" id="186_5uixd"]
 [ext_resource type="Script" uid="uid://bthkq3eus3wgx" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchMoviment.gd" id="187_r7b2j"]
 [ext_resource type="Script" uid="uid://co3urayxxts1t" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchState.gd" id="188_bjhuq"]
+[ext_resource type="Script" path="res://components/Dimencional FSM/HurtFSM/DizzyState.gd" id="190_dizz"]
+[ext_resource type="Script" uid="uid://cm3oap5xqkbvw" path="res://components/general components/StunSystemComponent.gd" id="190_stnsys"]
 [ext_resource type="Script" uid="uid://dw41klc8o48op" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHadoukenHeavy.gd" id="194_tj70q"]
 [ext_resource type="Script" uid="uid://c2hmvoa7ra7rj" path="res://components/input/player inputs/SpecialMoves/JoudanMove.gd" id="194_w5oev"]
+[ext_resource type="Script" path="res://components/Dimencional FSM/HurtFSM/GuardBrokenState.gd" id="195_grdbr"]
+[ext_resource type="Script" path="res://components/general components/GuardMeterComponent.gd" id="195_grdsys"]
 [ext_resource type="Script" uid="uid://cxmyggv71fyy5" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHadoukenLight.gd" id="196_27c74"]
 [ext_resource type="PackedScene" uid="uid://cd73a1fempa6y" path="res://scenes/hadouken_projectile.tscn" id="196_68nro"]
 [ext_resource type="Script" uid="uid://c1g062ypxvq3" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirAttack.gd" id="197_wvc5d"]
 [ext_resource type="Script" uid="uid://dgta2kw4y8pqj" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirLightPunch.gd" id="198_27c74"]
 [ext_resource type="Script" uid="uid://cn5kt8j2qvxw3" path="res://components/Dimencional FSM/HurtFSM/HurtFSM.gd" id="200_hrtfsm"]
+[ext_resource type="Script" uid="uid://ct0r6cbabud8v" path="res://components/general components/WallSplatComponent.gd" id="200_wlsp"]
+[ext_resource type="Script" path="res://components/Dimencional FSM/HurtFSM/WallSplatState.gd" id="200_wlst"]
 [ext_resource type="Script" uid="uid://dk7p2nmxqfvb5" path="res://components/Dimencional FSM/HurtFSM/AirHurtState.gd" id="201_arhrt"]
 [ext_resource type="Script" uid="uid://dr2n6cqxwfp8m" path="res://components/Dimencional FSM/HurtFSM/BlockState.gd" id="201_blkst"]
 [ext_resource type="Script" uid="uid://b3w7yapmq04nh" path="res://components/Dimencional FSM/HurtFSM/HurtState.gd" id="201_hrtst"]
@@ -1528,7 +1530,6 @@ metadata/_custom_type_script = "uid://3a1837411qod"
 [node name="StunBar" type="Node" parent="Component" unique_id=190000001]
 script = ExtResource("180_meter")
 resource_name = "Stun"
-max_value = 100.0
 start_full = false
 metadata/_custom_type_script = "uid://3a1837411qod"
 
@@ -1539,13 +1540,13 @@ metadata/_custom_type_script = "uid://cm3n9p5xqkbvw"
 [node name="GuardBar" type="Node" parent="Component" unique_id=195000001]
 script = ExtResource("180_meter")
 resource_name = "Guard"
-max_value = 100.0
-start_full = true
 metadata/_custom_type_script = "uid://3a1837411qod"
 
 [node name="GuardMeterComponent" type="Node" parent="Component" unique_id=195000002]
 script = ExtResource("195_grdsys")
-metadata/_custom_type_script = "uid://b9x4p2knmqvwh"
+
+[node name="WallSplatComponent" type="Node" parent="Component" unique_id=200000010]
+script = ExtResource("200_wlsp")
 
 [node name="StateMachine" type="Node" parent="Component" unique_id=1543863041]
 script = ExtResource("174_nswu7")
@@ -1837,11 +1838,12 @@ metadata/_custom_type_script = "uid://dn4kx8mqp2vw7"
 
 [node name="DizzyState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=190000003]
 script = ExtResource("190_dizz")
-metadata/_custom_type_script = "uid://dr8w4mqnxp2vc"
 
 [node name="GuardBrokenState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=195000003]
 script = ExtResource("195_grdbr")
-metadata/_custom_type_script = "uid://cn7m5k3xqpvwb"
+
+[node name="WallSplatState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000011]
+script = ExtResource("200_wlst")
 
 [node name="KnockdownFSM" type="Node" parent="Component/StateMachine" unique_id=300000001]
 script = ExtResource("300_kdfsm")
