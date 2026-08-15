@@ -2,19 +2,19 @@ class_name JumpState
 extends State
 
 @export_group("Física de Pulo KOF")
-@export var normal_jump_force: float = 1150.0
-@export var hop_jump_force: float = 850.0
-@export var normal_speed_x: float = 400.0
-@export var super_speed_x: float = 580.0
-@export var normal_gravity: float = 2900.0
-@export var hop_gravity: float = 3300.0
+@export var normal_jump_force: float = 1500.0
+@export var hop_jump_force: float = 950.0
+@export var normal_speed_x: float = 420.0
+@export var super_speed_x: float = 650.0
+@export var normal_gravity: float = 2800.0
+@export var hop_gravity: float = 3500.0
 @export var fall_state: String = "FallState"
 
 var _locked_dir: float = 0.0
 var _is_super: bool = false
 var _is_hop: bool = false
-var _current_gravity: float = 2900.0
-var _current_speed_x: float = 400.0
+var _current_gravity: float = 2800.0
+var _current_speed_x: float = 420.0
 var _ghost_timer: float = 0.0
 
 func _ready() -> void:
@@ -34,7 +34,7 @@ func enter(payload: Dictionary = {}) -> void:
 	_current_gravity = normal_gravity
 	
 	if fighter:
-		# Decolagem imediata
+		# Decolagem
 		fighter.velocity.y = -normal_jump_force
 		fighter.velocity.x = _current_speed_x * _locked_dir
 		if posture: posture.apply("air")
@@ -56,8 +56,8 @@ func physics_update(delta: float) -> void:
 	super.physics_update(delta)
 	if not fighter: return
 	
-	# Detecção dinâmica de Short Hop: Se o jogador soltar o direcional nos primeiros 6 frames de subida
-	if not _is_hop and state_frames <= 6 and input:
+	# Detecção dinâmica de Short Hop: Se o jogador soltar o direcional nos primeiros 8 frames de subida
+	if not _is_hop and state_frames <= 8 and input:
 		var current_input = input.get_movement_direction()
 		if current_input.y >= -0.3:
 			_is_hop = true

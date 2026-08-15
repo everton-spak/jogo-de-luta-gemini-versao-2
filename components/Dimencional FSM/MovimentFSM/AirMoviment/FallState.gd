@@ -2,13 +2,13 @@ class_name FallState
 extends State
 
 @export_group("Configuração da Queda")
-@export var default_gravity: float = 2900.0
-@export var default_horizontal_speed: float = 400.0
+@export var default_gravity: float = 2800.0
+@export var default_horizontal_speed: float = 420.0
 @export var landing_state: String = "IdleState"
 
 var _locked_dir: float = 0.0
-var _current_gravity: float = 2900.0
-var _current_horizontal_speed: float = 400.0
+var _current_gravity: float = 2800.0
+var _current_horizontal_speed: float = 420.0
 var _is_super: bool = false
 var _ghost_timer: float = 0.0
 
