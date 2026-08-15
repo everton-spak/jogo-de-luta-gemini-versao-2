@@ -2,14 +2,17 @@ class_name JumpMove
 extends MoveComponent
 
 func _ready() -> void:
-	if allowed_tags.is_empty():
-		allowed_tags = ["Ground"]
+	# allowed_tags vazio permite que o buffer avalie o pulo no chão (Idle, Walk, Run, etc.)
+	allowed_tags = []
 
 func check_execution_query(buffer: InputBuffer) -> Dictionary:
+	# Só pode pular se o lutador estiver no chão
+	if fighter and not fighter.is_on_floor():
+		return {}
+		
 	var dir = buffer.input.get_movement_direction()
 	
 	if dir.y < -0.5:
-		# Lemos a direção do eixo X
 		var dir_x = 0.0
 		if dir.x > 0.5:
 			dir_x = 1.0
@@ -22,7 +25,7 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 			if buffer.history.is_action_buffered("D", 300) or buffer.history.is_action_buffered("DB", 300) or buffer.history.is_action_buffered("DF", 300):
 				super_buffered = true
 				
-		# Detecção de pulo durante Corrida (RunState)
+		# Detecção de pulo vindo de Corrida (RunState)
 		var from_run: bool = false
 		if fighter:
 			var sm = fighter.get_component("StateMachine")
@@ -31,13 +34,9 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 				super_buffered = true
 				
 		# RESTAURAÇÃO DE INPUT (Ultimate Forgiveness)
-		# Se o jogador apertou um soco/chute no exato frame anterior, ele foi consumido
-		# por um Ground Attack. Como agora o jogador pulou, cancelamos o Ground Attack e
-		# devolvemos o soco/chute ao buffer para que no próximo frame ele saia como Air Attack!
 		if buffer.history:
-			buffer.history.restore_last_consumed(50) # 50ms de tolerância (cerca de 3 frames)
+			buffer.history.restore_last_consumed(50)
 			
-		# Enviamos a query para a FSM com os dados do salto KOF
 		return {
 			"type": "movement",
 			"stance": "air",

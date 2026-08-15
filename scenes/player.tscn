@@ -1559,7 +1559,7 @@ initial_state_name = "MovementStateMachine"
 [node name="MovementStateMachine" type="Node" parent="Component/StateMachine" unique_id=652288390]
 script = ExtResource("175_pgdua")
 initial_state_name = "StandMovement"
-stance_dim = "ground"
+stance_dim = "any"
 strength_dim = "none"
 type_dim = ""
 metadata/_custom_type_script = "uid://dk10vs8hg8kfr"

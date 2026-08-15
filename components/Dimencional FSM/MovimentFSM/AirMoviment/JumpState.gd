@@ -21,7 +21,7 @@ enum JumpType {
 @export var hop_gravity: float = 3200.0
 
 @export_group("Pre-Jump & Transição")
-@export var pre_jump_frames: int = 4
+@export var pre_jump_frames: int = 3
 @export var fall_state: String = "FallState"
 
 var _locked_dir: float = 0.0
@@ -41,20 +41,18 @@ func _ready() -> void:
 func enter(payload: Dictionary = {}) -> void:
 	super.enter(payload)
 	var query_dict = payload.get("query", {})
-	_locked_dir = query_dict.get("dir_x", 0.0)
-	_super_buffered = query_dict.get("super_buffered", false)
+	_locked_dir = float(query_dict.get("dir_x", 0.0))
+	_super_buffered = bool(query_dict.get("super_buffered", false))
 	_up_held = true
 	_in_pre_jump = true
 	_ghost_spawn_timer = 0.0
 	
 	if fighter:
-		# Durante o pre-jump (squat de 3-4 frames no chão), aguarda a decolagem
 		fighter.velocity.x = 0.0
 		fighter.velocity.y = 0.0
 		if posture: posture.apply("stand")
 		
 	if anim:
-		# Durante o startup, exibe idle ou primeiro frame de agachamento/pulo
 		if _locked_dir > 0:
 			anim.play("jump_forward")
 		elif _locked_dir < 0:
@@ -66,13 +64,13 @@ func physics_update(delta: float) -> void:
 	super.physics_update(delta)
 	if not fighter: return
 	
-	# Verifica se o direcional para cima ainda está sendo segurado durante o pre-jump
+	# Checa se o direcional continua segurado ou foi solto rapidamente (Hop)
 	if input and _in_pre_jump:
 		var dir = input.get_movement_direction()
 		if dir.y >= -0.3:
 			_up_held = false
 			
-	# Fase 1: Pre-Jump (Startup de 4 frames no chão)
+	# Fase 1: Pre-Jump (Startup de 3 frames no chão)
 	if _in_pre_jump:
 		if state_frames >= pre_jump_frames:
 			_in_pre_jump = false
