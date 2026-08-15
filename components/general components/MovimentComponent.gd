@@ -1,10 +1,10 @@
 class_name MovementComponent
 extends Component
 
-# --- CONFIGURAÇÕES GERAIS ---
+# --- CONFIGURAÇÕES GERAIS (FÍSICA KOF) ---
 @export_group("Physics Settings")
-@export var default_gravity: float = 980.0
-@export var max_fall_speed: float = 1200.0
+@export var default_gravity: float = 2900.0
+@export var max_fall_speed: float = 1600.0
 
 # ==========================================
 # 1. EIXO Y (GRAVIDADE E PULO)

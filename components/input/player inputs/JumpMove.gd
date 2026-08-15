@@ -16,6 +16,20 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 		elif dir.x < -0.5:
 			dir_x = -1.0
 			
+		# Detecção de Super Jump / Hyper Hop via toque prévio em Baixo (D, DB, DF)
+		var super_buffered: bool = false
+		if buffer.history:
+			if buffer.history.is_action_buffered("D", 300) or buffer.history.is_action_buffered("DB", 300) or buffer.history.is_action_buffered("DF", 300):
+				super_buffered = true
+				
+		# Detecção de pulo durante Corrida (RunState)
+		var from_run: bool = false
+		if fighter:
+			var sm = fighter.get_component("StateMachine")
+			if sm and sm.current_state and sm.current_state.name == "RunState":
+				from_run = true
+				super_buffered = true
+				
 		# RESTAURAÇÃO DE INPUT (Ultimate Forgiveness)
 		# Se o jogador apertou um soco/chute no exato frame anterior, ele foi consumido
 		# por um Ground Attack. Como agora o jogador pulou, cancelamos o Ground Attack e
@@ -23,12 +37,14 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 		if buffer.history:
 			buffer.history.restore_last_consumed(50) # 50ms de tolerância (cerca de 3 frames)
 			
-		# Enviamos "any" para a FSM, forçando-a a achar o seu único nó de Jump
+		# Enviamos a query para a FSM com os dados do salto KOF
 		return {
 			"type": "movement",
 			"stance": "air",
 			"direction": "any", 
-			"dir_x": dir_x
+			"dir_x": dir_x,
+			"super_buffered": super_buffered,
+			"from_run": from_run
 		}
 		
 	return {}

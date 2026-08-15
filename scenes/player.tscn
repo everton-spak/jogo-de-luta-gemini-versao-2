@@ -1602,7 +1602,10 @@ metadata/_custom_type_script = "uid://bacm7i3bljl2j"
 
 [node name="DodgeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=1236149552]
 script = ExtResource("296_xmk2m")
-dodge_distance = 260.0
+dodge_speed = 540.0
+dodge_distance = 270.0
+duration_sec = 0.5
+invincible_frames = 21
 
 [node name="MeterChargeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=180000003]
 script = ExtResource("181_mchst")
