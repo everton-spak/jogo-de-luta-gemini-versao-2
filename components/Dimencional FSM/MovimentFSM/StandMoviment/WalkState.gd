@@ -46,3 +46,6 @@ func physics_update(delta: float) -> void:
 	# 4. APLICA O MOVIMENTO
 	movement.move_horizontal(dir, target_speed, acceleration, delta)
 	movement.commit_movement()
+
+func get_tags() -> Array[String]:
+	return ["Ground", "Movement", "Stand"]

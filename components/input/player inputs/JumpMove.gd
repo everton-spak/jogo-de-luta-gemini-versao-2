@@ -2,12 +2,12 @@ class_name JumpMove
 extends MoveComponent
 
 func _ready() -> void:
-	# allowed_tags vazio permite que o buffer avalie o pulo no chão (Idle, Walk, Run, etc.)
-	allowed_tags = []
+	# Tags de solo que autorizam o pulo
+	allowed_tags = ["Ground", "Neutral", "Stand", "Movement", "Run", "Crouch"]
 
 func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	# Só pode pular se o lutador estiver no chão
-	if fighter and not fighter.is_on_floor():
+	if not fighter or not fighter.is_on_floor():
 		return {}
 		
 	var dir = buffer.input.get_movement_direction()
@@ -27,11 +27,10 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 				
 		# Detecção de pulo vindo de Corrida (RunState)
 		var from_run: bool = false
-		if fighter:
-			var sm = fighter.get_component("StateMachine")
-			if sm and sm.current_state and sm.current_state.name == "RunState":
-				from_run = true
-				super_buffered = true
+		var sm = fighter.get_component("StateMachine")
+		if sm and sm.current_state and sm.current_state.name == "RunState":
+			from_run = true
+			super_buffered = true
 				
 		# RESTAURAÇÃO DE INPUT (Ultimate Forgiveness)
 		if buffer.history:

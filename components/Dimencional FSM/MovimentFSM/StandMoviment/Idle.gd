@@ -24,4 +24,4 @@ func physics_update(delta: float) -> void:
 		transition_requested.emit("WalkState", {})
 		
 func get_tags() -> Array[String]:
-	return []
+	return ["Ground", "Neutral", "Stand"]

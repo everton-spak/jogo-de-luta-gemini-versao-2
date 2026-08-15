@@ -792,7 +792,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hp_far",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1385,7 +1385,7 @@ shape = SubResource("RectangleShape2D_kkgei")
 position = Vector2(0, -21.45)
 scale = Vector2(2.64127, 3.00472)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
-animation = &"dodge"
+animation = &"hp_far"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
@@ -1559,7 +1559,6 @@ initial_state_name = "MovementStateMachine"
 [node name="MovementStateMachine" type="Node" parent="Component/StateMachine" unique_id=652288390]
 script = ExtResource("175_pgdua")
 initial_state_name = "StandMovement"
-stance_dim = "any"
 strength_dim = "none"
 type_dim = ""
 metadata/_custom_type_script = "uid://dk10vs8hg8kfr"
@@ -1602,10 +1601,6 @@ metadata/_custom_type_script = "uid://bacm7i3bljl2j"
 
 [node name="DodgeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=1236149552]
 script = ExtResource("296_xmk2m")
-dodge_speed = 540.0
-dodge_distance = 270.0
-duration_sec = 0.5
-invincible_frames = 21
 
 [node name="MeterChargeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=180000003]
 script = ExtResource("181_mchst")
