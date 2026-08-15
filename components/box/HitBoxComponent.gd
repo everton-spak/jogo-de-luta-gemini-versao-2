@@ -34,10 +34,13 @@ func _on_area_entered(area: Area2D) -> void:
 		var target_pos = area.global_position
 		var contact_point = (my_pos + target_pos) / 2.0
 		
-		# Congela o atacante
+		# Congela o atacante e notifica CancelComponent
 		if fighter:
 			var my_hitstop = fighter.get_component("HitstopComponent")
 			if my_hitstop:
 				my_hitstop.start_hitstop(hitstop_duration)
+			var my_cancel = fighter.get_component("CancelComponent")
+			if my_cancel and my_cancel.has_method("confirm_hit"):
+				my_cancel.confirm_hit()
 		
 		attack_connected.emit(target_box, contact_point)

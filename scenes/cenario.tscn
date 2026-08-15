@@ -2,22 +2,61 @@
 
 [ext_resource type="Texture2D" uid="uid://q02kngrq3q5k" path="res://chao.png" id="1_i5ouh"]
 [ext_resource type="PackedScene" uid="uid://drh8ckppd5n0p" path="res://scenes/player.tscn" id="2_2p5gn"]
+[ext_resource type="Script" uid="uid://b8y1f4a9q2cam" path="res://components/camera/FightCamera2D.gd" id="3_cam2d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i5ouh"]
-size = Vector2(1152, 40)
+size = Vector2(3200, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(60, 1400)
 
 [node name="cenario" type="Node" unique_id=1553230697]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=452783414]
-position = Vector2(577, 623.00006)
-scale = Vector2(1.0000001, 0.060185187)
+position = Vector2(960, 1065)
+scale = Vector2(2.5, 0.05)
 texture = ExtResource("1_i5ouh")
 
-[node name="CharacterBody2D" parent="." unique_id=1479694764 instance=ExtResource("2_2p5gn")]
-position = Vector2(217, 507)
+[node name="Paredes" type="Node2D" parent="."]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=217460805]
+[node name="Chao" type="StaticBody2D" parent="Paredes" unique_id=217460805]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1578383158]
-position = Vector2(577, 624)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paredes/Chao" unique_id=1578383158]
+position = Vector2(960, 1070)
 shape = SubResource("RectangleShape2D_i5ouh")
+
+[node name="ParedeEsquerda" type="StaticBody2D" parent="Paredes"]
+position = Vector2(-50, 550)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paredes/ParedeEsquerda"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ParedeDireita" type="StaticBody2D" parent="Paredes"]
+position = Vector2(1970, 550)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paredes/ParedeDireita"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Player1" parent="." unique_id=1479694764 instance=ExtResource("2_2p5gn")]
+position = Vector2(550, 920)
+
+[node name="Opponent" parent="." unique_id=1479694765 instance=ExtResource("2_2p5gn")]
+position = Vector2(1370, 920)
+
+[node name="AnimatedSprite2D" parent="Opponent" index="1"]
+flip_h = true
+
+[node name="FacingComponent" parent="Opponent/Component/GeneralComponents" index="1"]
+initial_facing = -1.0
+
+[node name="InputComponent" parent="Opponent/Component/GeneralComponents" index="2"]
+player_prefix = "p2_"
+
+[node name="FightCamera2D" type="Camera2D" parent="." node_paths=PackedStringArray("target_p1", "target_p2")]
+position = Vector2(960, 540)
+script = ExtResource("3_cam2d")
+target_p1 = NodePath("../Player1")
+target_p2 = NodePath("../Opponent")
+arena_min_x = 650.0
+arena_max_x = 1270.0
+arena_max_y = 540.0

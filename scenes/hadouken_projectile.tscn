@@ -121,12 +121,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_72q13"]
-radius = 47.095646
+radius = 61.224
 
 [node name="HadoukenProjectile" type="Node2D" unique_id=789512899]
 script = ExtResource("1_uyo2e")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1328342975]
+scale = Vector2(1.3, 1.3)
 sprite_frames = SubResource("SpriteFrames_3g52g")
 animation = &"fireball"
 frame = 1
@@ -138,5 +139,5 @@ metadata/_custom_type_script = "uid://buuofxfnkis7t"
 [node name="HitArea" type="Area2D" parent="." unique_id=208781102]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=1643865338]
-position = Vector2(27, 1)
+position = Vector2(35.1, 1.3)
 shape = SubResource("CircleShape2D_72q13")

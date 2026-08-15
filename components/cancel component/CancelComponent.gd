@@ -75,8 +75,11 @@ func _on_initialized() -> void:
 		if not hitbox.attack_connected.is_connected(_on_attack_connected):
 			hitbox.attack_connected.connect(_on_attack_connected)
 
-func _on_attack_connected(_target_box, _contact_point) -> void:
+func confirm_hit() -> void:
 	_hit_confirmed = true
+
+func _on_attack_connected(_target_box, _contact_point) -> void:
+	confirm_hit()
 
 # ==========================================
 # Veredito principal — função PURA (sem efeitos colaterais).

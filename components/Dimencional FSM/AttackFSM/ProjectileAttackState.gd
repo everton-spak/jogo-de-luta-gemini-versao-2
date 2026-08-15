@@ -12,13 +12,13 @@ extends State
 @export var spawn_marker_name: String = "ProjectileSpawn"
 # Marker alternativo (ex: "ProjectileSpawnAir") tentado antes do principal — útil para Air
 @export var spawn_marker_alt: String = ""
-@export var spawn_offset_fallback: Vector2 = Vector2(50.0, -80.0)
+@export var spawn_offset_fallback: Vector2 = Vector2(65.0, -104.0)
 
 @export var proj_speed: float = 400.0
 @export var proj_speed_y: float = 0.0
 @export var proj_damage: int = 8
 @export var proj_hitstun: float = 0.30
-@export var proj_knockback: Vector2 = Vector2(200, -50)
+@export var proj_knockback: Vector2 = Vector2(260, -65)
 
 @export_group("Recovery")
 # Tempo extra após o fim da animação antes de transicionar (0 = imediato)

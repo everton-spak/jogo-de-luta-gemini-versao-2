@@ -44,11 +44,11 @@ var input_buffer: Component
 @export var size_far: Vector2 = Vector2.ZERO
 
 @export_group("Hitbox")
-@export var hitbox_offset: Vector2 = Vector2(60, -80)
-@export var hitbox_size: Vector2 = Vector2(50, 40)
+@export var hitbox_offset: Vector2 = Vector2(78, -104)
+@export var hitbox_size: Vector2 = Vector2(65, 52)
 @export var damage: int = 5
 @export var hitstun: float = 0.2
-@export var knockback: Vector2 = Vector2(150, -50)
+@export var knockback: Vector2 = Vector2(195, -65)
 @export_enum("high", "mid", "low") var attack_level: String = "high"
 
 # Componentes Internos

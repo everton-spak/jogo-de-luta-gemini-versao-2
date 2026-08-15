@@ -17,7 +17,7 @@ var _pending_dir: String = ""
 var _pending_dir_start_ms: int = 0
 var _last_added_dir: String = ""
 # ~2 frames a 60fps; impede que o "F" de 1 frame ao soltar DF vire Hadoken acidental
-const MIN_DIR_HOLD_MS: int = 40
+const MIN_DIR_HOLD_MS: int = 20
 
 func _on_initialized() -> void:
 	history = get_component("InputHistoryComponent")

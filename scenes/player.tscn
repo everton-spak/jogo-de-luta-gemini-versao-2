@@ -292,19 +292,19 @@
 [ext_resource type="Script" uid="uid://buuofxfnkis7t" path="res://components/box/HitBoxComponent.gd" id="186_5uixd"]
 [ext_resource type="Script" uid="uid://bthkq3eus3wgx" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchMoviment.gd" id="187_r7b2j"]
 [ext_resource type="Script" uid="uid://co3urayxxts1t" path="res://components/Dimencional FSM/MovimentFSM/CrouchMoviment/CrouchState.gd" id="188_bjhuq"]
-[ext_resource type="Script" path="res://components/Dimencional FSM/HurtFSM/DizzyState.gd" id="190_dizz"]
+[ext_resource type="Script" uid="uid://dr8w4mqnxp2vc" path="res://components/Dimencional FSM/HurtFSM/DizzyState.gd" id="190_dizz"]
 [ext_resource type="Script" uid="uid://cm3oap5xqkbvw" path="res://components/general components/StunSystemComponent.gd" id="190_stnsys"]
 [ext_resource type="Script" uid="uid://dw41klc8o48op" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHadoukenHeavy.gd" id="194_tj70q"]
 [ext_resource type="Script" uid="uid://c2hmvoa7ra7rj" path="res://components/input/player inputs/SpecialMoves/JoudanMove.gd" id="194_w5oev"]
-[ext_resource type="Script" path="res://components/Dimencional FSM/HurtFSM/GuardBrokenState.gd" id="195_grdbr"]
-[ext_resource type="Script" path="res://components/general components/GuardMeterComponent.gd" id="195_grdsys"]
+[ext_resource type="Script" uid="uid://cn7m5k3xqpvwb" path="res://components/Dimencional FSM/HurtFSM/GuardBrokenState.gd" id="195_grdbr"]
+[ext_resource type="Script" uid="uid://cax4p2knmqvwh" path="res://components/general components/GuardMeterComponent.gd" id="195_grdsys"]
 [ext_resource type="Script" uid="uid://cxmyggv71fyy5" path="res://components/Dimencional FSM/AttackFSM/StandAttack/StandHadoukenLight.gd" id="196_27c74"]
 [ext_resource type="PackedScene" uid="uid://cd73a1fempa6y" path="res://scenes/hadouken_projectile.tscn" id="196_68nro"]
 [ext_resource type="Script" uid="uid://c1g062ypxvq3" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirAttack.gd" id="197_wvc5d"]
 [ext_resource type="Script" uid="uid://dgta2kw4y8pqj" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirLightPunch.gd" id="198_27c74"]
 [ext_resource type="Script" uid="uid://cn5kt8j2qvxw3" path="res://components/Dimencional FSM/HurtFSM/HurtFSM.gd" id="200_hrtfsm"]
 [ext_resource type="Script" uid="uid://ct0r6cbabud8v" path="res://components/general components/WallSplatComponent.gd" id="200_wlsp"]
-[ext_resource type="Script" path="res://components/Dimencional FSM/HurtFSM/WallSplatState.gd" id="200_wlst"]
+[ext_resource type="Script" uid="uid://cr8n4kxqmpw3v" path="res://components/Dimencional FSM/HurtFSM/WallSplatState.gd" id="200_wlst"]
 [ext_resource type="Script" uid="uid://dk7p2nmxqfvb5" path="res://components/Dimencional FSM/HurtFSM/AirHurtState.gd" id="201_arhrt"]
 [ext_resource type="Script" uid="uid://dr2n6cqxwfp8m" path="res://components/Dimencional FSM/HurtFSM/BlockState.gd" id="201_blkst"]
 [ext_resource type="Script" uid="uid://b3w7yapmq04nh" path="res://components/Dimencional FSM/HurtFSM/HurtState.gd" id="201_hrtst"]
@@ -366,7 +366,7 @@
 [ext_resource type="Script" uid="uid://dkxnusugxcl37" path="res://components/Dimencional FSM/AttackFSM/SuperThrowState.gd" id="328_ut8wx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
-size = Vector2(96, 235)
+size = Vector2(125, 305.5)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_u8vuu"]
 animations = [{
@@ -1372,32 +1372,32 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p6pc0"]
-size = Vector2(129, 23)
+size = Vector2(168, 30)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1479694764]
 script = ExtResource("1_lw0jh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=402613336]
-position = Vector2(-3, -17.5)
+position = Vector2(-3.9, -22.75)
 shape = SubResource("RectangleShape2D_kkgei")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=104352017]
-position = Vector2(0, -16.5)
-scale = Vector2(2.0317461, 2.3113208)
+position = Vector2(0, -21.45)
+scale = Vector2(2.64127, 3.00472)
 sprite_frames = SubResource("SpriteFrames_u8vuu")
 animation = &"dodge"
 speed_scale = 2.0
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1111111111]
-position = Vector2(125, -72)
+position = Vector2(162.5, -93.6)
 
 [node name="ProjectileSpawnAir" type="Marker2D" parent="." unique_id=1111111112]
-position = Vector2(123, -3)
+position = Vector2(160, -3.9)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=513479111]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=834360442]
-position = Vector2(61, -61)
+position = Vector2(79.3, -79.3)
 shape = SubResource("RectangleShape2D_p6pc0")
 debug_color = Color(0.87469006, 0.30542198, 0.42780703, 0.41960785)
 
@@ -1437,12 +1437,12 @@ metadata/_custom_type_script = "uid://bq7x2ncpaz9km"
 
 [node name="PostureComponent" type="Node" parent="Component" unique_id=168000001]
 script = ExtResource("168_pstur")
-stand_size = Vector2(96, 235)
-stand_pos = Vector2(-3, -17.5)
-crouch_size = Vector2(96, 140)
-crouch_pos = Vector2(-3, 30)
-air_size = Vector2(80, 200)
-air_pos = Vector2(-3, 0)
+stand_size = Vector2(125, 305.5)
+stand_pos = Vector2(-3.9, -22.75)
+crouch_size = Vector2(125, 182)
+crouch_pos = Vector2(-3.9, 39)
+air_size = Vector2(104, 260)
+air_pos = Vector2(-3.9, 0)
 metadata/_custom_type_script = "uid://cp8m2r3n9xkb4"
 
 [node name="ProjectileSpawnerComponent" type="Node" parent="Component" unique_id=168000002]
@@ -1587,8 +1587,8 @@ metadata/_custom_type_script = "uid://vgs2q8k73fgv"
 
 [node name="DashState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=565559233]
 script = ExtResource("180_tpmi1")
-dash_speed = 500.0
-dash_distance = 150.0
+dash_speed = 650.0
+dash_distance = 195.0
 stance_dim = "ground"
 strength_dim = "none"
 metadata/_custom_type_script = "uid://djifb6hmi05xn"
@@ -1602,11 +1602,11 @@ metadata/_custom_type_script = "uid://bacm7i3bljl2j"
 
 [node name="DodgeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=1236149552]
 script = ExtResource("296_xmk2m")
-dodge_distance = 200.0
+dodge_distance = 260.0
 
 [node name="MeterChargeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=180000003]
 script = ExtResource("181_mchst")
-sprite_y_offset = -10.0
+sprite_y_offset = -13.0
 
 [node name="AirMovement" type="Node" parent="Component/StateMachine/MovementStateMachine" unique_id=446934277]
 script = ExtResource("182_7ehci")
@@ -1653,8 +1653,8 @@ strength_dim = "light"
 type_dim = "punch"
 proximity_dim = "close"
 cancel_tier_dim = 1
-hitbox_offset = Vector2(10, -70)
-hitbox_size = Vector2(45, 35)
+hitbox_offset = Vector2(13, -91)
+hitbox_size = Vector2(58.5, 45.5)
 metadata/_custom_type_script = "uid://qxwbw3feaa7v"
 
 [node name="StandLightKick" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=677518261]
@@ -1688,24 +1688,24 @@ type_dim = "hadouken"
 
 [node name="StandJoudanHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1607750661]
 script = ExtResource("217_5uixd")
-velocity = 1000.0
-distance = 500.0
+velocity = 1300.0
+distance = 650.0
 travel_anim_frames = 4
 
 [node name="StandJoudanLight" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=1985796689]
 script = ExtResource("218_p6pc0")
-velocity = 1000.0
-distance = 350.0
+velocity = 1300.0
+distance = 455.0
 travel_anim_frames = 4
 
 [node name="StandTatsumakiHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=206786555]
 script = ExtResource("313_shvcb")
-travel_speed = 500.0
+travel_speed = 650.0
 metadata/_custom_type_script = "uid://cybuity8pq5vu"
 
 [node name="StandTatsumakiLight" type="Node" parent="Component/StateMachine/AttackStateMachine/StandAttack" unique_id=450246451]
 script = ExtResource("307_fkbsy")
-travel_speed = 400.0
+travel_speed = 520.0
 metadata/_custom_type_script = "uid://dj08uw6rn6dck"
 
 [node name="AirAttack" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=1334317197]
@@ -1717,8 +1717,8 @@ metadata/_custom_type_script = "uid://c1g062ypxvq3"
 script = ExtResource("198_27c74")
 stance_dim = "air"
 strength_dim = "light"
-hitbox_offset = Vector2(45, 12)
-hitbox_size = Vector2(125, 35)
+hitbox_offset = Vector2(58.5, 15.6)
+hitbox_size = Vector2(162.5, 45.5)
 
 [node name="AirLightKick" type="Node" parent="Component/StateMachine/AttackStateMachine/AirAttack" unique_id=363464689]
 script = ExtResource("222_3rsyo")
@@ -1776,8 +1776,8 @@ script = ExtResource("227_m4v07")
 
 [node name="CrouchHeavyPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=556677889]
 script = ExtResource("232_chp")
-hitbox_offset = Vector2(70, -50)
-hitbox_size = Vector2(60, 40)
+hitbox_offset = Vector2(91, -65)
+hitbox_size = Vector2(78, 52)
 
 [node name="CrouchHeavyKick" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=667788990]
 script = ExtResource("233_chk")
