@@ -2,15 +2,12 @@ class_name FallState
 extends State
 
 @export_group("Configuração da Queda")
-@export var default_gravity: float = 2800.0
+@export var default_gravity: float = 2900.0
 @export var default_horizontal_speed: float = 420.0
 @export var landing_state: String = "IdleState"
 
-@export_group("Curvas de Física")
-@export var descent_curve: Curve
-
 var _locked_dir: float = 0.0
-var _current_gravity: float = 2800.0
+var _current_gravity: float = 2900.0
 var _current_horizontal_speed: float = 420.0
 var _is_super: bool = false
 var _ghost_timer: float = 0.0
@@ -18,8 +15,6 @@ var _ghost_timer: float = 0.0
 func _ready() -> void:
 	stance_dim = "air"
 	strength_dim = "none"
-	if not descent_curve:
-		descent_curve = PhysicsCurves.create_jump_descent_curve()
 
 func enter(payload: Dictionary = {}) -> void:
 	super.enter(payload)
@@ -51,24 +46,20 @@ func physics_update(delta: float) -> void:
 	super.physics_update(delta)
 	if not fighter: return
 
-	# Aceleração progressiva de queda modulada pela curva de descida
-	var t_fall = clamp(state_time_sec / 0.45, 0.0, 1.0)
-	var curve_mult = descent_curve.sample_baked(t_fall) if descent_curve else 1.0
-	
-	fighter.velocity.y += _current_gravity * curve_mult * delta * 1.4
+	# Queda KOF (inércia travada + gravidade consistente)
+	fighter.velocity.y += _current_gravity * delta
 	fighter.velocity.x = _current_horizontal_speed * _locked_dir
 	
-	# Spawn de ghost durante queda de Super Jump
+	# Spawn de ghost durante queda de Super Jump ou Hyper Hop
 	if _is_super:
 		_ghost_timer += delta
 		if _ghost_timer >= 0.07:
 			_ghost_timer = 0.0
 			if vfx: vfx.spawn_ghost("cancel", 0.15)
 
-	# Aterrissagem no chão
+	# Aterrissagem no chão (transição imediata de KOF)
 	if fighter.is_on_floor():
-		fighter.velocity.x = 0.0
-		fighter.velocity.y = 0.0
+		fighter.velocity = Vector2.ZERO
 		if posture: posture.apply("stand")
 		transition_requested.emit(landing_state, {})
 
