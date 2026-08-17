@@ -364,6 +364,11 @@
 [ext_resource type="Script" uid="uid://c6wklwvkpy8b0" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirTatsumakiLight.gd" id="325_vx1ql"]
 [ext_resource type="Script" uid="uid://di1hqfc5y7cid" path="res://components/Dimencional FSM/AttackFSM/HybridDashState.gd" id="327_xacm8"]
 [ext_resource type="Script" uid="uid://dkxnusugxcl37" path="res://components/Dimencional FSM/AttackFSM/SuperThrowState.gd" id="328_ut8wx"]
+[ext_resource type="Curve" uid="uid://c6jumpascent01" path="res://resources/curves/jump_ascent_curve.tres" id="330_ascent"]
+[ext_resource type="Curve" uid="uid://c6jumpdescent02" path="res://resources/curves/jump_descent_curve.tres" id="331_descent"]
+[ext_resource type="Curve" uid="uid://c6knockback03" path="res://resources/curves/knockback_decay_curve.tres" id="332_knockback"]
+[ext_resource type="Curve" uid="uid://c6dashburst04" path="res://resources/curves/dash_burst_curve.tres" id="333_dash"]
+[ext_resource type="Curve" uid="uid://c6rollvelocity05" path="res://resources/curves/roll_velocity_curve.tres" id="334_roll"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
 size = Vector2(125, 305.5)
@@ -1588,6 +1593,7 @@ metadata/_custom_type_script = "uid://vgs2q8k73fgv"
 script = ExtResource("180_tpmi1")
 dash_speed = 650.0
 dash_distance = 195.0
+dash_curve = ExtResource("333_dash")
 stance_dim = "ground"
 strength_dim = "none"
 metadata/_custom_type_script = "uid://djifb6hmi05xn"
@@ -1601,6 +1607,7 @@ metadata/_custom_type_script = "uid://bacm7i3bljl2j"
 
 [node name="DodgeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=1236149552]
 script = ExtResource("296_xmk2m")
+roll_curve = ExtResource("334_roll")
 
 [node name="MeterChargeState" type="Node" parent="Component/StateMachine/MovementStateMachine/StandMovement" unique_id=180000003]
 script = ExtResource("181_mchst")
@@ -1613,6 +1620,7 @@ metadata/_custom_type_script = "uid://duvsv654f5i7j"
 
 [node name="JumpState" type="Node" parent="Component/StateMachine/MovementStateMachine/AirMovement" unique_id=1618355795]
 script = ExtResource("184_6nj3f")
+ascent_curve = ExtResource("330_ascent")
 stance_dim = "air"
 strength_dim = "none"
 type_dim = "movement"
@@ -1620,6 +1628,7 @@ metadata/_custom_type_script = "uid://eaxuujf3ul3e"
 
 [node name="FallState" type="Node" parent="Component/StateMachine/MovementStateMachine/AirMovement" unique_id=1007665273]
 script = ExtResource("185_k8oxv")
+descent_curve = ExtResource("331_descent")
 stance_dim = "air"
 strength_dim = "none"
 metadata/_custom_type_script = "uid://c54t8x2tp3yed"
@@ -1816,6 +1825,7 @@ metadata/_custom_type_script = "uid://cn5kt8j2qvxw3"
 
 [node name="HurtState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000002]
 script = ExtResource("201_hrtst")
+knockback_curve = ExtResource("332_knockback")
 metadata/_custom_type_script = "uid://b3w7x9pmqz4nh"
 
 [node name="BlockState" type="Node" parent="Component/StateMachine/HurtFSM" unique_id=200000003]
