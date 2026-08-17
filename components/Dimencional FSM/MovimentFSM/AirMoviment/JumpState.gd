@@ -10,17 +10,24 @@ extends State
 @export var hop_gravity: float = 3500.0
 @export var fall_state: String = "FallState"
 
+@export_group("Curvas de Física")
+@export var ascent_curve: Curve
+
 var _locked_dir: float = 0.0
 var _is_super: bool = false
 var _is_hop: bool = false
-var _current_gravity: float = 2800.0
 var _current_speed_x: float = 420.0
+var _current_gravity: float = 2800.0
+var _jump_initial_force: float = 1500.0
+var _jump_ascent_time: float = 0.53
 var _ghost_timer: float = 0.0
 
 func _ready() -> void:
 	stance_dim = "air"
 	strength_dim = "none"
 	type_dim = "movement"
+	if not ascent_curve:
+		ascent_curve = PhysicsCurves.create_jump_ascent_curve()
 
 func enter(payload: Dictionary = {}) -> void:
 	super.enter(payload)
@@ -32,10 +39,11 @@ func enter(payload: Dictionary = {}) -> void:
 	
 	_current_speed_x = super_speed_x if _is_super else normal_speed_x
 	_current_gravity = normal_gravity
+	_jump_initial_force = normal_jump_force
+	_jump_ascent_time = normal_jump_force / normal_gravity
 	
 	if fighter:
-		# Decolagem
-		fighter.velocity.y = -normal_jump_force
+		fighter.velocity.y = -_jump_initial_force
 		fighter.velocity.x = _current_speed_x * _locked_dir
 		if posture: posture.apply("air")
 		
@@ -56,17 +64,20 @@ func physics_update(delta: float) -> void:
 	super.physics_update(delta)
 	if not fighter: return
 	
-	# Detecção dinâmica de Short Hop: Se o jogador soltar o direcional nos primeiros 8 frames de subida
+	# Detecção dinâmica de Short Hop: Se o jogador soltar o direcional nos primeiros 8 frames
 	if not _is_hop and state_frames <= 8 and input:
 		var current_input = input.get_movement_direction()
 		if current_input.y >= -0.3:
 			_is_hop = true
 			_current_gravity = hop_gravity
-			if fighter.velocity.y < -hop_jump_force:
-				fighter.velocity.y = -hop_jump_force
+			_jump_initial_force = hop_jump_force
+			_jump_ascent_time = hop_jump_force / hop_gravity
 				
-	# Aplica gravidade e velocidade horizontal contínua
-	fighter.velocity.y += _current_gravity * delta
+	# Subida curvada com Apex Hangtime
+	var t_norm = clamp(state_time_sec / max(0.01, _jump_ascent_time), 0.0, 1.0)
+	var curve_factor = ascent_curve.sample_baked(t_norm) if ascent_curve else (1.0 - t_norm)
+	
+	fighter.velocity.y = -_jump_initial_force * curve_factor
 	fighter.velocity.x = _current_speed_x * _locked_dir
 	
 	# Rastro de Ghost em Super Jump / Hyper Hop
@@ -77,7 +88,7 @@ func physics_update(delta: float) -> void:
 			if vfx: vfx.spawn_ghost("cancel", 0.16)
 			
 	# Ápice atingido: transiciona suavemente para o FallState
-	if fighter.velocity.y > 0:
+	if t_norm >= 1.0 or fighter.velocity.y >= 0.0:
 		var fall_payload = {
 			"query": {
 				"dir_x": _locked_dir,

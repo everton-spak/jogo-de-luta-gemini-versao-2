@@ -14,6 +14,9 @@ extends State
 @export var invincible_frames: int = 21 # Frames 1 a 21 com i-frames
 @export var dir_snap_frames: int = 5
 
+@export_group("Curvas de Física")
+@export var roll_curve: Curve
+
 var _start_x: float = 0.0
 var _dir: float = 0.0
 var _movement_done: bool = false
@@ -24,6 +27,8 @@ func _ready() -> void:
 	direction_dim = "any"
 	recovery_state = "IdleState"
 	cancel_tier_dim = 0
+	if not roll_curve:
+		roll_curve = PhysicsCurves.create_roll_velocity_curve()
 
 func enter(payload: Dictionary = {}) -> void:
 	super.enter(payload)
@@ -39,7 +44,8 @@ func enter(payload: Dictionary = {}) -> void:
 	_movement_done = false
 	if fighter:
 		_start_x = fighter.global_position.x
-		fighter.velocity = Vector2(dodge_speed * _dir, 0.0)
+		var initial_mult = roll_curve.sample_baked(0.0) if roll_curve else 1.0
+		fighter.velocity = Vector2(dodge_speed * initial_mult * _dir, 0.0)
 		if posture: posture.apply("stand")
 		
 	if anim:
@@ -62,15 +68,21 @@ func physics_update(delta: float) -> void:
 		if live_x != 0.0 and live_x != _dir:
 			_dir = live_x
 			_start_x = fighter.global_position.x
-			fighter.velocity = Vector2(dodge_speed * _dir, 0.0)
+			var current_mult = roll_curve.sample_baked(clamp(state_time_sec / duration_sec, 0.0, 1.0)) if roll_curve else 1.0
+			fighter.velocity = Vector2(dodge_speed * current_mult * _dir, 0.0)
 			_movement_done = false
 
-	# Fase de deslocamento: para ao atingir a distância ou bater na parede
+	# Fase de deslocamento modulada pela curva de roll
+	var progress = clamp(state_time_sec / duration_sec, 0.0, 1.0)
+	var speed_mult = roll_curve.sample_baked(progress) if roll_curve else 1.0
+	
 	if not _movement_done:
 		var traveled: float = abs(fighter.global_position.x - _start_x)
 		if traveled >= dodge_distance or fighter.is_on_wall():
 			fighter.velocity.x = 0.0
 			_movement_done = true
+		else:
+			fighter.velocity.x = dodge_speed * speed_mult * _dir
 
 	# Fim do Roll ao atingir a duração total (deixando janela de recovery vulnerável)
 	if state_time_sec >= duration_sec:

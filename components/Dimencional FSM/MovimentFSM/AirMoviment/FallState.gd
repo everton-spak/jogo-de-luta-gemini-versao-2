@@ -6,6 +6,9 @@ extends State
 @export var default_horizontal_speed: float = 420.0
 @export var landing_state: String = "IdleState"
 
+@export_group("Curvas de Física")
+@export var descent_curve: Curve
+
 var _locked_dir: float = 0.0
 var _current_gravity: float = 2800.0
 var _current_horizontal_speed: float = 420.0
@@ -15,6 +18,8 @@ var _ghost_timer: float = 0.0
 func _ready() -> void:
 	stance_dim = "air"
 	strength_dim = "none"
+	if not descent_curve:
+		descent_curve = PhysicsCurves.create_jump_descent_curve()
 
 func enter(payload: Dictionary = {}) -> void:
 	super.enter(payload)
@@ -46,7 +51,11 @@ func physics_update(delta: float) -> void:
 	super.physics_update(delta)
 	if not fighter: return
 
-	fighter.velocity.y += _current_gravity * delta
+	# Aceleração progressiva de queda modulada pela curva de descida
+	var t_fall = clamp(state_time_sec / 0.45, 0.0, 1.0)
+	var curve_mult = descent_curve.sample_baked(t_fall) if descent_curve else 1.0
+	
+	fighter.velocity.y += _current_gravity * curve_mult * delta * 1.4
 	fighter.velocity.x = _current_horizontal_speed * _locked_dir
 	
 	# Spawn de ghost durante queda de Super Jump
