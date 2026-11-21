@@ -468,7 +468,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"fall",
-"speed": 5.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -943,7 +943,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"jump_forward",
-"speed": 10.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -969,7 +969,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"jump_neutral",
-"speed": 5.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,

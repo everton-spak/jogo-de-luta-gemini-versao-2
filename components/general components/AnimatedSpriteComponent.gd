@@ -157,18 +157,18 @@ func play(anim_name: String, speed: float = 1.0) -> void:
 	if sprite:
 		if sprite.sprite_frames and not sprite.sprite_frames.has_animation(anim_name):
 			anim_name = "idle"
-		sprite.speed_scale = speed
-		sprite.play(anim_name)
+		sprite.speed_scale = absf(speed)
+		sprite.play(anim_name, 1.0, false)
 
-# Nota: AnimatedSprite2D não tem play_backwards nativo da mesma forma, 
-# mas podemos simular invertendo a escala de velocidade.
+# Toca a animação de trás para frente a partir do último frame (from_end=true),
+# mantendo speed_scale e get_playing_speed() negativos e consistentes.
 func play_reverse(anim_name: String, speed: float = 1.0) -> void:
 	_is_playing_interval = false
 	if sprite:
 		if sprite.sprite_frames and not sprite.sprite_frames.has_animation(anim_name):
 			anim_name = "idle"
-		sprite.speed_scale = -speed
-		sprite.play(anim_name)
+		sprite.speed_scale = -absf(speed)
+		sprite.play(anim_name, 1.0, true)
 
 func pause() -> void:
 	if sprite:
