@@ -10,17 +10,17 @@ func _ready() -> void:
 	recovery_state = "IdleState"
 
 func enter(_payload: Dictionary = {}) -> void:
-	#print("🧎 [Crouch] Personagem agachou!")
+	super.enter(_payload)
 	
 	if fighter:
 		fighter.velocity.x = 0
 		if posture: posture.apply("crouch")
 		
-	#var anim = fighter.get_component("AnimatedSpriteComponent")
 	if anim:
 		anim.play("crouch_idle")
 
 func physics_update(delta: float) -> void:
+	super.physics_update(delta)
 	if not fighter: return
 
 	if movement:

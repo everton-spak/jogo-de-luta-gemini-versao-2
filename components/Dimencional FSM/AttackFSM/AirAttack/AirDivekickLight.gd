@@ -6,6 +6,12 @@ extends AttackStateBase
 
 func _init() -> void:
 	animation_name = "joudan_air"
+	hitbox_offset = Vector2(78, 65)
+	hitbox_size = Vector2(90, 75)
+	damage = 75
+	hitstun = 0.30
+	knockback = Vector2(240, 0)
+	attack_level = "high"
 
 func _ready() -> void:
 	stance_dim = "air"

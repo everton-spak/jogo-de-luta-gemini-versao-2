@@ -169,6 +169,17 @@ func _build_fighter_debug(fighter: Fighter, index: int) -> String:
 		else:
 			s += _prop("Hitstop", "[color=#666666]—[/color]")
 	
+	# Guard, Stun e Super Meter
+	var guard_bar = fighter.get_component("GuardBar")
+	if guard_bar and "current_value" in guard_bar and "max_value" in guard_bar:
+		s += _prop("Guard", "[color=#66ccff]%.0f / %.0f[/color]" % [guard_bar.current_value, guard_bar.max_value])
+	var stun_bar = fighter.get_component("StunBar")
+	if stun_bar and "current_value" in stun_bar and "max_value" in stun_bar:
+		s += _prop("Stun", "[color=#ffaa44]%.0f / %.0f[/color]" % [stun_bar.current_value, stun_bar.max_value])
+	var meter_bar = fighter.get_component("MeterBar")
+	if meter_bar and "current_value" in meter_bar and "max_value" in meter_bar:
+		s += _prop("Super", "[color=#cc88ff]%.0f / %.0f[/color]" % [meter_bar.current_value, meter_bar.max_value])
+
 	# Input
 	var input_comp = fighter.get_component("InputComponent")
 	if input_comp and input_comp is InputComponent:
@@ -206,7 +217,7 @@ func _build_fighter_debug(fighter: Fighter, index: int) -> String:
 		
 		# Charge timers
 		var charge = input_buffer.charge
-		if charge and "charge_time" in charge:
+		if charge and "_dir_charge_time" in charge:
 			s += _build_charge_timers(charge)
 		
 		# Última Query detectada
@@ -348,8 +359,8 @@ func _build_input_history(buffer: Array) -> String:
 # Charge timers para o novo sistema (ChargeTrackerComponent)
 func _build_charge_timers(charge_comp) -> String:
 	var s = ""
-	if "charge_time" in charge_comp:
-		var charge_dict = charge_comp.charge_time
+	if "_dir_charge_time" in charge_comp:
+		var charge_dict = charge_comp._dir_charge_time
 		for dir_key in charge_dict.keys():
 			var time_ms = charge_dict[dir_key]
 			if time_ms > 0:

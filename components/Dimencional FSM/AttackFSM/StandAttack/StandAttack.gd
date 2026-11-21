@@ -25,4 +25,4 @@ func physics_update(delta: float) -> void:
 	# Se por algum motivo o chão desaparecer debaixo dele (ex: o chão foi destruído
 	# ou ele foi empurrado para fora da plataforma), aborta o ataque terrestre e cai.
 	if movement and not fighter.is_on_floor():
-		transition_requested.emit("Fall", {})
+		transition_requested.emit("FallState", {})

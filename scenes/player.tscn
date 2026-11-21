@@ -364,13 +364,24 @@
 [ext_resource type="Script" uid="uid://c6wklwvkpy8b0" path="res://components/Dimencional FSM/AttackFSM/AirAttack/AirTatsumakiLight.gd" id="325_vx1ql"]
 [ext_resource type="Script" uid="uid://di1hqfc5y7cid" path="res://components/Dimencional FSM/AttackFSM/HybridDashState.gd" id="327_xacm8"]
 [ext_resource type="Script" uid="uid://dkxnusugxcl37" path="res://components/Dimencional FSM/AttackFSM/SuperThrowState.gd" id="328_ut8wx"]
-[ext_resource type="Curve" uid="uid://c6jumpascent01" path="res://resources/curves/jump_ascent_curve.tres" id="330_ascent"]
-[ext_resource type="Curve" uid="uid://c6jumpdescent02" path="res://resources/curves/jump_descent_curve.tres" id="331_descent"]
-[ext_resource type="Curve" uid="uid://c6knockback03" path="res://resources/curves/knockback_decay_curve.tres" id="332_knockback"]
-[ext_resource type="Curve" uid="uid://c6dashburst04" path="res://resources/curves/dash_burst_curve.tres" id="333_dash"]
-[ext_resource type="Curve" uid="uid://c6rollvelocity05" path="res://resources/curves/roll_velocity_curve.tres" id="334_roll"]
+[ext_resource type="Curve" uid="uid://cwnuxus1alx2w" path="res://resources/curves/jump_ascent_curve.tres" id="330_ascent"]
+[ext_resource type="Curve" uid="uid://brhxd4dfc4rhh" path="res://resources/curves/jump_descent_curve.tres" id="331_descent"]
+[ext_resource type="Curve" uid="uid://dk4nq7bxe2wpa" path="res://resources/curves/knockback_decay_curve.tres" id="332_knockback"]
+[ext_resource type="Curve" uid="uid://bq3mv8hcy5rtl" path="res://resources/curves/dash_burst_curve.tres" id="333_dash"]
+[ext_resource type="Curve" uid="uid://jejqjemn6obg" path="res://resources/curves/roll_velocity_curve.tres" id="334_roll"]
+[ext_resource type="Script" uid="uid://bgl7eqhinbhtu" path="res://components/general components/HealthComponent.gd" id="335_hlth"]
+[ext_resource type="Script" uid="uid://buw8v5gjmf1et" path="res://components/general components/HitStopComponent.gd" id="336_hstp"]
+[ext_resource type="Script" uid="uid://ca2ta04uplp30" path="res://components/general components/ScalingComboComponent.gd" id="337_sclg"]
+[ext_resource type="Script" uid="uid://cgcvsc0gojk7x" path="res://components/box/HurtBoxComponent.gd" id="338_hrtb"]
+[ext_resource type="Script" uid="uid://coueefcbvkj5t" path="res://components/box/TrowHurtBox.gd" id="339_thrt"]
+[ext_resource type="Script" uid="uid://dvw5nhgqnvmk" path="res://components/box/ProximiyBox.gd" id="340_prxb"]
+[ext_resource type="Script" uid="uid://devyc6kmd0ykg" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchHadoukenLight.gd" id="341_chdl"]
+[ext_resource type="Script" uid="uid://cct8mspb6xs4s" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchHadoukenHeavy.gd" id="342_chdh"]
+[ext_resource type="Script" uid="uid://cfe0j8o4laopo" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchTatsumakiLight.gd" id="343_cttl"]
+[ext_resource type="Script" uid="uid://drvgjovvsq585" path="res://components/Dimencional FSM/AttackFSM/CrouchAttack/CrouchTatsumakiHeavy.gd" id="344_ctth"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kkgei"]
+resource_local_to_scene = true
 size = Vector2(125, 305.5)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_u8vuu"]
@@ -1377,9 +1388,24 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p6pc0"]
+resource_local_to_scene = true
 size = Vector2(168, 30)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+resource_local_to_scene = true
+size = Vector2(125, 305.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_throwhurt"]
+resource_local_to_scene = true
+size = Vector2(115, 290)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_proximity"]
+resource_local_to_scene = true
+size = Vector2(210, 260)
+
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1479694764]
+collision_layer = 2
+collision_mask = 1
 script = ExtResource("1_lw0jh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=402613336]
@@ -1400,9 +1426,11 @@ position = Vector2(162.5, -93.6)
 position = Vector2(160, -3.9)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=513479111]
+collision_layer = 4
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=834360442]
-position = Vector2(79.3, -79.3)
+position = Vector2(0, 0)
 shape = SubResource("RectangleShape2D_p6pc0")
 debug_color = Color(0.87469006, 0.30542198, 0.42780703, 0.41960785)
 
@@ -1438,6 +1466,7 @@ metadata/_custom_type_script = "uid://dtp8mk3rml45t"
 
 [node name="CancelComponent" type="Node" parent="Component" unique_id=167123456]
 script = ExtResource("167_cnclc")
+enable_gatling = true
 metadata/_custom_type_script = "uid://bq7x2ncpaz9km"
 
 [node name="PostureComponent" type="Node" parent="Component" unique_id=168000001]
@@ -1557,6 +1586,28 @@ script = ExtResource("195_grdsys")
 [node name="WallSplatComponent" type="Node" parent="Component" unique_id=200000010]
 script = ExtResource("200_wlsp")
 
+[node name="HealthComponent" type="Node" parent="Component" unique_id=200001001]
+script = ExtResource("335_hlth")
+max_health = 1000
+
+[node name="HitstopComponent" type="Node" parent="Component" unique_id=200001002]
+script = ExtResource("336_hstp")
+
+[node name="ScalingComboComponent" type="Node" parent="Component" unique_id=200001003]
+script = ExtResource("337_sclg")
+
+[node name="HurtboxComponent" type="Node" parent="Component" unique_id=200001004 node_paths=PackedStringArray("area_2d")]
+script = ExtResource("338_hrtb")
+area_2d = NodePath("../../HurtboxArea")
+
+[node name="ThrowHurtboxComponent" type="Node" parent="Component" unique_id=200001005 node_paths=PackedStringArray("area_2d")]
+script = ExtResource("339_thrt")
+area_2d = NodePath("../../ThrowHurtboxArea")
+
+[node name="ProximityBoxComponent" type="Node" parent="Component" unique_id=200001006 node_paths=PackedStringArray("area_2d")]
+script = ExtResource("340_prxb")
+area_2d = NodePath("../../ProximityArea")
+
 [node name="StateMachine" type="Node" parent="Component" unique_id=1543863041]
 script = ExtResource("174_nswu7")
 initial_state_name = "MovementStateMachine"
@@ -1565,7 +1616,6 @@ initial_state_name = "MovementStateMachine"
 script = ExtResource("175_pgdua")
 initial_state_name = "StandMovement"
 strength_dim = "none"
-type_dim = ""
 metadata/_custom_type_script = "uid://dk10vs8hg8kfr"
 
 [node name="StandMovement" type="Node" parent="Component/StateMachine/MovementStateMachine" unique_id=882837490]
@@ -1783,11 +1833,27 @@ script = ExtResource("227_m4v07")
 
 [node name="CrouchHeavyPunch" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=556677889]
 script = ExtResource("232_chp")
-hitbox_offset = Vector2(91, -65)
-hitbox_size = Vector2(78, 52)
+hitbox_offset = Vector2(88, -70)
+hitbox_size = Vector2(85, 95)
 
 [node name="CrouchHeavyKick" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=667788990]
 script = ExtResource("233_chk")
+
+[node name="CrouchHadoukenLight" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=200001007]
+script = ExtResource("341_chdl")
+projectile_scene = ExtResource("196_68nro")
+
+[node name="CrouchHadoukenHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=200001008]
+script = ExtResource("342_chdh")
+projectile_scene = ExtResource("196_68nro")
+
+[node name="CrouchTatsumakiLight" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=200001009]
+script = ExtResource("343_cttl")
+travel_speed = 520.0
+
+[node name="CrouchTatsumakiHeavy" type="Node" parent="Component/StateMachine/AttackStateMachine/CrouchAttack" unique_id=200001010]
+script = ExtResource("344_ctth")
+travel_speed = 650.0
 
 [node name="ShoryukenFSM" type="Node" parent="Component/StateMachine/AttackStateMachine" unique_id=2063682805]
 script = ExtResource("201_vso6i")
@@ -1873,3 +1939,30 @@ metadata/_custom_type_script = "uid://cn5p8k4mxqvb3"
 [node name="WakeupState" type="Node" parent="Component/StateMachine/KnockdownFSM" unique_id=300000004]
 script = ExtResource("301_wake")
 metadata/_custom_type_script = "uid://dr3w7n9qpmckx"
+
+[node name="HurtboxArea" type="Area2D" parent="." unique_id=200001011]
+collision_layer = 8
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxArea" unique_id=200001012]
+position = Vector2(-3.9, -22.75)
+shape = SubResource("RectangleShape2D_hurtbox")
+debug_color = Color(0.18, 0.85, 0.35, 0.35)
+
+[node name="ThrowHurtboxArea" type="Area2D" parent="." unique_id=200001013]
+collision_layer = 8
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ThrowHurtboxArea" unique_id=200001014]
+position = Vector2(-3.9, -22.75)
+shape = SubResource("RectangleShape2D_throwhurt")
+debug_color = Color(0.95, 0.85, 0.2, 0.3)
+
+[node name="ProximityArea" type="Area2D" parent="." unique_id=200001015]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ProximityArea" unique_id=200001016]
+position = Vector2(120, -22.75)
+shape = SubResource("RectangleShape2D_proximity")
+debug_color = Color(0.25, 0.55, 0.98, 0.25)

@@ -9,6 +9,10 @@ var _base_sprite_y: float = 0.0
 
 func _init() -> void:
 	animation_name = "hp_crouch"
+	damage = 95
+	hitstun = 0.38
+	knockback = Vector2(180, -480)
+	attack_level = "mid"
 
 func _ready() -> void:
 	stance_dim = "crouch"

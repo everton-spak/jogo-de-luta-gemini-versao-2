@@ -32,7 +32,8 @@ func enter(payload: Dictionary = {}) -> void:
 
 	# Hit spark dramático.
 	if vfx and fighter:
-		vfx.spawn_hit_spark(fighter.global_position + Vector2(0, -60), true)
+		var spark_pos: Vector2 = hit_data.get("contact_point", fighter.global_position + Vector2(0, -60))
+		vfx.spawn_hit_spark(spark_pos, true)
 
 	if anim:
 		anim.play(anim_launch)
@@ -49,7 +50,7 @@ func physics_update(delta: float) -> void:
 		# Caindo: aplica gravidade.
 		if movement:
 			movement.apply_gravity(delta)
-		if fighter.is_on_floor():
+		if state_frames >= 3 and fighter.velocity.y >= 0.0 and fighter.is_on_floor():
 			_on_ground = true
 			fighter.velocity = Vector2.ZERO
 			if anim:

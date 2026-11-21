@@ -14,6 +14,12 @@ var _anim_paused: bool = false
 func _init() -> void:
 	animation_name = "joudan_stand"
 	charge_pause_frame = 2
+	hitbox_offset = Vector2(95, -55)
+	hitbox_size = Vector2(85, 65)
+	damage = 95
+	hitstun = 0.36
+	knockback = Vector2(440, -160)
+	attack_level = "mid"
 
 func _ready() -> void:
 	stance_dim = "ground"
@@ -39,9 +45,9 @@ func _during_active(_delta: float) -> void:
 		anim.pause()
 		_anim_paused = true
 
-	# Critério ÚNICO de parada do movimento: distância.
+	# Critério ÚNICO de parada do movimento: distância ou parede.
 	var traveled: float = abs(fighter.global_position.x - _start_x)
-	if traveled >= distance:
+	if traveled >= distance or fighter.is_on_wall():
 		_stopped = true
 		if movement: movement.stop_horizontal()
 		# Retoma anim pra tocar o resto dos frames.

@@ -163,6 +163,9 @@ func setup_hitbox(state) -> void:
 		hitbox.area_2d.position = Vector2(state.hitbox_offset.x * f_dir, state.hitbox_offset.y)
 	if hitbox.collision_shape:
 		if hitbox.collision_shape.shape is RectangleShape2D:
+			if not hitbox.collision_shape.shape.resource_local_to_scene:
+				hitbox.collision_shape.shape = hitbox.collision_shape.shape.duplicate()
+				hitbox.collision_shape.shape.resource_local_to_scene = true
 			hitbox.collision_shape.shape.size = state.hitbox_size
 		hitbox.collision_shape.debug_color = Color(1.0, 0.0, 0.0, 0.4)
 

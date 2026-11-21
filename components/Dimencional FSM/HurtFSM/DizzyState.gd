@@ -16,7 +16,7 @@ extends State
 
 func _ready() -> void:
 	type_dim = "dizzy"
-	stance_dim = "ground"
+	stance_dim = "any"
 	react_dim = "any"
 	cancel_tier_dim = 5
 	recovery_state = "IdleState"

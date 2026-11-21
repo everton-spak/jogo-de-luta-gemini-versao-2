@@ -69,5 +69,18 @@ func physics_update(delta: float) -> void:
 				}
 			})
 
+func exit() -> void:
+	super.exit()
+	if hurtbox:
+		if hurtbox.has_method("cancel_invuln"):
+			hurtbox.cancel_invuln()
+		hurtbox.enable_box()
+	if fighter:
+		var thb = fighter.get_component("ThrowHurtboxComponent")
+		if thb:
+			if thb.has_method("cancel_invuln"):
+				thb.cancel_invuln()
+			thb.enable_box()
+
 func get_tags() -> Array[String]:
 	return ["Thrown"]

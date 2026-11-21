@@ -9,10 +9,13 @@ extends AttackStateBase
 # já filtra o caso "longe" antes de chegar aqui, então só playamos animation_name.
 
 func _init() -> void:
-	# TODO: trocar pelo nome real da animação no SpriteFrames
 	animation_name = "super_throw_close"
 	hitbox_offset = Vector2(60, -80)
 	hitbox_size = Vector2(50, 50)
+	damage = 180
+	hitstun = 0.45
+	knockback = Vector2(400, -450)
+	attack_level = "mid"
 
 func _ready() -> void:
 	stance_dim = "ground"

@@ -13,6 +13,12 @@ var _start_x: float = 0.0
 func _init() -> void:
 	animation_name = "shoryuken"
 	charge_pause_frame = 2
+	hitbox_offset = Vector2(84, -85)
+	hitbox_size = Vector2(80, 140)
+	damage = 140
+	hitstun = 0.48
+	knockback = Vector2(280, -760)
+	attack_level = "mid"
 
 func _ready() -> void:
 	type_dim = "shoryuken"
@@ -28,6 +34,8 @@ func enter(_payload: Dictionary = {}) -> void:
 	_start_x = fighter.global_position.x
 	fighter.velocity = Vector2(ground_velocity_x * f_dir, 0.0)
 	if posture: posture.apply("crouch")
+	if hurtbox and hurtbox.has_method("start_invuln"):
+		hurtbox.start_invuln(10.0 / 60.0, "shoryuken_heavy")
 	if attack:
 		attack.setup_hitbox(self)
 		attack.disable_hitbox()
@@ -55,7 +63,7 @@ func physics_update(_delta: float) -> void:
 		if fighter.is_on_floor():
 			fighter.velocity.y = 0.0
 
-		if dist >= ground_distance:
+		if dist >= ground_distance or fighter.is_on_wall():
 			_launched_up = true
 			fighter.velocity = Vector2(0.0, velocity_y)
 			if posture: posture.apply("air")
@@ -71,3 +79,10 @@ func exit() -> void:
 	super.exit()
 	if attack: attack.disable_hitbox()
 	_disconnect_frame_changed(_on_frame_changed)
+	if hurtbox and hurtbox.has_method("get_invuln_source") and hurtbox.get_invuln_source() == "shoryuken_heavy":
+		hurtbox.cancel_invuln()
+
+func get_tags() -> Array[String]:
+	if hurtbox and hurtbox.has_method("is_invuln") and hurtbox.is_invuln():
+		return ["Invincible"]
+	return []

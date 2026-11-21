@@ -7,6 +7,12 @@ extends AttackStateBase
 func _init() -> void:
 	animation_name = "tatsumaki"
 	charge_pause_frame = 2
+	hitbox_offset = Vector2(90, -20)
+	hitbox_size = Vector2(100, 75)
+	damage = 125
+	hitstun = 0.42
+	knockback = Vector2(420, -360)
+	attack_level = "mid"
 
 func _ready() -> void:
 	stance_dim = "air"

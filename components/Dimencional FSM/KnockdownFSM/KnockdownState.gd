@@ -36,8 +36,8 @@ func physics_update(delta: float) -> void:
 	# Air friction sutil pra knockback não durar pra sempre.
 	fighter.velocity.x = move_toward(fighter.velocity.x, 0.0, air_friction * delta)
 
-	# Tocou o chão → vira GroundedState (passa o tempo já no chão).
-	if fighter.is_on_floor():
+	# Tocou o chão (após sair do solo ou descer) → vira GroundedState.
+	if state_frames >= 2 and fighter.velocity.y >= 0.0 and fighter.is_on_floor():
 		fighter.velocity = Vector2.ZERO
 		transition_requested.emit("GroundedState", {})
 

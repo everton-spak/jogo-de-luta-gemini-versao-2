@@ -15,9 +15,11 @@ func _on_initialized() -> void:
 		sub_components[child.name] = child
 		#print("✅ [%s] Filho registado no inventário: %s" % [name, child.name])
 			
-	# O seu Fighter.gd já garante que o fighter é passado para baixo
+	# Inicializa cada filho exatamente uma vez
 	for child in sub_components.values(): 
-		if child.has_method("_on_initialized"):
+		if child.has_method("initialize_once"):
+			child.initialize_once()
+		elif child.has_method("_on_initialized"):
 			child._on_initialized()
 				
 		var trans_callable = Callable(self, "_on_child_transition_requested")
@@ -26,7 +28,7 @@ func _on_initialized() -> void:
 				child.transition_requested.connect(trans_callable)
 				
 	# Se eu não tenho um pai FSM, eu sou a RootFSM. Construo o mapa inteiro!
-	if not _is_child_of_fsm():
+	if not _is_child_of_fsm() and _global_state_map.is_empty():
 		_build_global_map(self)
 		print("🌍 [RootFSM] Mapa Global construído! Total de estados: ", _global_state_map.size())
 

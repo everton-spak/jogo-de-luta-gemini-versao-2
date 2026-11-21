@@ -2,8 +2,8 @@ class_name JumpMove
 extends MoveComponent
 
 func _ready() -> void:
-	# Tags de solo que autorizam o pulo
-	allowed_tags = ["Ground", "Neutral", "Stand", "Movement", "Run", "Crouch"]
+	# Tags de solo que autorizam o pulo (exclui Dodge e Dash pra não cancelar o roll).
+	allowed_tags = ["Neutral", "Stand", "Run", "Crouching"]
 
 func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	# Só pode pular se o lutador estiver no chão
@@ -26,11 +26,15 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 				super_buffered = true
 				
 		# Detecção de pulo vindo de Corrida (RunState)
+		# Obs: root_fsm.current_state é a pasta de topo (ex: MovementStateMachine),
+		# então precisamos descer até o estado folha ativo para saber se é RunState.
 		var from_run: bool = false
-		var sm = fighter.get_component("StateMachine")
-		if sm and sm.current_state and sm.current_state.name == "RunState":
-			from_run = true
-			super_buffered = true
+		var root_fsm = fighter.get("root_fsm")
+		if root_fsm and root_fsm.has_method("get_active_leaf"):
+			var leaf = root_fsm.get_active_leaf()
+			if leaf and leaf.name == "RunState":
+				from_run = true
+				super_buffered = true
 				
 		# RESTAURAÇÃO DE INPUT (Ultimate Forgiveness)
 		if buffer.history:

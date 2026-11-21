@@ -15,21 +15,21 @@ func physics_update(delta: float) -> void:
 	# 1. Executa a lógica do golpe filho (ex: AirHeavyPunch, AirLightKick)
 	super.physics_update(delta)
 	
-	# 2. Física Global Aérea:
-	# Aplica a gravidade para que o personagem continue a cair enquanto bate.
-	# IMPORTANTE: A gravidade do pulo é 1800. Devemos manter a mesma gravidade
-	# para ele não voar para cima quando socar.
-	if fighter:
-		fighter.velocity.y += 1800.0 * delta
+	# 2. Física Global Aérea (mesma gravidade KOF configurada no MovementComponent)
+	if movement:
+		movement.apply_gravity(delta)
+	elif fighter:
+		fighter.velocity.y += 2900.0 * delta
 
 	# 3. Verificação de Aterrissagem (Landing):
-	# Se o lutador tocar no chão ANTES do ataque aéreo terminar, 
+	# Se o lutador tocar no chão ANTES do ataque aéreo terminar,
 	# a animação é cortada imediatamente.
 	if fighter and fighter.is_on_floor():
-		# Num jogo mais avançado, poderias enviar para um estado "LandingLag".
-		# Por agora, voltamos ao Idle ou CrouchIdle com segurança.
-		var facing_comp = get_component("InputComponent")
-		if facing_comp and facing_comp.is_action_pressed("down"):
-			transition_requested.emit("CrouchIdle", {})
+		fighter.velocity = Vector2.ZERO
+		var input_comp = get_component("InputComponent")
+		if input_comp and input_comp.is_action_pressed("down"):
+			if posture: posture.apply("crouch")
+			transition_requested.emit("CrouchState", {})
 		else:
+			if posture: posture.apply("stand")
 			transition_requested.emit("IdleState", {})

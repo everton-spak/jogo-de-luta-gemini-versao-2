@@ -2,7 +2,18 @@
 
 [ext_resource type="Texture2D" uid="uid://q02kngrq3q5k" path="res://chao.png" id="1_i5ouh"]
 [ext_resource type="PackedScene" uid="uid://drh8ckppd5n0p" path="res://scenes/player.tscn" id="2_2p5gn"]
-[ext_resource type="Script" uid="uid://b8y1f4a9q2cam" path="res://components/camera/FightCamera2D.gd" id="3_cam2d"]
+[ext_resource type="Script" uid="uid://d2hqaj2ejkic5" path="res://components/camera/FightCamera2D.gd" id="3_cam2d"]
+[ext_resource type="Script" uid="uid://u1w2tp1m18ql" path="res://components/game/MatchManager.gd" id="4_match"]
+[ext_resource type="Script" uid="uid://hlj0okt5fyq8" path="res://components/ui/FightHUD.gd" id="5_hud"]
+
+[sub_resource type="Gradient" id="Gradient_arena"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.035, 0.05, 0.12, 1, 0.095, 0.115, 0.22, 1, 0.17, 0.115, 0.23, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_arena"]
+gradient = SubResource("Gradient_arena")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i5ouh"]
 size = Vector2(3200, 40)
@@ -11,6 +22,25 @@ size = Vector2(3200, 40)
 size = Vector2(60, 1400)
 
 [node name="cenario" type="Node" unique_id=1553230697]
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=200002001]
+layer = -10
+
+[node name="SkyGradient" type="TextureRect" parent="BackgroundLayer" unique_id=200002002]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_arena")
+
+[node name="FloorBase" type="ColorRect" parent="BackgroundLayer" unique_id=200002003]
+offset_top = 1045.0
+offset_right = 1920.0
+offset_bottom = 1200.0
+mouse_filter = 2
+color = Color(0.075, 0.09, 0.16, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=452783414]
 position = Vector2(960, 1065)
@@ -44,6 +74,7 @@ position = Vector2(550, 920)
 position = Vector2(1370, 920)
 
 [node name="AnimatedSprite2D" parent="Opponent" index="1"]
+self_modulate = Color(0.82, 0.88, 1, 1)
 flip_h = true
 
 [node name="FacingComponent" parent="Opponent/Component/GeneralComponents" index="1"]
@@ -60,3 +91,14 @@ target_p2 = NodePath("../Opponent")
 arena_min_x = 650.0
 arena_max_x = 1270.0
 arena_max_y = 540.0
+
+[node name="MatchManager" type="Node" parent="." unique_id=200002004 node_paths=PackedStringArray("fighter_p1", "fighter_p2")]
+script = ExtResource("4_match")
+fighter_p1 = NodePath("../Player1")
+fighter_p2 = NodePath("../Opponent")
+
+[node name="FightHUD" type="CanvasLayer" parent="." unique_id=200002005 node_paths=PackedStringArray("match_manager", "fighter_p1", "fighter_p2")]
+script = ExtResource("5_hud")
+match_manager = NodePath("../MatchManager")
+fighter_p1 = NodePath("../Player1")
+fighter_p2 = NodePath("../Opponent")

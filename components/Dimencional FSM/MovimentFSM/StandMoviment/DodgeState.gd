@@ -26,7 +26,8 @@ func _ready() -> void:
 	stance_dim = "ground"
 	direction_dim = "any"
 	recovery_state = "IdleState"
-	cancel_tier_dim = 0
+	# Compromisso autêntico KOF: i-frames iniciais + 9 frames puníveis de recovery sem cancel.
+	cancel_tier_dim = 5
 	if not roll_curve:
 		roll_curve = PhysicsCurves.create_roll_velocity_curve()
 
@@ -47,12 +48,30 @@ func enter(payload: Dictionary = {}) -> void:
 		var initial_mult = roll_curve.sample_baked(0.0) if roll_curve else 1.0
 		fighter.velocity = Vector2(dodge_speed * initial_mult * _dir, 0.0)
 		if posture: posture.apply("stand")
+
+	# Ativa invencibilidade real nas caixas durante os i-frames do roll
+	var invul_sec: float = float(invincible_frames) / 60.0
+	if hurtbox and hurtbox.has_method("start_invuln"):
+		hurtbox.start_invuln(invul_sec, "dodge")
+	if fighter:
+		var thb = fighter.get_component("ThrowHurtboxComponent")
+		if thb and thb.has_method("start_invuln"):
+			thb.start_invuln(invul_sec, "dodge")
 		
 	if anim:
 		if _dir < 0:
 			anim.play_reverse("dodge")
 		else:
 			anim.play("dodge")
+
+func exit() -> void:
+	super.exit()
+	if hurtbox and hurtbox.has_method("get_invuln_source") and hurtbox.get_invuln_source() == "dodge":
+		hurtbox.cancel_invuln()
+	if fighter:
+		var thb = fighter.get_component("ThrowHurtboxComponent")
+		if thb and thb.has_method("get_invuln_source") and thb.get_invuln_source() == "dodge":
+			thb.cancel_invuln()
 
 func physics_update(delta: float) -> void:
 	super.physics_update(delta)
@@ -89,7 +108,7 @@ func physics_update(delta: float) -> void:
 		transition_requested.emit(recovery_state, {})
 
 func get_tags() -> Array[String]:
-	var tags: Array[String] = ["Ground", "Movement"]
+	var tags: Array[String] = ["Dodge"]
 	# Invencibilidade nos frames iniciais (1-21); vulnerável no recovery (22-30)
 	if state_frames <= invincible_frames:
 		tags.append("Invincible")

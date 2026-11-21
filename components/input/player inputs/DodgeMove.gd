@@ -55,10 +55,10 @@ func check_execution_query(buffer: InputBuffer) -> Dictionary:
 	if buffer.fighter:
 		fsm = buffer.fighter.get_component("StateMachine")
 
-	# Anti-spam 1: não inicia dodge se já estiver em movimento especial.
+	# Anti-spam 1: não inicia dodge durante ataque, dash ou já em outro dodge.
 	if fsm:
 		var current_tags = fsm.get_tags()
-		if "Dashing" in current_tags or ("Movement" in current_tags and "Invincible" in current_tags):
+		if "Attacking" in current_tags or "Dashing" in current_tags or "Dodge" in current_tags or ("Movement" in current_tags and "Invincible" in current_tags):
 			return {}
 
 	# Anti-spam 2: cooldown a partir do FIM do dodge anterior.

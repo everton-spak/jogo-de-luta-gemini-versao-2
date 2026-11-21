@@ -5,9 +5,9 @@ func _init() -> void:
 	animation_name = "hadouken_air"
 	proj_speed = 650.0
 	proj_speed_y = 350.0
-	proj_damage = 15
-	proj_hitstun = 0.45
-	proj_knockback = Vector2(280, -80)
+	proj_damage = 110
+	proj_hitstun = 0.40
+	proj_knockback = Vector2(360, -80)
 	charge_pause_frame = 3
 
 func _ready() -> void:

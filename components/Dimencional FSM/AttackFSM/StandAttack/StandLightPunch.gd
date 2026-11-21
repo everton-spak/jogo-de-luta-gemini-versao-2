@@ -8,6 +8,11 @@ func _init() -> void:
 	anim_far = "lp_far"
 	offset_far = Vector2(90, -90)
 	size_far = Vector2(60, 38)
+	damage = 45
+	hitstun = 0.22
+	knockback = Vector2(160, 0)
+	attack_level = "mid"
+	can_cancel_self = true
 
 func _ready() -> void:
 	stance_dim = "ground"

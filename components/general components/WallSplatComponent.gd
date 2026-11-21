@@ -46,7 +46,8 @@ var _last_splat_ms: int = 0
 func _physics_process(_delta: float) -> void:
 	if not fighter or not fighter.is_on_wall():
 		return
-	if abs(fighter.velocity.x) < min_splat_velocity:
+	var impact_vx: float = absf(fighter.pre_slide_velocity.x) if "pre_slide_velocity" in fighter else absf(fighter.velocity.x)
+	if impact_vx < min_splat_velocity:
 		return
 
 	var fsm = fighter.get_component("StateMachine") as StateMachine
@@ -73,12 +74,16 @@ func _physics_process(_delta: float) -> void:
 	_last_splat_ms = now
 
 	var impact_point: Vector2 = fighter.global_position
-	var intensity: float = abs(fighter.velocity.x) / max(min_splat_velocity, 1.0)
+	var intensity: float = impact_vx / max(min_splat_velocity, 1.0)
 
 	# Hitstop pra peso dramático.
 	var hitstop = fighter.get_component("HitstopComponent")
 	if hitstop and hitstop.has_method("start_hitstop"):
 		hitstop.start_hitstop(hitstop_duration)
+
+	var cam = get_tree().get_first_node_in_group("fight_camera") if get_tree() else null
+	if cam and cam.has_method("add_shake"):
+		cam.add_shake(14.0, 0.2)
 
 	# Hit spark VFX (vermelho/grande).
 	if auto_hitspark:

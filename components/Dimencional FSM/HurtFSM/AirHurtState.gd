@@ -18,7 +18,7 @@ var _initial_knockback_x: float = 0.0
 
 func _ready() -> void:
 	type_dim = "juggle"
-	stance_dim = "air"
+	stance_dim = "any"
 	react_dim = "any"
 	cancel_tier_dim = 5
 	recovery_state = "FallState"
@@ -35,8 +35,9 @@ func enter(payload: Dictionary = {}) -> void:
 		fighter.velocity.y = float(hit_data.get("knockback_y", -400.0))
 
 	if vfx and fighter:
-		var is_heavy: bool = (float(hit_data.get("damage", 0)) >= 15)
-		vfx.spawn_hit_spark(fighter.global_position + Vector2(0, -40), is_heavy)
+		var is_heavy: bool = (float(hit_data.get("damage", 0)) >= 80)
+		var spark_pos: Vector2 = hit_data.get("contact_point", fighter.global_position + Vector2(0, -40))
+		vfx.spawn_hit_spark(spark_pos, is_heavy)
 
 	if anim:
 		anim.play(anim_juggle)

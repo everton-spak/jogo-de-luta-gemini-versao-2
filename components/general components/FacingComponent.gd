@@ -14,15 +14,22 @@ func _on_initialized() -> void:
 	_resolve_opponent()
 	_update_facing()
 
+const LOCKED_TAGS: Array[String] = [
+	"Attacking", "Hurt", "Dashing", "Blocking", "Knockdown",
+	"WallSplat", "Thrown", "KO", "Invincible", "Dodge", "Airborne", "MeterCharging"
+]
+
 func _resolve_opponent() -> void:
-	if fighter and fighter.target_fighter:
+	if fighter and fighter.target_fighter and fighter.target_fighter != fighter:
 		opponent = fighter.target_fighter
 		return
 		
 	if owner and owner.get_parent():
 		var opp = owner.get_parent().get_node_or_null("Opponent")
-		if opp is CharacterBody2D:
+		if opp is CharacterBody2D and opp != fighter:
 			opponent = opp
+			if fighter and fighter.target_fighter == null:
+				fighter.target_fighter = opp
 			return
 			
 	# Busca outro Fighter na cena automaticamente
@@ -35,19 +42,17 @@ func _resolve_opponent() -> void:
 				break
 
 func _physics_process(_delta: float) -> void:
-	# 1. SÓ VIRA SE ESTIVER EM ESTADOS QUE PERMITEM (Idle, Walk, Crouch, Jump)
-	# Se estiver no meio de um Hadouken ou Dash, ele não vira sozinho!
 	var fsm = get_component("StateMachine")
-	if fsm and fsm.current_state:
+	if fsm:
 		if not _can_flip(fsm.get_tags()):
 			return
 			
 	_update_facing()
 
 func _can_flip(tags: Array[String]) -> bool:
-	# Se estiver atacando ou em hitstun, o personagem fica travado naquela direção
-	if "Attack" in tags or "Hitstun" in tags or "Dash" in tags:
-		return false
+	for locked in LOCKED_TAGS:
+		if locked in tags:
+			return false
 	return true
 
 func _update_facing() -> void:
@@ -77,8 +82,10 @@ func set_facing(dir: float) -> void:
 		var anim_comp = fighter.get_component("AnimatedSpriteComponent")
 		if anim_comp and "sprite" in anim_comp and anim_comp.sprite:
 			anim_comp.sprite.flip_h = (current_facing == -1.0)
+		var prox_area = fighter.get_node_or_null("ProximityArea")
+		if prox_area:
+			prox_area.scale.x = current_facing
 	
 	# Inverte TODAS as caixas de colisão de uma vez!
-	# (Em vez de flip_h, escalonamos o nó pai no eixo X)
 	if flip_node:
 		flip_node.scale.x = current_facing

@@ -2,6 +2,7 @@ class_name IdleState
 extends State
 
 func enter(_payload: Dictionary = {}) -> void:
+	super.enter(_payload)
 	if fighter:
 		if posture: posture.apply("stand")
 	if anim:
@@ -9,6 +10,7 @@ func enter(_payload: Dictionary = {}) -> void:
 		
 
 func physics_update(delta: float) -> void:
+	super.physics_update(delta)
 	if movement:
 		movement.apply_friction(3000.0, delta)
 		movement.commit_movement()

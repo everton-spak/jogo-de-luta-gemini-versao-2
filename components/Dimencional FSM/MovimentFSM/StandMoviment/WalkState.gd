@@ -15,9 +15,11 @@ extends State
 var _current_anim: String = ""
 
 func enter(_payload: Dictionary = {}) -> void:
+	super.enter(_payload)
 	_current_anim = ""
 
 func physics_update(delta: float) -> void:
+	super.physics_update(delta)
 	if not input or not movement: 
 		push_error("❌ [WalkState] Falta Input ou Movement!")
 		return

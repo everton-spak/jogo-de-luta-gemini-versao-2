@@ -15,11 +15,23 @@ extends Camera2D
 @export var arena_max_x: float = 1270.0
 @export var arena_max_y: float = 540.0
 
+var _shake_intensity: float = 0.0
+var _shake_duration: float = 0.0
+var _shake_timer: float = 0.0
+
 func _ready() -> void:
+	add_to_group("fight_camera")
 	# Ativa a câmera no viewport
 	make_current()
 	zoom = camera_zoom
 	_find_targets_if_needed()
+
+func add_shake(intensity: float, duration: float = 0.15) -> void:
+	if intensity <= 0.0 or duration <= 0.0:
+		return
+	_shake_intensity = maxf(_shake_intensity, intensity)
+	_shake_duration = maxf(_shake_duration, duration)
+	_shake_timer = maxf(_shake_timer, duration)
 
 func _find_targets_if_needed() -> void:
 	if target_p1 and target_p2:
@@ -60,3 +72,16 @@ func _physics_process(delta: float) -> void:
 		
 	# Movimento suave
 	global_position = global_position.lerp(target_pos, clamp(smooth_speed * delta, 0.0, 1.0))
+
+	if _shake_timer > 0.0:
+		_shake_timer -= delta
+		var ratio: float = clampf(_shake_timer / maxf(_shake_duration, 0.001), 0.0, 1.0)
+		var amp: float = _shake_intensity * ratio
+		offset = Vector2(randf_range(-amp, amp), randf_range(-amp, amp))
+		if _shake_timer <= 0.0:
+			_shake_timer = 0.0
+			_shake_intensity = 0.0
+			_shake_duration = 0.0
+			offset = Vector2.ZERO
+	elif offset != Vector2.ZERO:
+		offset = Vector2.ZERO

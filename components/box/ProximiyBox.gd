@@ -15,24 +15,39 @@ func _on_initialized() -> void:
 	# A caixa de proximidade geralmente fica ligada o tempo todo
 	enable_box() 
 	
-	# Conecta os sinais de entrada e saída
-	area_2d.area_entered.connect(_on_area_entered)
-	area_2d.area_exited.connect(_on_area_exited)
+	# Conecta os sinais de entrada e saída (sem duplicar)
+	if area_2d:
+		if not area_2d.area_entered.is_connected(_on_area_entered):
+			area_2d.area_entered.connect(_on_area_entered)
+		if not area_2d.area_exited.is_connected(_on_area_exited):
+			area_2d.area_exited.connect(_on_area_exited)
+
+func _resolve_hurtbox(area: Area2D) -> HurtboxComponent:
+	var p := area.get_parent()
+	if p == null:
+		return null
+	if p is HurtboxComponent:
+		return p
+	if p is CharacterBody2D and p.has_method("get_component"):
+		var hb = p.get_component("HurtboxComponent")
+		if hb is HurtboxComponent and hb.area_2d == area:
+			return hb
+	return null
 
 func _on_area_entered(area: Area2D) -> void:
-	var box = area.get_parent()
+	var box := _resolve_hurtbox(area)
 	
 	# Deteta se quem entrou na nossa área foi a Hurtbox de OUTRO lutador
-	if box is HurtboxComponent and box.fighter != self.fighter:
+	if box != null and box.fighter != self.fighter:
 		is_target_near = true
 		current_target = box.fighter
 		target_entered.emit(current_target)
 
 func _on_area_exited(area: Area2D) -> void:
-	var box = area.get_parent()
+	var box := _resolve_hurtbox(area)
 	
 	# Confirma se quem saiu foi o lutador que estávamos a rastrear
-	if box is HurtboxComponent and box.fighter == current_target:
+	if box != null and box.fighter == current_target:
 		is_target_near = false
 		current_target = null
 		target_exited.emit(box.fighter)

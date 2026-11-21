@@ -49,7 +49,7 @@ var input_buffer: Component
 @export var damage: int = 5
 @export var hitstun: float = 0.2
 @export var knockback: Vector2 = Vector2(195, -65)
-@export_enum("high", "mid", "low") var attack_level: String = "high"
+@export_enum("high", "mid", "low") var attack_level: String = "mid"
 
 # Componentes Internos
 var anim: Component
@@ -95,7 +95,7 @@ func _on_initialized() -> void:
 	input_buffer = fighter.get_component("InputBufferComponent")
 	facing = fighter.get_component("FacingComponent")
 	hitbox = fighter.get_component("HitboxComponent")
-	hurtbox = fighter.get_component("HurtBoxComponent")
+	hurtbox = fighter.get_component("HurtboxComponent")
 	proximity = fighter.get_component("ProximityBoxComponent")
 	input = fighter.get_component("InputComponent")
 	movement = fighter.get_component("MovementComponent")

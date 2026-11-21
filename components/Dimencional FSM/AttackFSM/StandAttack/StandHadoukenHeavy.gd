@@ -4,9 +4,9 @@ extends ProjectileAttackState
 func _init() -> void:
 	animation_name = "hadouken_stand"
 	proj_speed = 650.0
-	proj_damage = 15
-	proj_hitstun = 0.45
-	proj_knockback = Vector2(280, -80)
+	proj_damage = 110
+	proj_hitstun = 0.40
+	proj_knockback = Vector2(360, -80)
 	recovery_time = 0.35
 	charge_pause_frame = 2 # ajuste no Inspector pra bater com seu spritesheet
 

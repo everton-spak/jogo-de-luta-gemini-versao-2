@@ -5,6 +5,7 @@ extends Node
 var fighter: CharacterBody2D
 var parent_component: Component
 var sub_components: Dictionary = {} # O dicionário que guarda todos os filhos que também são componentes
+var _is_initialized: bool = false
 
 func _ready() -> void:
 	# 1. Descobre quem é o lutador (a raiz física) e quem é o componente pai
@@ -28,11 +29,19 @@ func _ready() -> void:
 	# 2. Recursividade: Procura todos os filhos deste nó e regista-os se forem Componentes
 	# NOVA LÓGICA (DESCENSÃO): Trocamos o loop simples por uma função recursiva.
 	# Ela vai "mergulhar" nas pastas organizadoras para puxar os componentes de lá de dentro.
+	sub_components.clear()
 	_register_sub_components(self)
 			
-	# 3. Executa a lógica individual de configuração do componente
-	# (Usamos deferred para garantir que a árvore inteira já terminou o _ready)
-	call_deferred("_on_initialized")
+	# 3. Executa a lógica individual de configuração apenas quando NÃO pertence a um Fighter
+	# (ex.: projéteis). Quando há Fighter, Fighter._ignite_fsm() orquestra a inicialização única.
+	if fighter == null:
+		call_deferred("initialize_once")
+
+func initialize_once() -> void:
+	if _is_initialized:
+		return
+	_is_initialized = true
+	_on_initialized()
 
 # --- NOVA FUNÇÃO DE REGISTRO RECURSIVO ---
 # Função auxiliar que vasculha a árvore para baixo, ignorando nós de organização

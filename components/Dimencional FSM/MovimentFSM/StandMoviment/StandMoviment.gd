@@ -2,9 +2,9 @@ class_name StandMovement
 extends StateMachine
 
 func _ready() -> void:
-	# Define as dimensões da pasta
+	# Define as dimensões da pasta (type_dim = "any" pra permitir Dodge/MeterCharge além de Movement)
 	stance_dim = "ground"
-	type_dim = "movement"
+	type_dim = "any"
 	cancel_tier_dim = 0 # Nível mais baixo. Qualquer ataque ou especial pode cancelar isto!
 
 func get_machine_tags() -> Array[String]:

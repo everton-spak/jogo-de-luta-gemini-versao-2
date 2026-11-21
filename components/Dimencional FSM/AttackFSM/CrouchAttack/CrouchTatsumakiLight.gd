@@ -6,6 +6,12 @@ extends AttackStateBase
 func _init() -> void:
 	animation_name = "tatsumaki"
 	charge_pause_frame = 2
+	hitbox_offset = Vector2(85, -35)
+	hitbox_size = Vector2(95, 70)
+	damage = 90
+	hitstun = 0.36
+	knockback = Vector2(340, -280)
+	attack_level = "mid"
 
 func _ready() -> void:
 	stance_dim = "crouch"
@@ -17,3 +23,11 @@ func _ready() -> void:
 func _apply_enter_velocity() -> void:
 	var f_dir = facing.current_facing if facing else 1.0
 	fighter.velocity = Vector2(travel_speed * f_dir, 0.0)
+
+func _during_active(_delta: float) -> void:
+	if not fighter: return
+	if fighter.is_on_wall():
+		fighter.velocity.x = 0.0
+	else:
+		var f_dir = facing.current_facing if facing else 1.0
+		fighter.velocity.x = travel_speed * f_dir

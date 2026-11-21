@@ -23,7 +23,7 @@ func physics_update(delta: float) -> void:
 			fighter.velocity.y = 0
 		else:
 			fighter.velocity.y += 2000.0 * delta
-			transition_requested.emit("Fall", {})
+			transition_requested.emit("FallState", {})
 
 	if movement:
 		movement.apply_friction(4000.0, delta)

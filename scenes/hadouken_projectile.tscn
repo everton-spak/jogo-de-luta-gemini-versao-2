@@ -132,11 +132,14 @@ sprite_frames = SubResource("SpriteFrames_3g52g")
 animation = &"fireball"
 frame = 1
 
-[node name="HitboxComponent" type="Node" parent="." unique_id=421373894]
+[node name="HitboxComponent" type="Node" parent="." unique_id=421373894 node_paths=PackedStringArray("area_2d")]
 script = ExtResource("28_bd75e")
+area_2d = NodePath("../HitArea")
 metadata/_custom_type_script = "uid://buuofxfnkis7t"
 
 [node name="HitArea" type="Area2D" parent="." unique_id=208781102]
+collision_layer = 4
+collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=1643865338]
 position = Vector2(35.1, 1.3)

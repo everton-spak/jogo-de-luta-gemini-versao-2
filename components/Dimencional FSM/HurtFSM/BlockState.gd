@@ -35,6 +35,10 @@ func enter(payload: Dictionary = {}) -> void:
 		fighter.velocity.x = float(hit_data.get("knockback_x", 0.0)) * pushback_scale
 		fighter.velocity.y = 0.0 # block no chão não levanta
 
+	if vfx and fighter and vfx.has_method("spawn_block_spark"):
+		var spark_pos: Vector2 = hit_data.get("contact_point", fighter.global_position + Vector2(0, -80))
+		vfx.spawn_block_spark(spark_pos)
+
 	# Anim por stance — stand vs crouch.
 	if anim:
 		if _block_stance == "crouch":

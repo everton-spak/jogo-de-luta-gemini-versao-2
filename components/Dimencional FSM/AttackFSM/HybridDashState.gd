@@ -7,8 +7,11 @@ extends AttackStateBase
 @export var dash_speed: float = 500.0
 
 func _init() -> void:
-	# TODO: trocar pelo nome real da animação no SpriteFrames
 	animation_name = "hybrid_dash"
+	damage = 70
+	hitstun = 0.30
+	knockback = Vector2(280, -220)
+	attack_level = "mid"
 
 func _ready() -> void:
 	stance_dim = "ground"

@@ -3,6 +3,10 @@ extends AttackStateBase
 
 func _init() -> void:
 	animation_name = "lp_air"
+	damage = 55
+	hitstun = 0.26
+	knockback = Vector2(180, 0)
+	attack_level = "high"
 
 func _ready() -> void:
 	stance_dim = "air"

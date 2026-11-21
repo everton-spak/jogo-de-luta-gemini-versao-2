@@ -11,18 +11,32 @@ extends BoxComponent
 
 func _on_initialized() -> void:
 	super._on_initialized()
-	if area_2d:
+	if area_2d and not area_2d.area_entered.is_connected(_on_area_entered):
 		area_2d.area_entered.connect(_on_area_entered)
 
+func _resolve_throw_hitbox(area: Area2D) -> HitboxComponent:
+	var p := area.get_parent()
+	if p == null:
+		return null
+	if p is HitboxComponent and p.is_throw and p.is_active():
+		return p
+	if p is CharacterBody2D and p.has_method("get_component"):
+		var hb = p.get_component("HitboxComponent")
+		if hb is HitboxComponent and hb.area_2d == area and hb.is_throw and hb.is_active():
+			return hb
+	return null
+
 func _on_area_entered(area: Area2D) -> void:
-	var hit_node = area.get_parent()
-	if not (hit_node is HitboxComponent and hit_node.is_throw):
-		return
-	if not fighter:
+	var hit_node := _resolve_throw_hitbox(area)
+	if hit_node == null or not fighter or hit_node.fighter == fighter:
 		return
 
 	var main_fsm = fighter.get_component("StateMachine")
 	if not main_fsm:
+		return
+
+	var tags: Array[String] = main_fsm.get_tags()
+	if "Invincible" in tags or "KO" in tags or "Knockdown" in tags or "Thrown" in tags or "TechRecovery" in tags:
 		return
 
 	# Throw-tech: LP+LK ambos no buffer recente → escape.
@@ -41,11 +55,11 @@ func _on_area_entered(area: Area2D) -> void:
 	}
 	main_fsm.enter(payload)
 
-	# Desliga as duas caixas pra evitar double-hit.
-	disable_box()
+	# Invuln temporária deferred pra evitar erro durante flush de sinais da Area2D.
+	call_deferred("start_invuln", 0.55, "thrown")
 	var hurtbox = fighter.get_component("HurtboxComponent")
-	if hurtbox:
-		hurtbox.disable_box()
+	if hurtbox and hurtbox.has_method("start_invuln"):
+		hurtbox.call_deferred("start_invuln", 0.55, "thrown")
 
 func _detect_throw_tech() -> bool:
 	var input_buffer = fighter.get_component("InputBufferComponent")

@@ -19,7 +19,7 @@ var _attack_level: String = "mid"
 
 func _ready() -> void:
 	type_dim = "hurt"
-	stance_dim = "ground"
+	stance_dim = "any"
 	react_dim = "any"
 	cancel_tier_dim = 5
 	recovery_state = "IdleState"
@@ -40,10 +40,11 @@ func enter(payload: Dictionary = {}) -> void:
 		fighter.velocity.x = _initial_knockback_x
 		fighter.velocity.y = initial_knockback_y
 
-	# Hit spark com feedback proporcional
+	# Hit spark com feedback proporcional no ponto exato do impacto
 	if vfx and fighter:
-		var is_heavy: bool = (float(hit_data.get("damage", 0)) >= 15)
-		vfx.spawn_hit_spark(fighter.global_position + Vector2(0, -60), is_heavy)
+		var is_heavy: bool = (float(hit_data.get("damage", 0)) >= 80)
+		var spark_pos: Vector2 = hit_data.get("contact_point", fighter.global_position + Vector2(0, -60))
+		vfx.spawn_hit_spark(spark_pos, is_heavy)
 
 	# Anim por nível do golpe (high/mid/low)
 	if anim:
